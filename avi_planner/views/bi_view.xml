@@ -128,13 +128,13 @@
             <field name="act_window_id" ref="action_recepcion_postura"/>
          </record>
 
-         <!-- action form view postura RECEPCION -->
+         <!-- action form view postura RECEPCION
         <record model="ir.actions.act_window.view" id="recepcion_postura_form_view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="recepcion_postura_f_view"/>
             <field name="act_window_id" ref="action_recepcion_postura"/>
-         </record>
+         </record>-->
 
 
         <!-- action recepcion crianza -->
