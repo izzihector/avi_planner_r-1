@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+     <record id="wizard_bi_detalle_view" model="ir.ui.view">
+            <field name="name">Reportes de Crianza</field>
+            <field name="model">bi.wizard.kpi</field>
+            <field name="arch" type="xml">
+                <form string="Resumen Por">
+                    <header>
+                        <button name="action_view_graph" string="Ver Grafica" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+                        <button name="action_view_lines" string="Ver Datos" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+                    </header>
+                    <group>
+                        <group>
+                        <field name="filtros"/>
+                        </group>
+                        <group>
+                            <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+                            <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]"/>
+                            <field name="parvada_id" attrs="{'invisible':[('filtros','!=', 'granja_parvada')]}"/>
+                            <field name="periodo" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>/>
+                            <field name="indicador" string="Indicador" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/> />
+                        </group>
+                    </group>
+                    <footer>
+                        <!--<button string="Ver Detalle" name="action_view_lines"  type="object" class="oe_highlight"/>-->
+                    </footer>
+                    <br/><br/><br/>
+                    <div>
+                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"/>
+                    </div>
+                </form>
+
+            </field>
+         </record>
+
+        <record id="report_detalle_action" model="ir.actions.act_window">
+            <field name="name">Reporte de Crianza</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bi.wizard.kpi</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_bi_detalle_view"/>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_detalle" name="BI"  parent="menu_crianza" action="report_detalle_action"/>
+
+    </data>
+</odoo>

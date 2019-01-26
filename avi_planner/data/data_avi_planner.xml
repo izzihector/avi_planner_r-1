@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record model="bi.alimento.tipo.evento" id="tipo_evento_1">
+        <field name="name">Entrada</field>
+    </record>
+    <record model="bi.alimento.tipo.evento" id="tipo_evento_2">
+        <field name="name">Consumo</field>
+    </record>
+    <record model="bi.alimento.tipo.evento" id="tipo_evento_3">
+        <field name="name">Traspaso</field>
+    </record>
+    <!-- TIPO DE GRANJA -->
+    <record model="bi.granja.tipo" id="tipo_granja_1">
+        <field name="name">CRIANZA</field>
+    </record>
+    <record model="bi.granja.tipo" id="tipo_granja_2">
+        <field name="name">POSTURA</field>
+    </record>
+    <!-- RAZA -->
+    <record model="bi.raza" id="raza_1">
+        <field name="name">LOHMANN LSL LITE</field>
+    </record>
+    <!-- CAUSA TRASPASO-->
+    <record model="bi.causa.traspaso" id="causa_traspaso_1">
+        <field name="name">Desdoble</field>
+    </record>
+    <record model="bi.causa.traspaso" id="causa_traspaso_2">
+        <field name="name">Distribucion</field>
+    </record>
+    <record model="bi.causa.traspaso" id="causa_traspaso_3">
+        <field name="name">Traspaso Posturas</field>
+    </record>
+</odoo>

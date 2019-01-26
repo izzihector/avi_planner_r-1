@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+         <!-- solicitud de parvada crianza -->
+         <record id="parvadas_crianza_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.form</field>
+            <field name="model">bi.parvada</field>
+            <field name="arch" type="xml">
+                <form string="Parvada">
+                    <header>
+                        <button string="Solicitar" type="object" name="request_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"  attrs="{'invisible':['|','|','|',('state','=','cancel'),('state','=','received'),('state','=','partially_received')]}"/>
+                        <!--This will create the statusbar, thanks to the widget. -->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h2><field name="seq"/></h2></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <hr/>
+                        <group col="4">
+                            <field name="fecha_solicitud" string="Fecha de Solicitud" attrs="{'readonly':[('state','!=','draft')]}"/>
+							<field name="proveedor_id" string="Proveedor"/>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="raza_id" placeholder="Raza" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="poblacion_solicitada" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="edad_sem_tot" string="Edad del Ave (semanas)"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+         <!-- sequencia de solicitud de polla -->
+         <record id="sequence_solifitud_id" model="ir.sequence">
+            <field name="name">Solicitud de Pollita</field>
+            <field name="code">bi.parvada</field>
+            <field name="padding">4</field>
+            <field name="prefix">S</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+          <!-- parvada postura -->
+         <record id="parvadas_postura_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.form</field>
+            <field name="model">bi.parvada</field>
+            <field name="arch" type="xml">
+                <form string="Parvada">
+                    <header>
+                        <button string="En transito" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state_postura','!=', 'draft')]}"/>
+                        <field name="state_postura" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h2><field name="seq"/></h2></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <hr/>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="raza_id" placeholder="Raza" />
+                            <field name="fecha_solicitud" string="Fecha"/>
+                            <field name="poblacion_solicitada" string="Poblacion Inicial"/>
+                            <field name="edad_sem_tot" string="Edad del Ave (semanas)"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+
+        <!-- recepcion de parvada -->
+        <record id="recepcion_crianza_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.recepcion.form</field>
+            <field name="model">bi.parvada.recepcion</field>
+            <field name="arch" type="xml">
+                <form string="Recepcion">
+                    <header>
+                        <button string="Recepcionar" type="object" name="received_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"  attrs="{'invisible':['|','|','|',('state','=','cancel'),('state','=','received'),('state','=','partially_received')]}"/>
+                        <!--This will create the statusbar, thanks to the widget. -->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h1><field name="name"/></h1></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>                          
+                        <h3>Programado</h3>
+                        <group col="4">
+                            <field name="parvada_id" string="Parvada" domain="['|',('state','=','requested'),('state','=','partially_received')]"/>
+                            <field name="s_poblacion_solicitada" readonly="1"/>
+                            <field name="s_poblacion_recepcionada"  readonly="1"/>
+                            <field name="s_poblacion_sin_recepcion"  readonly="1"/>
+                        </group>
+                        <hr/>
+                        <h3>Recepcion</h3>
+                        <group>
+                            <group>
+                                <field name="fecha_recepcion"/>
+                                <field name="poblacion_entrante"/>
+                                <field name="folio"/>
+                            </group>
+                            <group>
+                                <field name="granja_id" required="1"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+         <!-- sequencia de recepcion -->
+         <record id="sequence_parvada_id" model="ir.sequence">
+            <field name="name">Solicitud de Pollita</field>
+            <field name="code">bi.parvada.recepcion</field>
+            <field name="padding">4</field>
+            <field name="prefix">R</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+         <!-- recepcion de parvada POSTURA-->
+        <record id="recepcion_postura_f_view" model="ir.ui.view">
+            <field name="name">bi.parvada.recepcion.form</field>
+            <field name="model">bi.parvada.recepcion</field>
+            <field name="arch" type="xml">
+                <form string="Recepcion">
+                    <header>
+                        <button string="Recepcionar" type="object" name="received_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"  attrs="{'invisible':['|','|','|',('state','=','cancel'),('state','=','received'),('state','=','partially_received')]}"/>
+                        <!--This will create the statusbar, thanks to the widget. -->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h1><field name="name"/></h1></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <h3>Programado</h3>
+                        <group col="4">
+                            <field name="parvada_id" string="Parvada" domain="[('state_postura','=','transit')]"/>
+                            <field name="s_poblacion_solicitada" string="POBLACION INICIAL" readonly="1"/>
+                            <field name="s_poblacion_recepcionada"  readonly="1"/>
+                            <field name="s_poblacion_sin_recepcion"  readonly="1"/>
+                        </group>
+                        <hr/>
+                        <h3>Recepcion</h3>
+                        <group>
+                            <group>
+                                <field name="fecha_recepcion"/>
+                                <field name="poblacion_entrante"/>
+                            </group>
+                            <group>
+                                <field name="granja_id" required="1"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+         <!-- formulario distribucion -->
+        <record id="traspaso_parvadas_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.distribucion.form</field>
+            <field name="model">bi.parvada.distribucion</field>
+              <field name="arch" type="xml">
+                <form string="Traspasos">
+                     <header>
+                        <button string="En Transito" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cargado" type="object" name="received_progressbar" class="oe_highlight" attrs="{'invisible': [('state','!=','transit')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"
+                                attrs="{'invisible':[('state','=','cancel')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h3><field name="name"/></h3>
+                        </div>
+                        <hr/>
+                        <group>
+                            <group>
+                                <field name="fecha_traspaso" required="1" />
+                                <field name="granja_id" required="1"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="parvada_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="causa_traspaso_id"/>
+                                <field name="t_poblacion_traspaso" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="granja_destino_id" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                            </group>
+                        </group>
+                        <hr/>
+                        <group>
+                            <field name="fecha_recepcion"  attrs="{'invisible':[('state','=','draft')]}" />
+                            <field name="reales"  attrs="{'invisible':[('state','=','draft')]}"  />
+                        </group>                 
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+         <!-- sequencia de las transferencias -->
+         <record id="sequence_distribucion_id" model="ir.sequence">
+            <field name="name">Distribucion de Aves</field>
+            <field name="code">bi.parvada.distribucion</field>
+            <field name="padding">4</field>
+            <field name="prefix">D</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+         <!-- causa de traspaso -->
+         <!-- formulario distribucion -->
+        <record id="causa_traspaso_parvadas_form_view" model="ir.ui.view">
+            <field name="name">bi.causa.traspaso.form</field>
+            <field name="model">bi.causa.traspaso</field>
+              <field name="arch" type="xml">
+                <form string="Causa Traspaso">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="name" />
+                        </group>
+                        <hr/>                        
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+
+         <!-- formulario mortalidad crianza -->
+        <record id="mortalidad_parvadas_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.mortalidad.form</field>
+            <field name="model">bi.parvada.mortalidad</field>
+              <field name="arch" type="xml">
+                <form string="Datos de Aves">
+                     <header>
+                        <button string="Registrar" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"
+                                attrs="{'invisible':[('state','=','cancel')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h3 class="o_row"><field name="name"/></h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fecha" required="1"/>
+                                <field name="granja_id" domain="[('tipo_granja_id','=',1)]" required="1"/>
+                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]"/>
+                                <field name="parvada_id" readonly="1"/>
+                                <field name="tipo_granja" readonly="1"/>
+                                <field name="poblacion_existente"/>
+                            </group>
+                            <group>                                
+                                <field name="causa_seleccion"  attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_natural"/>
+                                <field name="causa_paralitica" attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_prolapsada" attrs="{'invisible':[('tipo_granja','=','CRIANZA')]}"/>
+                                <field name="causa_sacrificada"/>
+                                <field name="total_mortalidad"/>                                
+                            </group>
+                            <!--<group>
+                                <field name="peso_ave"/>
+                                <field name="uniformidad_ave"/>
+                            </group>-->
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+         <!-- formulario mortalidad postura -->
+        <record id="postura_mortalidad_parvadas_form_view" model="ir.ui.view">
+            <field name="name">bi.parvada.postura.mortalidad.form</field>
+            <field name="model">bi.parvada.mortalidad</field>
+              <field name="arch" type="xml">
+                <form string="Datos de Aves">
+                     <header>
+                        <button string="Registrar" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"
+                                attrs="{'invisible':[('state','=','cancel')]}"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h3 class="o_row">
+                                <h3><field name="name"/></h3>
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fecha"/>
+                                <!--<field name="granja_seccion_caseta_origen_rel_id" string="Granja/Seccion/Caseta"
+                                        attrs="{'readonly':[('state','!=','draft')]}"
+                                        domain="[('tipo_granja_id','=',2)]"/>-->
+
+                               <!-- <field name="tipo_granja" readonly="1"/>-->
+                            </group>
+                            <group>                                
+                                <field name="causa_seleccion"  attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_natural"/>
+                                <field name="causa_paralitica" attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_prolapsada" attrs="{'invisible':[('tipo_granja','=','CRIANZA')]}"/>
+                                <field name="causa_sacrificada"/>
+                                <field name="total_mortalidad"/>                                
+                            </group>
+                            <group>
+                                <field name="peso_ave"/>
+                                <field name="uniformidad_ave"/>
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+         <!-- sequencia de mortalidad -->
+         <record id="sequence_mortalidad_id" model="ir.sequence">
+            <field name="name">Mortalidad de Aves</field>
+            <field name="code">bi.parvada.mortalidad</field>
+            <field name="padding">4</field>
+            <field name="prefix">M</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+
+        <!-- formulario PESO UNIFORMIDAD -->
+        <record id="crianza_peso_uniformidad_form_view" model="ir.ui.view">
+            <field name="name">bi.peso.uniformidad.form</field>
+            <field name="model">bi.peso.uniformidad</field>
+              <field name="arch" type="xml">
+                <form string="Peso y Uniformidad">
+                    <sheet>
+                        <div class="oe_title">
+                            <h3 class="o_row">
+                                <h3><field name="name"/></h3>
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fecha"/>
+                                <field name="granja_id"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                            </group>
+                            <group>
+                                <field name="peso"/>
+                                <field name="uniformidad"/>
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+          <!-- sequencia de PESO Y UNIFORMIDAD -->
+         <record id="sequence_peso_id" model="ir.sequence">
+            <field name="name">Peso y Uniformidad de Aves</field>
+            <field name="code">bi.peso.uniformidad</field>
+            <field name="padding">6</field>
+            <field name="prefix">P</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+
+	</data>
+</odoo>

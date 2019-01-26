@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+         <!-- grafica parvadas -->
+         <record id="parvadas_view_graph" model="ir.ui.view">
+            <field name="name">bi.parvada.graph</field>
+            <field name="model">bi.parvada</field>
+            <field name="arch" type="xml">
+                <graph string="Parvadas">
+                    <field name="name" />
+                    <field name="raza_id" type="row"/>
+                    <field name="poblacion_solicitada" type="measure"/>
+                </graph>
+            </field>
+         </record>
+
+	</data>
+</odoo>

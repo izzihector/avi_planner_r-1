@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!-- proveedor -->
+        <record id="proveedor_form_view" model="ir.ui.view">
+            <field name="name">bi.proveedor.form</field>
+            <field name="model">bi.proveedor</field>
+            <field name="arch" type="xml">
+                <form string="Proveedor">
+                    <sheet>
+                        <div class="oe_title">
+                            <h3><field name="name" readonly="1"/></h3>
+                        </div>
+                        <group>
+                             <field name="name" string="Nombre" />
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- granja -->
+        <record id="granja_form_view" model="ir.ui.view">
+            <field name="name">bi.granja.form</field>
+            <field name="model">bi.granja</field>
+            <field name="arch" type="xml">
+                <form string="Granjas">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>Granja</h1>
+                        </div>
+                        <group>
+                              <field name="name"/>
+                              <field name="tipo_granja_id" />
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+        <!-- tipo de granja -->
+        <record id="tipo_granja_form_view" model="ir.ui.view">
+            <field name="name">bi.granja.tipo.form</field>
+            <field name="model">bi.granja.tipo</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de granja">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h1>Tipo de Granja</h1></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="name" string="Nombre"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+        <!-- seccion -->
+        <record id="seccion_form_view" model="ir.ui.view">
+            <field name="name">bi.granja.seccion.form</field>
+            <field name="model">bi.granja.seccion</field>
+            <field name="arch" type="xml">
+                <form string="Seccion">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h1>Seccion</h1></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="name" string="Seccion"/>
+                            <field name="granja_id" string="Granja"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+         <!-- form view casetas-->
+         <record id="casetas_form_view" model="ir.ui.view">
+         	<field name="name">bi.granja.caseta.form</field>
+         	<field name="model">bi.granja.caseta</field>
+         	<field name="arch" type="xml">
+         		<form string="Casetas">
+         			<sheet>
+         				<div class="oe_title">
+         					<h1><field name="name" placeholder="Nombre de Caseta" readonly="1"/></h1>
+         				</div>
+                        <group>
+                            <group>
+                                    <field name="name"/>
+                                    <field name="granja_id"/>
+                                    <field name="seccion_id"/>
+                                    <field name="capacidad_instalada"/>
+                                    <field name="capacidad_extra_p"/>
+                                    <field name="capacidad_extra_u"/>
+                                    <field name="capacidad_maxima" string="Capacidad maxima" readonly="1"/>
+                                    <field name="parvada_id"/>
+                                    <field name="recepciones_ids"/>
+                            </group>
+                        </group>
+         			</sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+         		</form>
+         	</field>
+         </record>
+        <!-- granja . seccion . caseta
+        <record id="granja_seccion_caseta_form_view" model="ir.ui.view">
+            <field name="name">bi.granja.seccion.caseta.form</field>
+            <field name="model">bi.granja.seccion.caseta</field>
+            <field name="arch" type="xml">
+                <form string="Granja Seccion Caseta">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><h1><field name="name" readonly="1"/></h1></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                                <group>
+                                    <field name="granja_id" string="Granja"/>
+                                    <field name="tipo_granja_id"/>
+                                    <field name="seccion_id" string="Seccion"/>
+                                    <field name="caseta_id" string="Caseta"/>
+                                    <field name="capacidad_instalada" string="Capacidad instalada" />
+                                    <field name="capacidad_extra_p" string="Capacidad Extra %" />
+                                    <field name="capacidad_extra_u" string="Capacidad Extra Unidades"/>
+                                    <field name="capacidad_maxima" string="Capacidad maxima" readonly="1"/>
+                                </group>
+                                <group>
+                                </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record> -->
+
+          <!-- form view razas-->
+         <record id="razaas_form_view" model="ir.ui.view">
+            <field name="name">bi.raza.form</field>
+            <field name="model">bi.raza</field>
+            <field name="arch" type="xml">
+                <form string="Razas">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td><field name="name" placeholder="Nombre de la Raza"/></td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+        <!-- marca -->
+         <record id="marca_form_view" model="ir.ui.view">
+             <field name="name">bi.marca.form</field>
+             <field name="model">bi.marca</field>
+             <field name="arch" type="xml">
+                 <form string="Marca">
+                      <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="marca" string="Informacion General">
+                                <group col="4" colspan="4">
+                                    <field name="name" string="Nombre de la marca"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                 </form>
+             </field>
+         </record>
+
+        <!-- empaque -->
+         <record id="empaque_form_view" model="ir.ui.view">
+             <field name="name">bi.empaque.form</field>
+             <field name="model">bi.empaque</field>
+             <field name="arch" type="xml">
+                 <form string="Empaque">
+                      <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="empaque" string="Informacion General">
+                                <group col="4" colspan="4">
+                                    <field name="name" string="Nombre del producto"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                 </form>
+             </field>
+         </record>
+
+         <!-- registro empaque -->
+         <record id="registro_empaque_form_view" model="ir.ui.view">
+             <field name="name">bi.registro.empaque.form</field>
+             <field name="model">bi.registro.empaque</field>
+             <field name="arch" type="xml">
+                 <form string="Registro de Empaque">
+                      <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fecha"/>
+                                <field name="granja__id" domain="[('tipo_granja_id','=',2)]"/>
+                            </group>
+                            <group>
+                                <field name="empaque_id"/>
+                                <field name="entrada"/>
+                                <field name="merma_fabricacion"/>
+                                <field name="merma_operacion"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                 </form>
+             </field>
+         </record>
+
+        <!--alimento -->
+        <record id="alimento_form_view" model="ir.ui.view">
+            <field name="name">bi.alimento.form</field>
+            <field name="model">bi.alimento</field>
+            <field name="arch" type="xml">
+                <form string="Alimentos">
+                    <sheet>
+                        <div class="oe_title">
+                        </div>
+                        <notebook colspan="4">
+                            <page name="registro_alimento" string="">
+                                <group col="4" colspan="4">
+                                    <field name="name" string="Nombre"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
+        <!--tolva -->
+        <record id="tolva_form_view" model="ir.ui.view">
+            <field name="name">bi.tolva.form</field>
+            <field name="model">bi.tolva</field>
+            <field name="arch" type="xml">
+                <form string="Tolvas">
+                    <sheet>
+                        <div class="oe_title">
+                            <h3>Tolvas</h3>
+                        </div>
+                        <group> 
+                            <field name="granja_id" required="1"/>
+                            <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                            <field name="name"/>
+                            <field name="capacidad" required="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
+         <!-- tipo de evento-->
+        <record id="tipo_evento_form_view" model="ir.ui.view">
+            <field name="name">bi.alimento.tipo.evento.form</field>
+            <field name="model">bi.alimento.tipo.evento</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de evento">
+                    <sheet>
+                        <div class="oe_title">
+                            <h3>Tipo de Evento</h3>
+                        </div>
+                        <group>
+                            <field name="id"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- registro alimento -->
+        <record id="registro_alimento_form_view" model="ir.ui.view">
+            <field name="name">bi.registro.alimento.form</field>
+            <field name="model">bi.registro.alimento</field>
+              <field name="arch" type="xml">
+                <form string="Alimento">
+                     <header>
+                           <header>
+                        <button string="Registrar" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"
+                                attrs="{'invisible':[('state','=','cancel')]}"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h3><field name="name"/></h3>
+                        </div>
+                        <hr/>
+                        <group>
+                            <group>
+                                <field name="fecha" required="1"/>
+                                <field name="granja_id" required="1"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="parvada_id" readonly="1"/>
+                                <field name="capacidad_tolva" readonly="1" style="background-color:grey; color:white;"/>
+                            </group>
+                            <group>
+                                <field name="tipo_evento_id"/>
+                                <field name="tolva_id" domain="[('caseta_id','=',caseta_id)]"/>
+                                <field name="alimento_id"/>
+                                <field name="ticket_entrante" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
+                                <field name="fleje" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
+                                <field name="kgs_entrada" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
+                                <field name="consumo" attrs="{'invisible':[('tipo_evento_id','!=', 2)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                                <field name="granja_destino_id" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
+                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
+                                <field name="tolva_destino_id" domain="[('caseta_id','=',caseta_destino_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
+                                <field name="kgs_traspaso" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
+                                <field name="capacidad_tolva_destino" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}" readonly="1" style="background-color:grey; color:white;"/>
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+           <!-- sequencia de alimento -->
+         <record id="sequence_registro_alimento_id" model="ir.sequence">
+            <field name="name">Registro de Alimento</field>
+            <field name="code">bi.registro.alimento</field>
+            <field name="padding">4</field>
+            <field name="prefix">A</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+
+           <!-- formulario parametros  -->
+        <record id="parametros_form_view" model="ir.ui.view">
+            <field name="name">bi.parametros.form</field>
+            <field name="model">bi.parametros</field>
+              <field name="arch" type="xml">
+                <form string="Parametros">
+                     <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                            </h1>
+                        </div>
+                                <group col="4" colspan="4">
+                                    <field name="tipo_granja_id"/>
+                                    <field name="raza_id"/>
+                                    <field name="crianza_edad_dia_inicio" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_edad_dia_fin" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_edad_semana"/>
+                                    <field name="crianza_meta_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_meta_uniformidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_meta_cons_alim_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                                    <field name="crianza_meta_cons_alim_acum_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+
+
+                                    <field name="postura_edad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_prodAve" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_viabilidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_sucio" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_cascado" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_huevo_acumulado_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_peso_prom_huevo_gramos" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_masa_huevo_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_masa_huevo_acum_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_cons_alim_ave_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_meta_cons_alim_acum_ave_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="alimento_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="clasificacion_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+         </record>
+
+
+        <!--produccion -->
+        <record id="produccion_huevo_form_view" model="ir.ui.view">
+            <field name="name">bi.produccion.form</field>
+            <field name="model">bi.produccion</field>
+            <field name="arch" type="xml">
+                <form string="Produccion Diaria">
+                    <sheet>
+                        <div class="oe_title">
+                             <h2>Produccion Diaria</h2>
+                             <h3><field name="name"/></h3>
+                             <hr/>                           
+                        </div>
+                        <group>
+                            <group>                                
+                                <field name="fecha"/>
+                                <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA'),('es_granja','=',False)]"/>
+                                <field name="marca_id"/>
+                                <field name="marca" invisible="1"/>
+                                <field name="tipo_granja"/>    
+                            </group>
+                            <group>
+                                <!-- SACAMECATE, HUEVOS DE LA GRANJA y NATURE-->
+                                <field name="caja_360_chico" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                                <field name="caja_360" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                                <field name="caja_jumbo" attrs="{'invisible':[('marca','!=', 'SACAMECATE')]}"/>
+                                <field name="caja_180" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+
+                                <field name="pza_sucio" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+
+                                <field name="pza_cascado" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+                                <field name="pza_deforme" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+                                
+                                <field name="bolsa_desyemado" attrs="{'invisible':[('marca','!=','BOLSA')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+         <!-- sequencia de produccion -->
+         <record id="sequence_produccion_huevo_id" model="ir.sequence">
+            <field name="name">Produccion de Huevo</field>
+            <field name="code">bi.produccion</field>
+            <field name="padding">4</field>
+            <field name="prefix">P</field>
+            <field name="suffix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+        
+	</data>
+</odoo>
