@@ -130,7 +130,7 @@
             </field>
          </record>
 
-              <!-- tree view recepcion POSTURA-->
+        <!-- tree view recepcion POSTURA-->
          <record id="recepcion_postura_t_view" model="ir.ui.view">
             <field name="name">bi.parvada.recepcion.tree</field>
             <field name="model">bi.parvada.recepcion</field>
@@ -368,6 +368,7 @@
                           <field name="fecha"/>
                           <field name="granja_id"/>
                           <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                          <field name="parvada_id"/>
                           <field name="peso"/>
                           <field name="uniformidad"/>
                     </tree>

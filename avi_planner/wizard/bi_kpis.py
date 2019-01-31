@@ -595,10 +595,11 @@ $BODY$
                                        granja,
                                        consumo_alimento_grs_ave_acum,
                                        consumo_alimento_grs_ave_acum_meta)
-                                       select semana_edad_ave,granja,sum(consumo_alimento_grs_ave), (consumo_alimento_grs_ave_acum_meta)
+                                       select semana_edad_ave,granja,sum(consumo_alimento_grs_ave_acum)/7,consumo_alimento_grs_ave_acum_meta
                                        from balanza_aves_parvada(%s,%s)
                                        GROUP BY semana_edad_ave,granja,consumo_alimento_grs_ave_acum_meta
                                        order by semana_edad_ave asc
+
                                     """
         elif self.periodo == 'dia': ############################## by day
             if self.indicador == 'mortalidad_porcentaje':

@@ -16,6 +16,7 @@ class BiPesoUniformidad(models.Model):
 
     name = fields.Char('Nombre', readonly=True)
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
     granja_id = fields.Many2one(related='caseta_id.granja_id', default=_get_granja, string="Granja",store=True)
     lote = fields.Many2one(comodel_name='bi.parvada.recepcion', string="Lote")
     peso = fields.Float(string="Peso")

@@ -407,6 +407,7 @@
                                 <field name="fecha"/>
                                 <field name="granja_id"/>
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                                <field name="parvada_id" readonly="1"/>
                             </group>
                             <group>
                                 <field name="peso"/>
