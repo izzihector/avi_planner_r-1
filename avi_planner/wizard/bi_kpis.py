@@ -30,7 +30,9 @@ class BiKpiMortalidad(models.TransientModel):
     consumo_alimento_grs_ave_meta = fields.Float(string="Consumo alimento GRS Ave Meta")
     consumo_alimento_grs_ave_acum = fields.Float(string="Consumo alimento GRS Ave Acumulado Real")
     consumo_alimento_grs_ave_acum_meta = fields.Float(string="Consumo alimento GRS Ave Acumulado Meta")
-
+    peso_real = fields.Float(string="Peso Ave Real")
+    peso_meta = fields.Float(string="Peso Ave Meta")
+    uniformidad = fields.Float(string="% Uniformiad Ave")
 
 
 class BiReporteo(models.TransientModel):
@@ -68,6 +70,11 @@ class BiReporteo(models.TransientModel):
                         x.append(m.semena_edad_ave)
                         y1.append(m.consumo_alimento_grs_ave_acum)
                         y2.append(m.consumo_alimento_grs_ave_acum_meta)
+                elif self.indicador == 'peso':
+                    for m in mortalidad:
+                        x.append(m.semena_edad_ave)
+                        y1.append(m.peso_real)
+                        y2.append(m.peso_meta)
             elif rec.periodo == 'dia': ################################################ by day
                 if self.indicador == 'mortalidad_porcentaje':
                     for m in mortalidad:
@@ -138,7 +145,16 @@ class BiReporteo(models.TransientModel):
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
                 ]
-
+            elif self.indicador == 'peso':
+                title = "Peso Ave por " + rec.periodo
+                x_axis_label = "" + rec.periodo + " " + "edad"
+                y_axis_label = "Peso GRS Ave"
+                legend1 = "Peso grs. Real"
+                legend2 = "Peso grs. Meta"
+                hover.tooltips = [
+                    (rec.periodo + " " + "edad", "@x"),
+                    (y_axis_label, "@y{0.0000}"),
+                ]
             # Get the html components and convert them to string into the fiel
 
             p = figure(
@@ -176,9 +192,12 @@ class BiReporteo(models.TransientModel):
                             ('septiembre', 'Septiembre'), ('octubre', 'Octubre'), ('noviembre', 'Noviembre'),
                             ('diciembre', 'Diciembre')])
 
-    indicador = fields.Selection([('consumo_grs_ave_acum','Consumo Gramos Ave Acumulado'),('consumo_grs_ave', 'Consumo Gramos Ave'),
+    indicador = fields.Selection([('consumo_grs_ave_acum','Consumo Gramos Ave Acumulado'),
+                                  ('consumo_grs_ave', 'Consumo Gramos Ave'),
                                   ('mortalidad_porcentaje', '% Mortalidad'),
-                                  ('mortalidad_porcentaje_acum', '% Mortalidad Acumulada')])
+                                  ('mortalidad_porcentaje_acum','% Mortalidad Acumulada'),
+                                  ('peso', 'Peso'),
+                                  ('uniformidad', '% Uniformidad')])
 
     @api.multi
     def action_view_lines(self):
@@ -368,8 +387,16 @@ $BODY$
             self.env.cr.execute(query_funcion)
         elif self.filtros == 'granja_parvada':
             query_funcion_parvada = """
-            CREATE OR REPLACE FUNCTION public.balanza_aves_parvada(IN x_granja_id integer,IN x_parvada_id integer)
-  RETURNS TABLE(fecha date, semana_year character varying, semana_edad_ave numeric, dias_edad_ave numeric, granja character varying,poblacion_inicial numeric, entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, meta_porcentaje_mortalidad numeric, mortalidad_acum numeric, porcentaje_mortalidad_acum numeric, meta_mortalidad_acum numeric, poblacion_final numeric, consumo_alimento_kgs_total numeric, consumo_alimento_grs_ave numeric, consumo_alimento_grs_ave_meta numeric, consumo_alimento_grs_ave_acum numeric, consumo_alimento_grs_ave_acum_meta numeric) AS
+           CREATE OR REPLACE FUNCTION public.balanza_aves_parvada(
+    IN x_granja_id integer,
+    IN x_parvada_id integer)
+  RETURNS TABLE(fecha date, semana_year character varying, 
+		semana_edad_ave numeric, dias_edad_ave numeric, granja character varying, poblacion_inicial numeric, 
+		entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, meta_porcentaje_mortalidad numeric, mortalidad_acum numeric, 
+		porcentaje_mortalidad_acum numeric, meta_mortalidad_acum numeric, poblacion_final numeric, consumo_alimento_kgs_total numeric, 
+		consumo_alimento_grs_ave numeric, consumo_alimento_grs_ave_meta numeric, consumo_alimento_grs_ave_acum numeric, 
+		consumo_alimento_grs_ave_acum_meta numeric,
+		peso_real numeric,peso_meta numeric, uniformidad_real numeric, uniformidad_meta numeric) AS
 $BODY$
         DECLARE
           _parvada_id numeric;
@@ -404,6 +431,12 @@ $BODY$
 	  _consumo_alimento_grs_ave_meta numeric;
 	  _consumo_alimento_grs_ave_acum numeric;
 	  _consumo_alimento_grs_ave_acum_meta numeric;
+
+	  -- PESO - UNIFORMIDAD
+	  _peso_meta numeric;
+	  _peso_real numeric;
+	  _uniformidad_meta numeric;
+	  _uniformidad_real numeric;
         BEGIN
           DROP TABLE IF EXISTS BALANZA_AVES;
           CREATE TEMP TABLE BALANZA_AVES (fecha date,
@@ -424,7 +457,9 @@ $BODY$
                           consumo_alimento_grs_ave numeric,
                           consumo_alimento_grs_ave_meta numeric,
                           consumo_alimento_grs_ave_acum numeric,
-                          consumo_alimento_grs_ave_acum_meta numeric);
+                          consumo_alimento_grs_ave_acum_meta numeric,
+                          peso_real numeric,peso_meta numeric,                          
+                          uniformidad_real numeric,uniformidad_meta numeric);
 
 
 	  _fecha_inicio_cursor := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = x_parvada_id and granja_id = x_granja_id order by fecha_recepcion asc limit 1);
@@ -472,6 +507,13 @@ $BODY$
 		    _consumo_alimento_grs_ave_meta := (select crianza_meta_cons_alim_grs from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
 		    _consumo_alimento_grs_ave_acum := COALESCE((select BA.consumo_alimento_grs_ave_acum from BALANZA_AVES BA where BA.fecha = (r.fecha - interval '1 day')),0) + _consumo_alimento_grs_ave;
 		    _consumo_alimento_grs_ave_acum_meta := (select crianza_meta_cons_alim_acum_grs from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+
+
+                    _peso_real := (SELECT sum(pu.peso)/count(pu.peso) FROM public.bi_peso_uniformidad pu where pu.fecha = r.fecha and pu.parvada_id = x_parvada_id and pu.granja_id = x_granja_id);
+		    _peso_meta := (select crianza_meta_peso_corporal from  bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+		    _uniformidad_real := (SELECT sum(pu.uniformidad)/count(pu.uniformidad)FROM public.bi_peso_uniformidad pu where pu.fecha = r.fecha and pu.parvada_id = x_parvada_id and pu.granja_id = x_granja_id);
+                    _uniformidad_meta := (select crianza_meta_uniformidad from  bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+		    
 		    INSERT INTO BALANZA_AVES VALUES(
 				     r.fecha,
 				    _semana_year,
@@ -491,7 +533,11 @@ $BODY$
 				    _consumo_alimento_grs_ave,
 				    _consumo_alimento_grs_ave_meta,
 				    _consumo_alimento_grs_ave_acum,
-				    _consumo_alimento_grs_ave_acum_meta);
+				    _consumo_alimento_grs_ave_acum_meta,
+				    _peso_real,
+				    _peso_meta,
+				    _uniformidad_real,
+				    _uniformidad_meta);
 		  END LOOP;  
 	  END IF;
           RETURN QUERY SELECT * FROM BALANZA_AVES;
@@ -499,6 +545,7 @@ $BODY$
         END;
         $BODY$
   LANGUAGE plpgsql VOLATILE
+
             """
             self.env.cr.execute(query_funcion_parvada)
 
@@ -601,6 +648,30 @@ $BODY$
                                        order by semana_edad_ave asc
 
                                     """
+            elif self.indicador == 'peso':
+                if self.filtros == 'granja_caseta':
+                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                                                       semena_edad_ave,
+                                                       granja,
+                                                       caseta,
+                                                       consumo_alimento_grs_ave_acum,
+                                                       consumo_alimento_grs_ave_acum_meta)
+                                                       select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave_acum), consumo_alimento_grs_ave_acum_meta
+                                                       from balanza_aves(%s)
+                                                       GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
+                                                       order by semana_edad_ave asc
+                                                                         """
+                elif self.filtros == 'granja_parvada':
+                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                                                      semena_edad_ave,
+                                                      granja,
+                                                      peso_real,
+                                                      peso_meta)
+                                                      SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(PESO_REAL,0))/COUNT(PESO_REAL) END  PESO_REAL,PESO_META
+                                                      FROM balanza_aves_parvada(1,1)
+                                                      GROUP BY GRANJA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
+
+                                                   """
         elif self.periodo == 'dia': ############################## by day
             if self.indicador == 'mortalidad_porcentaje':
                 if self.filtros == 'granja_caseta':
