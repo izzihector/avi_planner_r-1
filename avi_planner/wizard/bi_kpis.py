@@ -177,7 +177,7 @@ class BiReporteo(models.TransientModel):
             p = figure(
                 tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=1400, plot_height=600
+                plot_width=1200, plot_height=600
             )
 
             p.tools.append(hover)
@@ -440,7 +440,7 @@ $BODY$
           
           r record;
           c CURSOR FOR  select date(dd.dd) as Fecha from 
-			generate_series (_fecha_inicio_cursor ::timestamp,(_fecha_inicio_cursor + interval '126 day')::timestamp, '1 day'::interval) dd;
+			generate_series (_fecha_inicio_cursor ::timestamp,(_fecha_inicio_cursor + interval '132 day')::timestamp, '1 day'::interval) dd;
 
 	  --- ALIMENTO
 	  _consumo_alimento_kgs_total numeric;
@@ -635,9 +635,9 @@ $BODY$
                                        granja,
                                        consumo_alimento_grs_ave,
                                        consumo_alimento_grs_ave_meta)
-                                       select semana_edad_ave,granja,SUM(consumo_alimento_grs_ave),consumo_alimento_grs_ave_acum_meta
+                                       select semana_edad_ave,granja,SUM(consumo_alimento_grs_ave),SUM(consumo_alimento_grs_ave_meta)
                                        from balanza_aves_parvada(%s,%s)
-                                       GROUP BY semana_edad_ave,granja,consumo_alimento_grs_ave_acum_meta
+                                       GROUP BY semana_edad_ave,granja
                                        order by semana_edad_ave asc
                                     """
             elif self.indicador == 'consumo_grs_ave_acum':
