@@ -355,6 +355,10 @@
                         <field name="consumo_alimento_grs_ave_meta"/>
                         <field name="consumo_alimento_grs_ave_acum"/>
                         <field name="consumo_alimento_grs_ave_acum_meta"/>
+                        <field name="peso_real"/>
+                        <field name="peso_meta"/>
+                        <field name="uniformidad_real"/>
+                        <field name="uniformidad_meta"/>
                     </tree>
                 </field>
             </record>

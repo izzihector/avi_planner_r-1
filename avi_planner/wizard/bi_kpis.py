@@ -32,7 +32,8 @@ class BiKpiMortalidad(models.TransientModel):
     consumo_alimento_grs_ave_acum_meta = fields.Float(string="Consumo alimento GRS Ave Acumulado Meta")
     peso_real = fields.Float(string="Peso Ave Real")
     peso_meta = fields.Float(string="Peso Ave Meta")
-    uniformidad = fields.Float(string="% Uniformiad Ave")
+    uniformidad_real = fields.Float(string="% Uniformiad Ave Real")
+    uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
 
 
 class BiReporteo(models.TransientModel):
@@ -75,6 +76,12 @@ class BiReporteo(models.TransientModel):
                         x.append(m.semena_edad_ave)
                         y1.append(m.peso_real)
                         y2.append(m.peso_meta)
+                elif self.indicador == 'uniformidad':
+                    for m in mortalidad:
+                        x.append(m.semena_edad_ave)
+                        y1.append(m.uniformidad_real)
+                        y2.append(m.uniformidad_meta)
+
             elif rec.periodo == 'dia': ################################################ by day
                 if self.indicador == 'mortalidad_porcentaje':
                     for m in mortalidad:
@@ -146,7 +153,7 @@ class BiReporteo(models.TransientModel):
                     (y_axis_label, "@y{0.0000}"),
                 ]
             elif self.indicador == 'peso':
-                title = "Peso Ave por " + rec.periodo
+                title = "GRANJA : "+rec.granja_id.name +  "    - INDICADOR: Peso Ave Por " + rec.periodo
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "Peso GRS Ave"
                 legend1 = "Peso grs. Real"
@@ -155,12 +162,22 @@ class BiReporteo(models.TransientModel):
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
                 ]
+            elif self.indicador == 'uniformidad':
+                title = "Uniformidad Ave por " + rec.periodo
+                x_axis_label = "" + rec.periodo + " " + "edad"
+                y_axis_label = "Uniformidad Ave"
+                legend1 = "Uniformidad Real"
+                legend2 = "Uniformidad Meta"
+                hover.tooltips = [
+                    (rec.periodo + " " + "edad", "@x"),
+                    (y_axis_label, "@y{0.0000}"),
+                ]
             # Get the html components and convert them to string into the fiel
 
             p = figure(
-                tools="pan,box_zoom,reset,save", title=title,
+                tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=1100, plot_height=600
+                plot_width=1400, plot_height=600
             )
 
             p.tools.append(hover)
@@ -423,7 +440,7 @@ $BODY$
           
           r record;
           c CURSOR FOR  select date(dd.dd) as Fecha from 
-			generate_series (_fecha_inicio_cursor ::timestamp,(select now())::timestamp, '1 day'::interval) dd;
+			generate_series (_fecha_inicio_cursor ::timestamp,(_fecha_inicio_cursor + interval '126 day')::timestamp, '1 day'::interval) dd;
 
 	  --- ALIMENTO
 	  _consumo_alimento_kgs_total numeric;
@@ -650,6 +667,7 @@ $BODY$
                                     """
             elif self.indicador == 'peso':
                 if self.filtros == 'granja_caseta':
+                    #TODO: esto esta mal falta reestructurarla
                     query = """INSERT INTO bi_crianza_kpi_mortalidad(
                                                        semena_edad_ave,
                                                        granja,
@@ -668,8 +686,32 @@ $BODY$
                                                       peso_real,
                                                       peso_meta)
                                                       SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(PESO_REAL,0))/COUNT(PESO_REAL) END  PESO_REAL,PESO_META
-                                                      FROM balanza_aves_parvada(1,1)
+                                                      FROM balanza_aves_parvada(%s,%s)
                                                       GROUP BY GRANJA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
+                                    """
+            elif self.indicador == 'uniformidad':
+                if self.filtros == 'granja_caseta':
+                    #TODO: esto esta mal falta reestructurarla
+                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                                                       semena_edad_ave,
+                                                       granja,
+                                                       caseta,
+                                                       consumo_alimento_grs_ave_acum,
+                                                       consumo_alimento_grs_ave_acum_meta)
+                                                       select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave_acum), consumo_alimento_grs_ave_acum_meta
+                                                       from balanza_aves(%s)
+                                                       GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
+                                                       order by semana_edad_ave asc
+                                                                         """
+                elif self.filtros == 'granja_parvada':
+                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                                                      semena_edad_ave,
+                                                      granja,
+                                                      uniformidad_real,
+                                                      uniformidad_meta)
+                                                      SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(uniformidad_real,0))/COUNT(uniformidad_real) END  uniformidad_real,uniformidad_meta
+                                                      FROM balanza_aves_parvada(1,1)
+                                                      GROUP BY GRANJA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
 
                                                    """
         elif self.periodo == 'dia': ############################## by day
