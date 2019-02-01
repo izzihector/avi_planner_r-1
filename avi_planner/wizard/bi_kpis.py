@@ -256,7 +256,7 @@ class BiReporteo(models.TransientModel):
         if self.filtros == 'granja_caseta':
             query_funcion = """ 
 
-CREATE OR REPLACE FUNCTION public.balanza_aves(IN x_caseta_id integer)
+CREATE OR REPLACE FUNCTION public.balanza_aves(IN x_parvada_id integer,IN x_caseta_id integer)
   RETURNS TABLE(fecha date, semana_year character varying, semana_edad_ave numeric, dias_edad_ave numeric, granja character varying, seccion character varying, caseta character varying, poblacion_inicial numeric, entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, 
   meta_porcentaje_mortalidad numeric, 
   mortalidad_acum numeric, porcentaje_mortalidad_acum numeric, meta_mortalidad_acum numeric, 
@@ -280,11 +280,11 @@ $BODY$
           _poblacion_inicial numeric;
           _entradas numeric;
           _mortalidad numeric;  
-          _porcentaje_mortalidad numeric(4,4);
-          _meta_porcentaje_mortalidad numeric(4,4); --- META
+          _porcentaje_mortalidad numeric;
+          _meta_porcentaje_mortalidad numeric; --- META
           _mortalidad_acum numeric;
           _meta_mortalidad_acum numeric;
-          _porcentaje_mortalidad_acum numeric(4,2);
+          _porcentaje_mortalidad_acum numeric;
           _poblacion_final numeric;
           _total_recepciones numeric; 
           _fecha_inicio_cursor date;
@@ -292,7 +292,7 @@ $BODY$
           
           r record;
           c CURSOR FOR  select date(dd.dd) as Fecha from 
-			generate_series (_fecha_inicio_cursor ::timestamp,(select now())::timestamp, '1 day'::interval) dd;
+			generate_series (_fecha_inicio_cursor ::timestamp,(_fecha_inicio_cursor + interval '132 day')::timestamp, '1 day'::interval) dd;
 
 	  --- ALIMENTO
 	  _consumo_alimento_kgs_total numeric;
@@ -312,11 +312,11 @@ $BODY$
                           poblacion_inicial  numeric, 
                           entradas numeric, 
                           mortalidad numeric,
-                          porcentaje_mortalidad numeric(5,5),
-                          meta_porcentaje_mortalidad numeric(5,5),
+                          porcentaje_mortalidad numeric,
+                          meta_porcentaje_mortalidad numeric,
                           mortalidad_acum numeric, 
                           meta_mortalidad_acum numeric, ---META MORTALIDA ACUM
-                          porcentaje_mortalidad_acum numeric(4,2), 
+                          porcentaje_mortalidad_acum numeric, 
                           poblacion_final  numeric,
                           consumo_alimento_kgs_total numeric,
                           consumo_alimento_grs_ave numeric,
@@ -325,12 +325,12 @@ $BODY$
                           consumo_alimento_grs_ave_acum_meta numeric);
 
 	   _parvada_id := (select parvada_id from bi_granja_caseta where id = x_caseta_id);
-	  _fecha_inicio_cursor := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = _parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion asc limit 1);
+	  _fecha_inicio_cursor := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = x_parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion asc limit 1);
 	  
           FOR r IN c LOOP
             -- Para obtener la edad de la parvada
-            _fecha_primer_recepcion := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = _parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion asc limit 1);
-            _fecha_ultima_recepcion := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = _parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion desc limit 1);	
+            _fecha_primer_recepcion := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = x_parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion asc limit 1);
+            _fecha_ultima_recepcion := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = x_parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion desc limit 1);	
             _dias_diff_fechas := (date_part('day',age(_fecha_ultima_recepcion, _fecha_primer_recepcion)))/2;
             _fecha_inicial_edad_ave := _fecha_primer_recepcion + interval '1 days';
             _dias_edad_ave := (select r.fecha::date - _fecha_primer_recepcion::date);
@@ -347,9 +347,9 @@ $BODY$
             --poblacion inicial
             _poblacion_inicial := (select BA.poblacion_final from BALANZA_AVES BA where BA.fecha = (r.fecha - interval '1 day'));
             --entradas
-            _entradas:= (select COALESCE(sum(bpr.poblacion_entrante),0) from bi_parvada_recepcion bpr where bpr.fecha_recepcion = r.fecha and bpr.caseta_id = x_caseta_id and bpr.parvada_id = _parvada_id); 
+            _entradas:= (select COALESCE(sum(bpr.poblacion_entrante),0) from bi_parvada_recepcion bpr where bpr.fecha_recepcion = r.fecha and bpr.caseta_id = x_caseta_id and bpr.parvada_id = x_parvada_id); 
             --mortalidad
-            _mortalidad := (select COALESCE(sum(causa_seleccion),0) + COALESCE(sum(causa_paralitica),0) + COALESCE(sum(causa_natural),0) + COALESCE(sum(causa_sacrificada),0) from bi_parvada_mortalidad bpm where bpm.fecha = r.fecha and  bpm.caseta_id = x_caseta_id and bpm.parvada_id = _parvada_id);
+            _mortalidad := (select COALESCE(sum(causa_seleccion),0) + COALESCE(sum(causa_paralitica),0) + COALESCE(sum(causa_natural),0) + COALESCE(sum(causa_sacrificada),0) from bi_parvada_mortalidad bpm where bpm.fecha = r.fecha and  bpm.caseta_id = x_caseta_id and bpm.parvada_id = x_parvada_id);
             --porcentaje de mortalidad
             _porcentaje_mortalidad := CASE WHEN _poblacion_inicial = 0 then 0.00000 ELSE COALESCE(_mortalidad,0) / COALESCE(_poblacion_inicial,1)*100 END;
             _meta_porcentaje_mortalidad := (select crianza_meta_mortalidad from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
@@ -367,7 +367,7 @@ $BODY$
 
 	    ----- ALIMENTO CONSUMIDO-----------------------------
 	    _consumo_alimento_kgs_total := (SELECT COALESCE(sum(consumo),0) FROM public.bi_registro_alimento bra 
-	                          where bra.fecha = r.fecha and bra.tipo_evento_id = 2 and bra.state= 'finished' and bra.parvada_id = _parvada_id and bra.caseta_id = x_caseta_id) ;
+	                          where bra.fecha = r.fecha and bra.tipo_evento_id = 2 and bra.state= 'finished' and bra.parvada_id = x_parvada_id and bra.caseta_id = x_caseta_id) ;
 	    
 	    _consumo_alimento_grs_ave := (_consumo_alimento_kgs_total *1000) / _poblacion_inicial;
 	    _consumo_alimento_grs_ave_meta := (select crianza_meta_cons_alim_grs from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
@@ -379,7 +379,8 @@ $BODY$
                            _semana_edad_ave,
                             _dias_edad_ave,
                             _granja,
-                            _seccion,_caseta,
+                            _seccion,
+                            _caseta,
                             _poblacion_inicial,
                             _entradas,
                             _mortalidad,
@@ -400,7 +401,8 @@ $BODY$
         END;
         $BODY$
   LANGUAGE plpgsql VOLATILE
-         """
+           """
+
             self.env.cr.execute(query_funcion)
         elif self.filtros == 'granja_parvada':
             query_funcion_parvada = """
@@ -648,10 +650,10 @@ $BODY$
                                         caseta,
                                         consumo_alimento_grs_ave_acum,
                                         consumo_alimento_grs_ave_acum_meta)
-                                        select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave_acum), consumo_alimento_grs_ave_acum_meta
-                                        from balanza_aves(%s)
-                                        GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
-                                        order by semana_edad_ave asc
+                                        select semana_edad_ave,granja,caseta,sum(consumo_alimento_grs_ave_acum)/7,consumo_alimento_grs_ave_acum_meta
+                                       from balanza_aves(%s,%s)
+                                       GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
+                                       order by semana_edad_ave asc
                                                           """
                 elif self.filtros == 'granja_parvada':
                     query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
@@ -814,7 +816,7 @@ $BODY$
                                                                    """
 
         if self.filtros == 'granja_caseta':
-            params = [self.caseta_id.id]
+            params = [self.parvada_id.id,self.caseta_id.id]
             self.env.cr.execute(query, tuple(params))
         elif self.filtros == 'granja_parvada':
             params = [self.granja_id.id,self.parvada_id.id]
