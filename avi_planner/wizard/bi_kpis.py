@@ -255,7 +255,6 @@ class BiReporteo(models.TransientModel):
     def _sql_report_object(self):
         if self.filtros == 'granja_caseta':
             query_funcion = """ 
-
 CREATE OR REPLACE FUNCTION public.balanza_aves(IN x_parvada_id integer,IN x_caseta_id integer)
   RETURNS TABLE(fecha date, semana_year character varying, semana_edad_ave numeric, dias_edad_ave numeric, granja character varying, seccion character varying, caseta character varying, poblacion_inicial numeric, entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, 
   meta_porcentaje_mortalidad numeric, 
@@ -263,7 +262,8 @@ CREATE OR REPLACE FUNCTION public.balanza_aves(IN x_parvada_id integer,IN x_case
   poblacion_final numeric, consumo_alimento_kgs_total numeric, consumo_alimento_grs_ave numeric, 
   consumo_alimento_grs_ave_meta numeric,
   consumo_alimento_grs_ave_acum numeric,
-  consumo_alimento_grs_ave_acum_meta numeric) AS
+  consumo_alimento_grs_ave_acum_meta numeric,
+  peso_real numeric,peso_meta numeric, uniformidad_real numeric, uniformidad_meta numeric) AS
 $BODY$
         DECLARE
           _parvada_id numeric;
@@ -300,6 +300,11 @@ $BODY$
 	  _consumo_alimento_grs_ave_meta numeric;
 	  _consumo_alimento_grs_ave_acum numeric;
 	  _consumo_alimento_grs_ave_acum_meta numeric;
+	   -- PESO - UNIFORMIDAD
+	  _peso_meta numeric;
+	  _peso_real numeric;
+	  _uniformidad_meta numeric;
+	  _uniformidad_real numeric;
         BEGIN
           DROP TABLE IF EXISTS BALANZA_AVES;
           CREATE TEMP TABLE BALANZA_AVES (fecha date,
@@ -322,7 +327,9 @@ $BODY$
                           consumo_alimento_grs_ave numeric,
                           consumo_alimento_grs_ave_meta numeric,
                           consumo_alimento_grs_ave_acum numeric,
-                          consumo_alimento_grs_ave_acum_meta numeric);
+                          consumo_alimento_grs_ave_acum_meta numeric,
+                          peso_real numeric,peso_meta numeric,                          
+                          uniformidad_real numeric,uniformidad_meta numeric);
 
 	   _parvada_id := (select parvada_id from bi_granja_caseta where id = x_caseta_id);
 	  _fecha_inicio_cursor := (select fecha_recepcion from bi_parvada_recepcion bpr where parvada_id = x_parvada_id and bpr.caseta_id = x_caseta_id order by fecha_recepcion asc limit 1);
@@ -373,6 +380,12 @@ $BODY$
 	    _consumo_alimento_grs_ave_meta := (select crianza_meta_cons_alim_grs from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
 	    _consumo_alimento_grs_ave_acum := COALESCE((select BA.consumo_alimento_grs_ave_acum from BALANZA_AVES BA where BA.fecha = (r.fecha - interval '1 day')),0) + _consumo_alimento_grs_ave;
             _consumo_alimento_grs_ave_acum_meta := (select crianza_meta_cons_alim_acum_grs from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+
+	    _peso_real := (SELECT sum(pu.peso)/count(pu.peso) FROM public.bi_peso_uniformidad pu where pu.fecha = r.fecha and pu.parvada_id = x_parvada_id and pu.caseta_id = x_caseta_id);
+	    _peso_meta := (select crianza_meta_peso_corporal from  bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+	    _uniformidad_real := (SELECT sum(pu.uniformidad)/count(pu.uniformidad)FROM public.bi_peso_uniformidad pu where pu.fecha = r.fecha and pu.parvada_id = x_parvada_id and pu.caseta_id = x_caseta_id);
+            _uniformidad_meta := (select crianza_meta_uniformidad from  bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
+            
             INSERT INTO BALANZA_AVES VALUES(
                              r.fecha,
                             _semana_year,
@@ -394,7 +407,11 @@ $BODY$
                             _consumo_alimento_grs_ave,
                             _consumo_alimento_grs_ave_meta,
                             _consumo_alimento_grs_ave_acum,
-                            _consumo_alimento_grs_ave_acum_meta);
+                            _consumo_alimento_grs_ave_acum_meta,
+                            _peso_real,
+			    _peso_meta,
+			    _uniformidad_real,
+			    _uniformidad_meta);
           END LOOP;  
           RETURN QUERY SELECT * FROM BALANZA_AVES;
           
@@ -581,7 +598,7 @@ $BODY$
                                mortalidad_porcen,
                                mortalidad_porcen_meta)                      
                                SELECT GRANJA,CASETA,semana_edad_ave,SUM(PORCENTAJE_MORTALIDAD),META_PORCENTAJE_MORTALIDAD 
-                               FROM BALANZA_AVES(%s)
+                               FROM BALANZA_AVES(%s,%s)
                                GROUP BY GRANJA,CASETA,semana_edad_ave,META_PORCENTAJE_MORTALIDAD ORDER BY SEMANA_EDAD_AVE ASC
                            """
                 elif self.filtros == 'granja_parvada':
@@ -603,7 +620,7 @@ $BODY$
                                mortalidad_porcen_acum,
                                mortalidad_porcen_acum_meta)
                                select semana_edad_ave,granja,caseta,SUM(PORCENTAJE_MORTALIDAD_ACUM),SUM(META_MORTALIDAD_ACUM)
-                               from balanza_aves(%s)
+                               from balanza_aves(%s,%s)
                                GROUP BY semana_edad_ave,granja,caseta
                                ORDER BY SEMANA_EDAD_AVE ASC
                             """
@@ -627,7 +644,7 @@ $BODY$
                                         consumo_alimento_grs_ave,
                                         consumo_alimento_grs_ave_meta)
                                         select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave), sum(consumo_alimento_grs_ave_meta)
-                                        from balanza_aves(%s)
+                                        from balanza_aves(%s,%s)
                                         GROUP BY semana_edad_ave,granja,caseta
                                         order by semana_edad_ave asc
                                          """
@@ -669,17 +686,15 @@ $BODY$
                                     """
             elif self.indicador == 'peso':
                 if self.filtros == 'granja_caseta':
-                    #TODO: esto esta mal falta reestructurarla
                     query = """INSERT INTO bi_crianza_kpi_mortalidad(
-                                                       semena_edad_ave,
-                                                       granja,
-                                                       caseta,
-                                                       consumo_alimento_grs_ave_acum,
-                                                       consumo_alimento_grs_ave_acum_meta)
-                                                       select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave_acum), consumo_alimento_grs_ave_acum_meta
-                                                       from balanza_aves(%s)
-                                                       GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
-                                                       order by semana_edad_ave asc
+                                                      semena_edad_ave,
+                                                      granja,
+                                                      caseta,
+                                                      peso_real,
+                                                      peso_meta)
+                                                      SELECT semana_edad_ave,GRANJA,CASETA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(PESO_REAL,0))/COUNT(PESO_REAL) END  PESO_REAL,PESO_META
+                                                      FROM balanza_aves(%s,%s)
+                                                      GROUP BY GRANJA,CASETA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
                     query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
@@ -693,17 +708,17 @@ $BODY$
                                     """
             elif self.indicador == 'uniformidad':
                 if self.filtros == 'granja_caseta':
-                    #TODO: esto esta mal falta reestructurarla
                     query = """INSERT INTO bi_crianza_kpi_mortalidad(
                                                        semena_edad_ave,
                                                        granja,
                                                        caseta,
-                                                       consumo_alimento_grs_ave_acum,
-                                                       consumo_alimento_grs_ave_acum_meta)
-                                                       select semana_edad_ave,granja,caseta,SUM(consumo_alimento_grs_ave_acum), consumo_alimento_grs_ave_acum_meta
-                                                       from balanza_aves(%s)
-                                                       GROUP BY semana_edad_ave,granja,caseta,consumo_alimento_grs_ave_acum_meta
-                                                       order by semana_edad_ave asc
+                                                       uniformidad_real,
+                                                       uniformidad_meta)
+                                                      SELECT semana_edad_ave,GRANJA,CASETA,CASE WHEN (COUNT(uniformidad_real) = 0) THEN sum(COALESCE(uniformidad_real,0)) 
+                                                      ELSE sum(COALESCE(uniformidad_real,0))/COUNT(uniformidad_real) 
+                                                      END  uniformidad_real,uniformidad_meta
+                                                      FROM balanza_aves(%s,%s)
+                                                      GROUP BY GRANJA,CASETA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
                     query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
@@ -711,8 +726,8 @@ $BODY$
                                                       granja,
                                                       uniformidad_real,
                                                       uniformidad_meta)
-                                                      SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(uniformidad_real,0))/COUNT(uniformidad_real) END  uniformidad_real,uniformidad_meta
-                                                      FROM balanza_aves_parvada(1,1)
+                                                      SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(uniformidad_real) = 0) THEN sum(COALESCE(uniformidad_real,0)) ELSE sum(COALESCE(uniformidad_real,0))/COUNT(uniformidad_real) END  uniformidad_real,uniformidad_meta
+                                                      FROM balanza_aves_parvada(%s,%s)
                                                       GROUP BY GRANJA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
 
                                                    """
