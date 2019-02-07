@@ -18,8 +18,7 @@ Parvadas, Aves, Mortalidad, Empaque, Alimento
     "currency": "EUR",
     
     'depends': ['web_readonly_bypass','web_widget_bokeh_chart','base','mail'],
-    'data': [        
-        'views/bi_view_form_crianza.xml',
+    'data': [
         'views/bi_view_tree.xml',        
         'views/bi_view_form.xml',        
         'views/bi_view_graph.xml',
