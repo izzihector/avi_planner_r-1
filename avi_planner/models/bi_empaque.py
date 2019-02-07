@@ -18,37 +18,31 @@ class BiEmpaqueParametros(models.Model):
     visible = fields.Boolean(string="Visible")
     state = fields.Boolean(string="Activo")
 
+#Empaque
+class BIEmpaque(models.Model):
+    _name='bi.empaque'
+    _inherit = ['mail.thread']
+    _description="Empaque"
+
+    name =fields.Char(string='Nombre',required=True)
+
 #REGISTRO EMPAQUE
 class BiRegistroEmpaque(models.Model):
     _name = 'bi.registro.empaque'
     _inherit = ['mail.thread']
     _description = 'Registro de empaque'
 
-    def _get_granja_seccion_caseta_origen(self):
-       return self.env['bi.granja.seccion.caseta'].search([('tipo_granja_id','=',2)], limit=1)
-    
     def _get_empaque(self):
         return self.env['bi.empaque'].search([], limit=1)
 
-    fecha= fields.Date(default=fields.Date.context_today)   
-    #TODO: Revisar si es granja completa o a nivel caseta. 
-    granja__id = fields.Many2one(
-        comodel_name='bi.granja.seccion.caseta', string="Granja", default=_get_granja_seccion_caseta_origen, required=True)
-    empaque_id = fields.Many2one(
-        comodel_name='bi.empaque', string="Empaque", default=_get_empaque, required=True)
+    fecha= fields.Date(default=fields.Date.context_today)
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
+    empaque_id = fields.Many2one(comodel_name='bi.empaque', string="Empaque", default=_get_empaque, required=True)
     entrada = fields.Integer(string="Entrada")
     merma_fabricacion = fields.Integer(string="Merma Fabricacion")
     merma_operacion = fields.Integer(string="Merma Operacion")
 
     state = fields.Boolean(string="Estado")
-
-#Empaque
-class BIEmpaque(models.Model):
-    _name='bi.empaque'
-    _inherit = ['mail.thread']
-    _description="Empaque"
-	
-    name =fields.Char(string='Nombre',required=True)
 
 
 class BITraspasoEmpaque(models.Model):

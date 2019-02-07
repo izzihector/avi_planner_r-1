@@ -90,7 +90,7 @@ class BiParvadaRecepcion(models.Model):
 
             #Revisar que la recepcion no sea mayor a la capacidad maxima de todas las casetas de la granja
             if r.state == 'progress':
-                granja_caseta_destino_objs = self.env['bi.granja.seccion.caseta'].search([('granja_id','=',r.granja_seccion_caseta_destino_rel_id.granja_id.id)])
+                granja_caseta_destino_objs = self.env['bi.granja.caseta'].search([('granja_id','=',r.granja_id.id)])
                 sum_capacidad_maxima = 0
                 sum_poblacion_final = 0
 
