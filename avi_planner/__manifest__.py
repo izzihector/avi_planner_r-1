@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name' : 'AVI Planner',
-    'version' : '1.0.0',
     'category': 'Inventory',
+    'sequence': 1000,
+    'summary': 'Administracion de granjas de Crianza y Postura',
+    'description' : """
+        Parvadas, Aves, Mortalidad, Empaque, Alimento
+        """,
     'author':'Ivan Porras',
     'website' : 'www.makepler.com',
-    'summary' : 'AVI Planner',
-    'description' : """
-Parvadas, Aves, Mortalidad, Empaque, Alimento
-==================================
-""",
-    "author": "Makepler Sistemas",
-    "website": "https://makepler.com/",
+    'version' : '10.0.0.0',
     "support": "ivan.porras@makepler.com",
     "price": 499.00,
     "currency": "EUR",
-    
+    # any module necessary for this one to work correctly
     'depends': ['web_readonly_bypass','web_widget_bokeh_chart','base','mail'],
+
     'data': [
         'views/bi_view_tree.xml',        
         'views/bi_view_form.xml',        
