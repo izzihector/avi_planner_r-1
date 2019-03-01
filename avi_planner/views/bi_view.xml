@@ -12,7 +12,6 @@
                 <p class="oe_view_nocontent_create">Crear proveedor</p>
             </field>
          </record>
-
          <!-- action casetas -->
          <record model="ir.actions.act_window" id="granjas_casetas_action_view">
             <field name="name">Casetas</field>
@@ -113,11 +112,11 @@
 
         <!-- action de posturas RECEPCION -->
         <record model="ir.actions.act_window" id="action_recepcion_postura">
-            <field name="name">Distribucion de aves</field>
+            <field name="name">Traspasos de aves</field>
             <field name="res_model">bi.parvada.recepcion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
         </record>
 
         <!-- action tree view postura RECEPCION-->

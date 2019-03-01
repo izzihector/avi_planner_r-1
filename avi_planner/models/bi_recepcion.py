@@ -32,7 +32,7 @@ class BiParvadaRecepcion(models.Model):
 
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
     granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
-
+    tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', string="Tipo de Granja")
 
 
 
