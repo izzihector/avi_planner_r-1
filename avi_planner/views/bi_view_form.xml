@@ -502,7 +502,7 @@
                         <group>
                             <group>                                
                                 <field name="fecha"/>
-                                <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA'),('es_granja','=',False)]"/>
+                                <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
                                 <field name="marca_id"/>
                                 <field name="marca" invisible="1"/>
                                 <field name="tipo_granja"/>    
