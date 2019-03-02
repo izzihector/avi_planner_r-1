@@ -30,4 +30,16 @@
     <record model="bi.causa.traspaso" id="causa_traspaso_3">
         <field name="name">Traspaso Posturas</field>
     </record>
+    <record model="bi.marca" id="marca_1">
+        <field name="name">SACAMECATE</field>
+    </record>
+    <record model="bi.marca" id="marca_2">
+        <field name="name">HUEVO DE LA GRANJA</field>
+    </record>
+    <record model="bi.marca" id="marca_3">
+        <field name="name">CAJA LISA</field>
+    </record>
+    <record model="bi.marca" id="marca_4">
+        <field name="name">BOLSA</field>
+    </record>
 </odoo>

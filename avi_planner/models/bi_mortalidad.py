@@ -16,10 +16,8 @@ class BiMortalidad(models.Model):
 
     name = fields.Char('Nombre', readonly=True)
 
-    def _get_granja(self):
-        return self.env['bi.granja'].search([], limit=1)
 
-    granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
     parvada_id = fields.Many2one(related='caseta_id.parvada_id',  string="Parvada", store=True)
     tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', readonly=True, string="Tipo Granja")

@@ -5,12 +5,6 @@
 
 from odoo import fields, models, api
 
-#TODO: Precagar las siguientes marcar
-#SACAMECATE
-#HUEVO DE LA GRANJA
-#CAJA LISA
-#BOLSA
-
 class BiProduccion(models.Model):
     _name = 'bi.produccion'
     _inherit = ['mail.thread']

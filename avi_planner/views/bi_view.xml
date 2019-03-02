@@ -116,7 +116,7 @@
             <field name="res_model">bi.parvada.recepcion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
+            <field name="domain">[]</field>
         </record>
 
         <!-- action tree view postura RECEPCION-->
@@ -188,7 +188,8 @@
             </field>
          </record>
 
-           <!-- action mortalidad crianza-->
+    <!-- MORTALIDAD **************************************************************-->
+        <!-- action mortalidad crianza-->
         <record model="ir.actions.act_window" id="mortalidad_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Datos de Aves</field>
@@ -200,35 +201,36 @@
                  <p class="oe_view_nocontent_create">Datos de Aves</p>
             </field>
          </record>
-
-       
             <!-- action mortalidad postura vista tree-->
         <record model="ir.actions.act_window" id="mortalidad_postura_action_view">
-            <field name="context">{'readonly_by_pass': True,'tipo_granja': 'POSTURA'}</field>
             <field name="name">Datos de Aves</field>
             <field name="res_model">bi.parvada.mortalidad</field>
-            <field name="view_id" ref="postura_mortalidad_tree_view"/>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
-            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
                  <p class="oe_view_nocontent_create">Datos de Aves</p>
             </field>
+           </record>
+              <!-- action mortalidad postura vista tree 22222-->
+        <record model="ir.actions.act_window.view" id="tree_postura_mortalidad_action_view">
+            <field name="context">{'readonly_by_pass': True}</field>
+            <field eval="1" name="sequence"/>
+            <field name="res_model">bi.parvada.mortalidad</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="postura_mortalidad_tree2_view"/>
+            <field name="act_window_id" ref="mortalidad_postura_action_view"/>
+         </record>
+         <!-- action mortalidad postura vista form-->
+        <record model="ir.actions.act_window.view" id="form_mortalidad_postura_action_view">
+            <field name="context">{'readonly_by_pass': True}</field>
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="postura_mortalidad_parvadas_form_view"/>
+            <field name="act_window_id" ref="mortalidad_postura_action_view"/>
          </record>
 
-         <!-- action mortalidad postura vista form-->
-        <record model="ir.actions.act_window" id="form_mortalidad_postura_action_view">
-            <field name="context">{'readonly_by_pass': True,'tipo_granja': 'POSTURA'}</field>
-            <field name="name">Datos de Aves</field>
-            <field name="res_model">bi.parvada.mortalidad</field>
-            <field name="act_window_id" ref="mortalidad_postura_action_view"/>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
-            <field name="domain">[('granja_seccion_caseta_origen_rel_id.tipo_granja_id','=',2)]</field>
-            <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Datos de Aves</p>
-            </field>
-         </record>
         <!-- action alimento -->
         <record model="ir.actions.act_window" id="alta_alimento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>

@@ -848,10 +848,10 @@
                                 <field name="poblacion_existente"/>
                             </group>
                             <group>
-                                <field name="causa_seleccion"  attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_seleccion"/>
                                 <field name="causa_natural"/>
-                                <field name="causa_paralitica" attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
-                                <field name="causa_prolapsada" attrs="{'invisible':[('tipo_granja','=','CRIANZA')]}"/>
+                                <field name="causa_paralitica"/>
+                                <field name="causa_prolapsada"/>
                                 <field name="causa_sacrificada"/>
                                 <field name="total_mortalidad"/>
                             </group>
@@ -890,25 +890,25 @@
                         </div>
                         <group>
                             <group>
-                                <field name="fecha"/>
-                                <!--<field name="granja_seccion_caseta_origen_rel_id" string="Granja/Seccion/Caseta"
-                                        attrs="{'readonly':[('state','!=','draft')]}"
-                                        domain="[('tipo_granja_id','=',2)]"/>-->
-
-                               <!-- <field name="tipo_granja" readonly="1"/>-->
+                                <field name="fecha" required="1"/>
+                                <field name="granja_id" domain="[('tipo_granja_id','=',2)]" required="1"/>
+                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]"/>
+                                <field name="parvada_id" readonly="1"/>
+                                <field name="tipo_granja" readonly="1"/>
+                                <field name="poblacion_existente"/>
                             </group>
                             <group>
-                                <field name="causa_seleccion"  attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
+                                <field name="causa_seleccion"/>
                                 <field name="causa_natural"/>
-                                <field name="causa_paralitica" attrs="{'invisible':[('tipo_granja','=','POSTURA')]}"/>
-                                <field name="causa_prolapsada" attrs="{'invisible':[('tipo_granja','=','CRIANZA')]}"/>
+                                <field name="causa_paralitica"/>
+                                <field name="causa_prolapsada"/>
                                 <field name="causa_sacrificada"/>
                                 <field name="total_mortalidad"/>
                             </group>
-                            <group>
+                            <!--<group>
                                 <field name="peso_ave"/>
                                 <field name="uniformidad_ave"/>
-                            </group>
+                            </group>-->
                         </group>
                     </sheet>
                      <div class="oe_chatter">

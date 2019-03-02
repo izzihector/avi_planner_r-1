@@ -194,7 +194,7 @@
          </record>
 
          <!-- tree view mortalidad postura-->
-        <record id="postura_mortalidad_tree_view" model="ir.ui.view">
+        <record id="postura_mortalidad_tree2_view" model="ir.ui.view">
             <field name="name">bi.parvada.postura.mortalidad.tree</field>
             <field name="model">bi.parvada.mortalidad</field>
             <field name="arch" type="xml">
