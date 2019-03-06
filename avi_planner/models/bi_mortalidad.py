@@ -28,6 +28,7 @@ class BiMortalidad(models.Model):
     causa_paralitica = fields.Integer(string="Paraliticas") #Causa en Crianza
     causa_prolapsada = fields.Integer(string="Prolapsadas") #Causa en postura
     causa_sacrificada = fields.Integer(string="Sacrificada") #Causa en Postura y Crianza
+    ventas_vivas = fields.Integer(string="Ventas Vivas")
     
     total_mortalidad = fields.Integer(string="Total", compute="_compute_total_mortalidad")
 

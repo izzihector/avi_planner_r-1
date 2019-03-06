@@ -903,6 +903,7 @@
                                 <field name="causa_paralitica"/>
                                 <field name="causa_prolapsada"/>
                                 <field name="causa_sacrificada"/>
+                                <field name="ventas_vivas"/>
                                 <field name="total_mortalidad"/>
                             </group>
                             <!--<group>
