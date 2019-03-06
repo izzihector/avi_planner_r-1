@@ -20,6 +20,9 @@ class BiProduccion(models.Model):
 
     fecha= fields.Date(default=fields.Date.context_today)  
     granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja", default=_get_granja, required=True)
+    seccion_id = fields.Many2one(comodel_name='bi.granja.seccion', string="Seccion",required=True)
+    caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
     tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name',readonly=True)
     marca_id= fields.Many2one(comodel_name='bi.marca', string="Marca", default=_get_marca, required=True)
     marca = fields.Char(related='marca_id.name',readonly=True)

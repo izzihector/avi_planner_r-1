@@ -503,9 +503,12 @@
                             <group>                                
                                 <field name="fecha"/>
                                 <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
+                                <field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
                                 <field name="marca_id"/>
                                 <field name="marca" invisible="1"/>
-                                <field name="tipo_granja"/>    
+                                <field name="tipo_granja" string="Tipo de Granja"/>
+                                <field name="parvada_id" string="Parvada" readonly="1"/>
                             </group>
                             <group>
                                 <!-- SACAMECATE, HUEVOS DE LA GRANJA y NATURE-->
