@@ -235,6 +235,7 @@
             <field name="act_window_id" ref="mortalidad_postura_action_view"/>
          </record>
 
+
         <!-- action alimento -->
         <record model="ir.actions.act_window" id="alta_alimento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
@@ -247,6 +248,7 @@
                  <p class="oe_view_nocontent_create">Alimento</p>
             </field>
          </record>
+
         <!-- action registro de alimento crianza-->
         <record model="ir.actions.act_window" id="alimento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
@@ -258,6 +260,27 @@
             <field name="help" type="html">
                  <p class="oe_view_nocontent_create">Datos del Alimento</p>
             </field>
+         </record>
+        <!-- action registro de alimento POSTURA-->
+        <record model="ir.actions.act_window" id="alimento_postura_action_view">
+            <field name="context">{'readonly_by_pass': True}</field>
+            <field name="name">Registro de Alimento</field>
+            <field name="res_model">bi.registro.alimento</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                 <p class="oe_view_nocontent_create">Registro de Alimento</p>
+            </field>
+         </record>
+         <!-- action regitro alimento postura vista tree-->
+        <record model="ir.actions.act_window.view" id="tree_postura_alimento_action_view">
+            <field name="context">{'readonly_by_pass': True}</field>
+            <field eval="1" name="sequence"/>
+            <field name="res_model">bi.parvada.mortalidad</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="postura_alimento_tree_view"/>
+            <field name="act_window_id" ref="alimento_postura_action_view"/>
          </record>
 
          <!-- action tolva -->
@@ -421,10 +444,11 @@
         <menuitem id="menu_distribucion_postura" name="Traspaso Ave" parent="menu_postura" action="action_recepcion_postura" sequence="2"/>
         <menuitem id="menu_registro_empaque" name="Registro Empaque"  parent="menu_postura" action="registro_empaque_action_view" sequence="3"/>
         <menuitem id="menu_traspaso_empaque" name="Traspaso Empaque"  parent="menu_postura" action="traspaso_empaque_action_view" sequence="4"/>
+        <menuitem id="menu_postura_alimento" name="Registro Alimento" parent="menu_postura" action="alimento_postura_action_view"  sequence="5"/>
         <!--<menuitem id="menu_recepcion" name="Pendiente de Recepcionar" parent="menu_postura" action="recepcion_action_view"/>-->
-        <menuitem id="menu_mortalidad_aves_postura" name="Aves" parent="menu_postura" action="mortalidad_postura_action_view" sequence="5"/>
-        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view" sequence="6"/>
-        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="7"/>
+        <menuitem id="menu_mortalidad_aves_postura" name="Aves" parent="menu_postura" action="mortalidad_postura_action_view" sequence="6"/>
+        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view" sequence="7"/>
+        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="8"/>
 
 
        <!--menu Configuracion -->

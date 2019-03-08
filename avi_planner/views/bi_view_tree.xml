@@ -209,8 +209,32 @@
             </field>
          </record>
 
-          <!-- tree view registro de alimento-->
+          <!-- tree view registro de alimento crianza-->
         <record id="registro_alimento_tree_view" model="ir.ui.view">
+            <field name="name">bi.registro.alimento.tree</field>
+            <field name="model">bi.registro.alimento</field>
+            <field name="arch" type="xml">
+                <tree string="Alimento">
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="granja_id"/>
+                    <field name="caseta_id"/>
+                    <field name="tolva_id" />
+                    <field name="ticket_entrante"/>
+                    <field name="fleje"/>
+                    <field name="alimento_id"/>
+                    <field name="kgs_entrada"/>
+                    <field name="consumo"/>
+                    <field name="kgs_traspaso"/>
+                    <field name="granja_destino_id"/>
+                    <field name="caseta_destino_id"/>
+                    <field name="tipo_evento_id"/>
+                </tree>
+            </field>
+         </record>
+
+          <!-- tree view registro de alimento postura-->
+        <record id="postura_alimento_tree_view" model="ir.ui.view">
             <field name="name">bi.registro.alimento.tree</field>
             <field name="model">bi.registro.alimento</field>
             <field name="arch" type="xml">
