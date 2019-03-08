@@ -227,7 +227,7 @@
              </field>
          </record>
 
-        <!-- empaque -->
+        <!-- conceptos empaques -->
          <record id="empaque_form_view" model="ir.ui.view">
              <field name="name">bi.empaque.form</field>
              <field name="model">bi.empaque</field>
@@ -294,7 +294,7 @@
              </field>
          </record>
 
-        <!--alimento -->
+        <!--conceptos alimento -->
         <record id="alimento_form_view" model="ir.ui.view">
             <field name="name">bi.alimento.form</field>
             <field name="model">bi.alimento</field>
@@ -903,9 +903,7 @@
                                 <field name="poblacion_existente"/>
                             </group>
                             <group>
-                                <field name="causa_seleccion"/>
                                 <field name="causa_natural"/>
-                                <field name="causa_paralitica"/>
                                 <field name="causa_prolapsada"/>
                                 <field name="causa_sacrificada"/>
                                 <field name="ventas_vivas"/>

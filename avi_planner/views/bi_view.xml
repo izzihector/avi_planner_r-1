@@ -247,10 +247,10 @@
                  <p class="oe_view_nocontent_create">Alimento</p>
             </field>
          </record>
-        <!-- action registro de alimento -->
+        <!-- action registro de alimento crianza-->
         <record model="ir.actions.act_window" id="alimento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
-            <field name="name">Datos del Alimento</field>
+            <field name="name">Registro de Alimento</field>
             <field name="res_model">bi.registro.alimento</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>

@@ -53,9 +53,13 @@ class BITraspasoEmpaque(models.Model):
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
 
+    def _get_empaque(self):
+        return self.env['bi.empaque'].search([], limit=1)
+
     fecha= fields.Date(default=fields.Date.context_today)  
     granja_origen__id = fields.Many2one(
         comodel_name='bi.granja', string="Granja Origen", default=_get_granja, required=True)
+    empaque_id = fields.Many2one(comodel_name='bi.empaque', string="Empaque", default=_get_empaque, required=True)
     cantidad_traspaso = fields.Integer(string="Cantidad a traspasar")
     granja_destino__id = fields.Many2one(
         comodel_name='bi.granja', string="Granja Destino", default=_get_granja, required=True)
