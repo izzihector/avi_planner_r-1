@@ -36,6 +36,7 @@ class BiParvadaDistribucion(models.Model):
     #para la recepcion en postura
     fecha_recepcion = fields.Date(default=fields.Date.context_today,required=True,string="Fecha de Recepcion")
     reales = fields.Integer(string="Aves Recibidas Reales")
+    mortalidad_traspaso = fields.Integer(string="Mortalidad al traspaso")
 
 
 

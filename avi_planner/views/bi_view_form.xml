@@ -748,7 +748,8 @@
                 </form>
             </field>
          </record>
-         <!-- formulario distribucion -->
+
+         <!-- Formulario Distribucion Crianza -->
         <record id="traspaso_parvadas_form_view" model="ir.ui.view">
             <field name="name">bi.parvada.distribucion.form</field>
             <field name="model">bi.parvada.distribucion</field>
@@ -756,7 +757,7 @@
                 <form string="Traspasos">
                      <header>
                         <button string="En Transito" type="object" name="transit_progressbar" class="oe_highlight" attrs="{'invisible':[('state','!=', 'draft')]}"/>
-                        <button string="Cargado" type="object" name="received_progressbar" class="oe_highlight" attrs="{'invisible': [('state','!=','transit')]}"/>
+                        <button string="Recepcionar" type="object" name="received_progressbar" class="oe_highlight" attrs="{'invisible': [('state','!=','transit')]}"/>
                         <button string="Cancelar" type="object" name="cancel_progressbar"
                                 attrs="{'invisible':[('state','=','cancel')]}"/>
                         <field name="state" widget="statusbar"/>
@@ -784,6 +785,7 @@
                         <group>
                             <field name="fecha_recepcion"  attrs="{'invisible':[('state','=','draft')]}" />
                             <field name="reales"  attrs="{'invisible':[('state','=','draft')]}"  />
+                            <field name="mortalidad_traspaso"  attrs="{'invisible':[('state','=','draft')]}"  />
                         </group>
                     </sheet>
                     <div class="oe_chatter">

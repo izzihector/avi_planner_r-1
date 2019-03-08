@@ -12,7 +12,7 @@
                     </header>
                     <group>
                         <group>
-                        <field name="filtros"/>
+                        <field name="filtros" string="Filtrar a nivel"/>
                         </group>
                         <group>
                             <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
