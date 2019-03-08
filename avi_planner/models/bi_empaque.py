@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import fields, models
+from odoo import fields, models, api
 
 #EMPAQUE
 class BiEmpaqueParametros(models.Model):
@@ -35,14 +35,21 @@ class BiRegistroEmpaque(models.Model):
     def _get_empaque(self):
         return self.env['bi.empaque'].search([], limit=1)
 
+    name = fields.Char('Nombre', readonly=True)
     fecha= fields.Date(default=fields.Date.context_today)
-    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja",required=True)
     empaque_id = fields.Many2one(comodel_name='bi.empaque', string="Empaque", default=_get_empaque, required=True)
     entrada = fields.Integer(string="Entrada")
     merma_fabricacion = fields.Integer(string="Merma Fabricacion")
     merma_operacion = fields.Integer(string="Merma Operacion")
-
     state = fields.Boolean(string="Estado")
+
+    # secuencia de empaque
+    @api.model
+    def create(self, vals):
+        seq = self.env['ir.sequence'].next_by_code('bi.registro.empaque') or '/'
+        vals['name'] = seq
+        return super(BiRegistroEmpaque, self).create(vals)
 
 
 class BITraspasoEmpaque(models.Model):
@@ -56,6 +63,7 @@ class BITraspasoEmpaque(models.Model):
     def _get_empaque(self):
         return self.env['bi.empaque'].search([], limit=1)
 
+    name = fields.Char('Nombre', readonly=True)
     fecha= fields.Date(default=fields.Date.context_today)  
     granja_origen__id = fields.Many2one(
         comodel_name='bi.granja', string="Granja Origen", default=_get_granja, required=True)
@@ -63,3 +71,10 @@ class BITraspasoEmpaque(models.Model):
     cantidad_traspaso = fields.Integer(string="Cantidad a traspasar")
     granja_destino__id = fields.Many2one(
         comodel_name='bi.granja', string="Granja Destino", default=_get_granja, required=True)
+
+    # secuencia de traspaso empaque
+    @api.model
+    def create(self, vals):
+        seq = self.env['ir.sequence'].next_by_code('bi.traspaso.empaque') or '/'
+        vals['name'] = seq
+        return super(BITraspasoEmpaque, self).create(vals)

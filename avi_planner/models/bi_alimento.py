@@ -37,6 +37,7 @@ class BiRegistroAlimento(models.Model):
     fecha= fields.Date(default=fields.Date.context_today,string="Fecha")
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
     granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
+    tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', readonly=True, string="Tipo Granja")
     parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
     tipo_evento_id = fields.Many2one(comodel_name='bi.alimento.tipo.evento', string="Tipo de Evento", required=True, default=_get_tipo_evento)
     tolva_id =fields.Many2one(comodel_name='bi.tolva', string="Tolva", required=True, default=None)

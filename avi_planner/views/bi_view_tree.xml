@@ -257,6 +257,39 @@
             </field>
          </record>
 
+           <!-- tree view registro empaque postura-->
+        <record id="empaque_tree_view" model="ir.ui.view">
+            <field name="name">bi.registro.empaque.tree</field>
+            <field name="model">bi.registro.empaque</field>
+            <field name="arch" type="xml">
+                <tree string="Empaque">
+                   <field name="name"/>
+                   <field name="fecha"/>
+                   <field name="granja_id"/>
+                   <field name="empaque_id"/>
+                   <field name="entrada"/>
+                   <field name="merma_fabricacion"/>
+                   <field name="merma_operacion"/>
+                </tree>
+            </field>
+         </record>
+
+             <!-- tree view traspaso empaque postura-->
+        <record id="traspaso_empaque_tree_view" model="ir.ui.view">
+            <field name="name">bi.traspaso.empaque.tree</field>
+            <field name="model">bi.traspaso.empaque</field>
+            <field name="arch" type="xml">
+                <tree string="Traspaso Empaque">
+                   <field name="name"/>
+                   <field name="fecha"/>
+                   <field name="granja_origen__id"/>
+                   <field name="empaque_id"/>
+                   <field name="cantidad_traspaso"/>
+                   <field name="granja_destino__id"/>
+                </tree>
+            </field>
+         </record>
+
            <!-- tree view produccion-->
         <record id="produccion_tree_view" model="ir.ui.view">
             <field name="name">bi.produccion.tree</field>

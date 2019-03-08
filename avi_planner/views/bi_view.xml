@@ -268,7 +268,7 @@
             <field name="res_model">bi.registro.alimento</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
                  <p class="oe_view_nocontent_create">Registro de Alimento</p>
             </field>
