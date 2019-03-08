@@ -83,9 +83,13 @@
             </field>
          </record>
 
-        <!-- POSTURAS -->
 
-        <!-- action de posturas parvada -->
+
+
+
+
+        <!--******************* POSTURAS ********************************************************* -->
+        <!-- action Nueva Parvada -->
         <record model="ir.actions.act_window" id="action_parvada_postura">
             <field name="name">Parvadas</field>
             <field name="res_model">bi.parvada</field>
@@ -94,7 +98,7 @@
             <field name="domain">[('edad_sem_tot','!=',0)]</field>
         </record>
 
-        <!-- action tree view postura parvada-->
+        <!-- action tree view NUEVA Parvada-->
         <record model="ir.actions.act_window.view" id="parvada_postura_tree_view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
@@ -102,7 +106,7 @@
             <field name="act_window_id" ref="action_parvada_postura"/>
          </record>
 
-         <!-- action form view postura parvada -->
+         <!-- action form view NUEVA PARVADA -->
         <record model="ir.actions.act_window.view" id="parvada_postura_form_view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
@@ -110,16 +114,16 @@
             <field name="act_window_id" ref="action_parvada_postura"/>
          </record>
 
-        <!-- action de posturas RECEPCION -->
+        <!-- action de posturas TRASPASO DE AVES O RECEPCION -->
         <record model="ir.actions.act_window" id="action_recepcion_postura">
             <field name="name">Traspasos de aves</field>
             <field name="res_model">bi.parvada.recepcion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
         </record>
 
-        <!-- action tree view postura RECEPCION-->
+        <!-- action tree view TRASPASO DE AVES O RECEPCION-->
         <record model="ir.actions.act_window.view" id="recepcion_postura_tree_view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
@@ -127,13 +131,13 @@
             <field name="act_window_id" ref="action_recepcion_postura"/>
          </record>
 
-         <!-- action form view postura RECEPCION
+         <!-- action form view postura RECEPCION-->
         <record model="ir.actions.act_window.view" id="recepcion_postura_form_view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="recepcion_postura_f_view"/>
             <field name="act_window_id" ref="action_recepcion_postura"/>
-         </record>-->
+         </record>
 
         <!-- action recepcion crianza -->
         <record model="ir.actions.act_window" id="recepcion_crianza_action_view">

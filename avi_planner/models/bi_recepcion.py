@@ -12,35 +12,27 @@ class BiParvadaRecepcion(models.Model):
     _description = 'Recepcion de Aves'
 
     def _get_solicitud(self):
-        return self.env['bi.parvada'].search([('state','=','requested'),('state','=','partially_received')], limit=1)
+        return self.env['bi.parvada'].search([('state','=','transit'),('state','=','partially_received')], limit=1)
 
     name = fields.Char('Lote', readonly=True)
     fecha_recepcion = fields.Date(default=fields.Date.context_today, required=True, string="Fecha de Recepcion")
     parvada_id = fields.Many2one(comodel_name='bi.parvada', string="Parvada", default=_get_solicitud, required=True)
     poblacion_entrante = fields.Integer(string="Aves Entrantes", required=True,help="En el formato de Crianza el campo se llama Recepcion")
     folio = fields.Char(string="Folio")
-
     #estos campos no son almacenados en la tabla
     s_poblacion_solicitada = fields.Integer(related='parvada_id.poblacion_solicitada',string="Poblacion Solicitada")
     s_poblacion_recepcionada = fields.Integer(related='parvada_id.poblacion_recepcionada',string="Poblacion Recepcionada")
     s_poblacion_sin_recepcion = fields.Integer(related='parvada_id.poblacion_final', string="Poblacion Sin Recepcionar")
     s_edad_ave = fields.Integer(related='parvada_id.edad_sem_tot',string="Edad del Ave")
-
-    def _get_granja(self):
-        return self.env['bi.granja'].search([], limit=1)
-
-
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
-    granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
     tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', string="Tipo de Granja")
-
-
-
+    es_postura = fields.Boolean()
     state = fields.Selection([('draft','Borrador'),
                               ('received','Recepcionado'),
                               ('cancel','Cancelado')],default='draft',string="Estado")
 
-    # secuencia de recepcion
+    #Secuencia de recepcion
     @api.model
     def create(self, vals):
         seq = self.env['ir.sequence'].next_by_code('bi.parvada.recepcion') or '/'

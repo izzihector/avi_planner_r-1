@@ -663,7 +663,7 @@
                         </div>
                         <h3>Programado</h3>
                         <group col="4">
-                            <field name="parvada_id" string="Parvada" domain="['|',('state','=','requested'),('state','=','partially_received')]"/>
+                            <field name="parvada_id" string="Parvada" domain="['|',('state','=','transit'),('state','=','partially_received')]"/>
                             <field name="s_poblacion_solicitada" readonly="1"/>
                             <field name="s_poblacion_recepcionada"  readonly="1"/>
                             <field name="s_poblacion_sin_recepcion"  readonly="1"/>
@@ -699,7 +699,7 @@
             <field name="implementation">no_gap</field>
          </record>
 
-         <!-- recepcion de parvada POSTURA-->
+         <!-- RECEPCION PARVADA POSTURA-->
         <record id="recepcion_postura_f_view" model="ir.ui.view">
             <field name="name">bi.parvada.recepcion.form</field>
             <field name="model">bi.parvada.recepcion</field>
@@ -721,7 +721,7 @@
                                 </table>
                             </h1>
                         </div>
-                        <h3>Programado</h3>
+                        <h3>Programado POSTURAS</h3>
                         <group col="4">
                             <field name="parvada_id" string="Parvada" domain="[('state_postura','=','transit')]"/>
                             <field name="s_poblacion_solicitada" string="POBLACION INICIAL" readonly="1"/>
