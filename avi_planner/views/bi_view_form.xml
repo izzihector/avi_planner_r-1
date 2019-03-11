@@ -629,6 +629,7 @@
                             <field name="raza_id" placeholder="Raza" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="poblacion_solicitada" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="edad_sem_tot" string="Edad del Ave (semanas)"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="fecha_nacimiento" string="Fecha de Nacimiento" attrs="{'readonly':[('state','!=','draft')]}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

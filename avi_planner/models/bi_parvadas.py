@@ -34,6 +34,8 @@ class BiParvada(models.Model):
     name = fields.Char(string='Numero de parvada',required=True)
     fecha_solicitud = fields.Date(default=fields.Date.context_today, required=True,
                                   help="Fecha en la que se solicito el ave")
+    fecha_nacimiento = fields.Date(default=fields.Date.context_today, required=True,
+                                  help="Fecha requerida para generar calculos de KPIs")
 
     proveedor_id = fields.Many2one(comodel_name='bi.proveedor', string="Proveedor", default=_get_proveedor,help="Granja del proveedor de donde proviene el ave")
 
