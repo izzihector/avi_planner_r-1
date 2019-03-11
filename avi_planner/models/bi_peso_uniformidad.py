@@ -19,7 +19,8 @@ class BiPesoUniformidad(models.Model):
     parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
     granja_id = fields.Many2one(related='caseta_id.granja_id', default=_get_granja, string="Granja",store=True)
     lote = fields.Many2one(comodel_name='bi.parvada.recepcion', string="Lote")
-    peso = fields.Float(string="Peso")
+    peso = fields.Float(string="Peso Ave")
+    peso_huevo = fields.Float(string="Peso Huevo")
     uniformidad = fields.Float(string="Uniformidad")
     fecha = fields.Date(default=fields.Date.context_today, required=True,
                                   help="Fecha")

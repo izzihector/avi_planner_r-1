@@ -19,7 +19,7 @@ class BiMortalidad(models.Model):
 
     granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
-    parvada_id = fields.Many2one(related='caseta_id.parvada_id',  string="Parvada", store=True)
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id',  string="Parvada", store=True,required=True)
     tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', readonly=True, string="Tipo Granja")
     poblacion_existente = fields.Integer(related='caseta_id.poblacion_existente', readonly=True, string="Poblacion Existente")
     

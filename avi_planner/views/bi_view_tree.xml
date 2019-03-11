@@ -435,5 +435,23 @@
                     </tree>
                 </field>
             </record>
+
+               <record model="ir.ui.view" id="postura_peso_tree_view">
+                <field name="name">bi.peso.uniformidad.tree</field>
+                <field name="model">bi.peso.uniformidad</field>
+                <field name="type">tree</field>
+                <field name="view_mode">tree,form,graph,pivot,kanban</field>
+                <field name="arch" type="xml">
+                    <tree>
+                          <field name="fecha"/>
+                          <field name="granja_id"/>
+                          <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                          <field name="parvada_id"/>
+                          <field name="peso_huevo"/>
+                          <field name="peso"/>
+                          <field name="uniformidad"/>
+                    </tree>
+                </field>
+            </record>
 	</data>
 </odoo>

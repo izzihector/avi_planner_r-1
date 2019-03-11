@@ -38,7 +38,7 @@ class BiRegistroAlimento(models.Model):
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
     granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
     tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', readonly=True, string="Tipo Granja")
-    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True, required=True)
     tipo_evento_id = fields.Many2one(comodel_name='bi.alimento.tipo.evento', string="Tipo de Evento", required=True, default=_get_tipo_evento)
     tolva_id =fields.Many2one(comodel_name='bi.tolva', string="Tolva", required=True, default=None)
     capacidad_tolva = fields.Float(related='tolva_id.capacidad',string="Capacidad de tolva")
