@@ -469,6 +469,7 @@
         <menuitem id="menu_alimento" name="Alimento" parent="menu_crianza" action="alimento_action_view" sequence="5"/>
         <menuitem id="menu_distribucion_aves" name="Traspaso de Ave" parent="menu_crianza" action="distribucion_action_view" sequence="6"/>
         <menuitem id="menu_tolvas_crianza" name="Tolvas" parent="menu_crianza" action="tolva_detalle_action_view"/>
+        <!--<menuitem id="menu_informe_parvada" name="Informe Parvada" parent="menu_crianza" action="informe_action_view"/>-->
 
         <!--menu postura-->
         <menuitem name="Postura" id="menu_postura" parent="menu_root" sequence="118"/>

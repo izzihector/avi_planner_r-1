@@ -487,7 +487,7 @@ $BODY$
                           uniformidad_real numeric,uniformidad_meta numeric);
 
 
-	  _fecha_inicio_cursor := (select fecha_nacimiento from bi_parvada  bpr where id = 2 limit 1);
+	  _fecha_inicio_cursor := (select fecha_nacimiento from bi_parvada  bpr where id = x_parvada_id limit 1);
 	  IF _fecha_inicio_cursor  is not null
 	  THEN
 		  FOR r IN c LOOP
@@ -510,7 +510,7 @@ $BODY$
 		    _mortalidad := (select COALESCE(sum(causa_seleccion),0) + COALESCE(sum(causa_paralitica),0) + COALESCE(sum(causa_natural),0) + COALESCE(sum(causa_sacrificada),0) from bi_parvada_mortalidad bpm where bpm.fecha = r.fecha and bpm.parvada_id = x_parvada_id 
 				    and bpm.granja_id = x_granja_id);
 		    --porcentaje de mortalidad
-		    _porcentaje_mortalidad := CASE WHEN _poblacion_inicial = 0 then 0.00000 ELSE COALESCE(_mortalidad,0) /  COALESCE(_poblacion_inicial,1)*100 END;
+		     _porcentaje_mortalidad := CASE WHEN COALESCE(_poblacion_inicial,0) = 0 then 0.00000 ELSE COALESCE(_mortalidad,0) /  COALESCE(_poblacion_inicial,1)*100 END;
 		    _meta_porcentaje_mortalidad := (select crianza_meta_mortalidad from bi_parametros where crianza_edad_semana = round(_semana_edad_ave,0));
 		    --mortalidad acumulado
 		    _mortalidad_acum := COALESCE((select BA.mortalidad_acum from BALANZA_AVES BA where BA.fecha = (r.fecha - interval '1 day')),0) + _mortalidad;            			    

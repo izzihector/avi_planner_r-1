@@ -1,0 +1,61 @@
+.o_searchview {
+    background: rgba(0,0,0,0.04);
+    border: 1px solid #ececec;
+    border-radius: @border-radius-base;
+    padding: 4px 25px 4px 4px;
+    font-size: 12px;
+
+    .o_searchview_facet {
+        align-self: stretch;
+        margin: 0;
+        @media (max-width: @screen-xs-max) {
+            .o-flex-flow(row, wrap);
+        }
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+
+        background: @odoo-brand-lightsecondary;
+        color: #666;
+
+        .o_facet_values {
+            padding: 0 18px 0 4px;
+            span {
+                line-height: 24px;
+            }
+        }
+
+        .o_searchview_facet_label {
+            background-color: #666;
+            padding: 0 6px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+
+        .o_facet_remove:hover {
+            color: darken(@odoo-brand-secondary, 20%);
+        }
+    }
+
+    .o_searchview_input {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        padding: 2px 10px;
+        font-size: 14px;
+    }
+    .o_searchview_more {
+        .o-position-absolute(@top: 8px, @right: 10px);
+    }
+    .o_searchview_autocomplete li.o-selection-focus {
+        background-color: @odoo-brand-primary;
+        > a {
+            color: white;
+        }
+    }
+}
+
+// Search options: inputs and selects style
+.o_search_options {
+	margin: auto 0;
+}
+

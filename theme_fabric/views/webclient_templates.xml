@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="less_helpers" name="less helpers" inherit_id="web.less_helpers">
+        <xpath expr="//link[@href='/web/static/src/less/variables.less']" position="after">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/variables.less"/>
+        </xpath>
+    </template>
+    <template id="assets_backend" name="assets backend" inherit_id="web.assets_backend">
+        <xpath expr="//link[@href='/web/static/src/less/webclient_layout.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/webclient_layout.less"/>
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/app_menu.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/bootstrap_overridden.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/bootstrap_overridden.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/webclient.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/webclient.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/webclient_extra.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/webclient_extra.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/control_panel.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/control_panel.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/control_panel_layout.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/control_panel_layout.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/search_view_extra.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/search_view_extra.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/form_view_extra.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/form_view_extra.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/dropdown.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/dropdown.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/form_view.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/form_view.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/datepicker.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/datepicker.less"/>
+        </xpath>
+        <xpath expr="//link[@href='/web/static/src/less/form_view_layout_extra.less']" position="replace">
+            <link rel="stylesheet" type="text/less" href="/theme_fabric/static/src/less/form_view_layout_extra.less"/>
+        </xpath>
+
+        
+        <xpath expr="//script[@src='/web/static/src/js/web_client.js']" position="replace">
+            <script type="text/javascript" src="/theme_fabric/static/src/js/web_client.js"/>
+        </xpath>
+        <xpath expr="//script[@src='/web/static/src/js/menu.js']" position="replace">
+            <script type="text/javascript" src="/theme_fabric/static/src/js/menu.js"/>
+        </xpath>
+    </template>
+    <template id="webclient_bootstrap" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//nav[@id='oe_main_menu_navbar']" position="replace">
+            <nav id="oe_main_menu_navbar" class="navbar navbar-inverse" groups="base.group_user,base.group_portal">
+                <div class="nav-left">
+                    <button type="button" class="toggle-menu-icon">
+                        <div class="fa fa-th fa-lg" />
+                    </button>
+                    <div class="title-wrapper">
+                        <h4 class="current-page-title" />
+                        <button id="toggle_sub_menu" type="button">
+                            <i class="fa fa-angle-right" />
+                        </button>
+                    </div>
+                </div>
+                <div id="fabric_app_menu" style="display: none;">
+                    <div class="hitbox" />
+                    <div class="overlay-wrapper">
+                        <div class="side-panel">
+                            <ul class="menus">
+                                <li t-foreach="menu_data['children']" t-as="menu">
+                                    <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
+                                    <a t-att-href="'/web%s#menu_id=%s&amp;action=%s' % (debug_param, menu['id'], menu['action'] and menu['action'].split(',')[1] or '')"
+                                        t-att-class="'oe_menu_toggler' if menu.get('children') else 'oe_menu_leaf'"
+                                        t-att-data-menu="menu['id']"
+                                        data-is-primary="true"
+                                        t-att-data-menu-xmlid="menu.get('xmlid')"
+                                        t-att-data-action-model="menu['action'] and menu['action'].split(',')[0] or None"
+                                        t-att-data-action-id="menu['action'] and menu['action'].split(',')[1] or None">
+                                        <img t-attf-src="/web/image/ir.ui.menu/{{ menu['id'] }}/web_icon_data" t-att-alt="menu['name']" class="app-icon" t-att-title="menu['name']"/>
+                                        <span class="oe_menu_text">
+                                            <t t-esc="menu['name']" />
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-right">
+                    <ul class="nav oe_systray" />
+                    <ul class="nav oe_user_menu_placeholder" />
+                </div>
+            </nav>
+        </xpath>
+    </template>
+    <template id="menu_secondary" name="menu_secondary" inherit_id="web.menu_secondary">
+        <xpath expr="//a[hasclass('o_sub_menu_logo')]" position="replace"/>
+        <xpath expr="//div[hasclass('o_sub_menu_footer')]" position="replace"/>
+    </template>
+</odoo>
