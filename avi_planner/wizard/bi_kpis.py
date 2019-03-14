@@ -239,14 +239,14 @@ class BiReporteo(models.TransientModel):
         self.ensure_one()
         self._compute_data()
         self._compute_bokeh_chart()
-        return {
+        """ return {
             'view_type': 'form',
             'view_mode': 'tree,form,graph',
             'res_model': 'bi.crianza.kpi.mortalidad',
             'type': 'ir.actions.client',
             'domain': "[]",
-            'tag': 'reload',
-        }
+            'tag': 'new',
+        }"""
 
     def _compute_data(self):
         self._sql_report_object()

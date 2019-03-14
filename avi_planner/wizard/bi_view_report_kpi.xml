@@ -27,7 +27,7 @@
                     </footer>
                     <br/><br/><br/>
                     <div>
-                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"/>
+                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
                     </div>
                 </form>
 
