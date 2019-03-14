@@ -12,14 +12,15 @@
                     </header>
                     <group>
                         <group>
-                        <field name="filtros" string="Filtrar a nivel"/>
-                        </group>
-                        <group>
+                            <field name="filtros" string="Filtrar a nivel"/>
                             <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
                             <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]"/>
                             <field name="parvada_id"/>
                             <field name="periodo" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>/>
                             <field name="indicador" string="Indicador" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/> />
+                        </group>
+                        <group>
+                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
                         </group>
                     </group>
                     <footer>
@@ -27,7 +28,7 @@
                     </footer>
                     <br/><br/><br/>
                     <div>
-                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
+
                     </div>
                 </form>
 

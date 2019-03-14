@@ -177,7 +177,7 @@ class BiReporteo(models.TransientModel):
             p = figure(
                 tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=1200, plot_height=600
+                plot_width=550, plot_height=400
             )
 
             p.tools.append(hover)
