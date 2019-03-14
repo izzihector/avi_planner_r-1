@@ -7,17 +7,18 @@
             <field name="arch" type="xml">
                 <form string="Resumen Por">
                     <header>
-                        <button name="action_view_graph" string="Ver Grafica" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"/>
-                        <button name="action_view_lines" string="Ver Datos" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+
                     </header>
                     <group>
-                        <group>
-                            <field name="filtros" string="Filtrar a nivel"/>
+                        <group style="width:400px">
+                            <field name="filtros" string="Filtrar a nivel" />
                             <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
-                            <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]"/>
+                            <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]" />
                             <field name="parvada_id"/>
-                            <field name="periodo" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>/>
-                            <field name="indicador" string="Indicador" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/> />
+                            <field name="periodo" required="1"/>
+                            <field name="indicador" string="Indicador" required="1"/>
+                            <button name="action_view_graph" icon = "fa-bar-chart-o" string="Ver Grafica" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
+                            <button name="action_view_lines" icon = "fa-file-o" string="Ver Datos" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
                         </group>
                         <group>
                             <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
@@ -26,10 +27,6 @@
                     <footer>
                         <!--<button string="Ver Detalle" name="action_view_lines"  type="object" class="oe_highlight"/>-->
                     </footer>
-                    <br/><br/><br/>
-                    <div>
-
-                    </div>
                 </form>
 
             </field>
@@ -45,7 +42,7 @@
             <field name="target">inline</field>
         </record>
 
-        <menuitem id="menu_detalle" name="BI"  parent="menu_crianza" action="report_detalle_action"/>
+        <menuitem id="menu_detalle" name="Graficas" parent="menu_crianza" action="report_detalle_action"/>
 
     </data>
 </odoo>

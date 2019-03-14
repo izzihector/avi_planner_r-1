@@ -108,66 +108,54 @@ class BiReporteo(models.TransientModel):
             title = ""
             x_axis_label = ""
             y_axis_label = ""
-            legend1 = ""
-            legend2 = ""
+            legend1 = "Real"
+            legend2 = "Meta"
 
             hover = HoverTool()
             if self.indicador == 'mortalidad_porcentaje':
-                title = "Mortalidad por "+ rec.periodo
+                title = "% MORTALIDAD POR " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label =""+rec.periodo+" "+"edad"
                 y_axis_label ="% mortalidad"
-                legend1 ="% Mortalidad Real"
-                legend2 ="% Mortalidad Meta"
                 hover.tooltips = [
                     (rec.periodo+" "+"edad", "@x"),
                     (y_axis_label, "@y{0.0000}%"),
                 ]
             elif self.indicador == 'mortalidad_porcentaje_acum':
-                title = "Mortalidad Acumulada por " + rec.periodo
+                title = "% MORTALIDAD ACUMULADA POR  " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "% Mortalidad Acum"
-                legend1 = "% Mortalidad Real Acum"
-                legend2 = "% Mortalidad Meta Acum"
                 hover.tooltips = [
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}%"),
                 ]
             elif self.indicador == 'consumo_grs_ave':
-                title = "Consumo alimento ave por " + rec.periodo
+                title = "CONSUMO ALIMENTO AVE POR " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "GRS Consumo Ave"
-                legend1 = "Consumo grs. Real"
-                legend2 = "Consumo grs. Meta"
                 hover.tooltips = [
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
                 ]
             elif self.indicador == 'consumo_grs_ave_acum':
-                title = "Consumo alimento ave acumulado por " + rec.periodo
+                title = "CONSUMO ALIMENTO AVE ACUMULADO POR " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "GRS Consumo Ave Acum"
-                legend1 = "Consumo grs. Real Acum"
-                legend2 = "Consumo grs. Meta Acum"
                 hover.tooltips = [
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
                 ]
             elif self.indicador == 'peso':
-                title = "GRANJA : "+rec.granja_id.name +  "    - INDICADOR: Peso Ave Por " + rec.periodo
+                title = "PESO AVE POR " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "Peso GRS Ave"
-                legend1 = "Peso grs. Real"
-                legend2 = "Peso grs. Meta"
                 hover.tooltips = [
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
                 ]
             elif self.indicador == 'uniformidad':
-                title = "Uniformidad Ave por " + rec.periodo
+                title = "UNIFORMIDAD AVE POR " + rec.periodo.upper() +" > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "Uniformidad Ave"
-                legend1 = "Uniformidad Real"
-                legend2 = "Uniformidad Meta"
                 hover.tooltips = [
                     (rec.periodo + " " + "edad", "@x"),
                     (y_axis_label, "@y{0.0000}"),
@@ -177,7 +165,7 @@ class BiReporteo(models.TransientModel):
             p = figure(
                 tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=550, plot_height=400
+                plot_width=600, plot_height=400
             )
 
             p.tools.append(hover)
@@ -186,6 +174,7 @@ class BiReporteo(models.TransientModel):
             p.circle(x, y1, legend=legend1, fill_color="red", line_color="red", size=6)
             p.line(x, y2, legend=legend2)
             p.circle(x, y2, legend=legend2, fill_color="white", size=8)
+            p.legend.location = "top_left"
 
             script, div = components(p)
             rec.bokeh_chart = '%s%s' % (div, script)
