@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+     <record id="wizard_bi_resumen_parvada_view" model="ir.ui.view">
+            <field name="name">Resumen parvada de Crianza</field>
+            <field name="model">bi.resumen.parvada</field>
+            <field name="arch" type="xml">
+                <form string="Resumen de Parvada">
+                    <header>
+                    </header>
+                    <center><h1 style="background-color:black;color:white;padding:20px 20px 20px 20px;">RESUMEN DE PARVADA</h1></center>
+                    <group>
+                        <group>
+                            <field name="granja_id" required="1"/>
+                            <field name="parvada_id"/>
+                            <field name="periodo_inicio" required="1"/>
+                            <field name="periodo_fin" required="1"/>
+                            <field name="ave_recibida"/>
+                            <field name="ave_enviada"/>
+                            <field name="mortalidad_total"/>
+                        </group>
+                        <group>
+                            <field name="mortalidad_porcen_acum"/>
+                            <field name="mortalidad_porcen_cierre"/>
+                            <field name="kgs_enviados"/>
+                            <field name="kgs_consumidos"/>
+                            <field name="grs_acum_consum_enviados"/>
+                            <field name="grs_acum_consum_servido"/>
+                        </group>
+                    </group>
+                    <group>
+                            <field name="envios_postura_ids" readonly="1" nolabel="1"/>
+                        </group>
+                    <footer>
+                        <!--<button string="Ver Detalle" name="action_view_lines"  type="object" class="oe_highlight"/>-->
+                    </footer>
+                </form>
+
+            </field>
+         </record>
+
+        <record id="informe_action_view" model="ir.actions.act_window">
+            <field name="name">Reporte de Crianza</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bi.resumen.parvada</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_bi_resumen_parvada_view"/>
+            <field name="target">inline</field>
+        </record>
+
+       <menuitem id="menu_informe_parvada" name="Informe Parvada" parent="menu_crianza" action="informe_action_view"/>
+
+    </data>
+</odoo>

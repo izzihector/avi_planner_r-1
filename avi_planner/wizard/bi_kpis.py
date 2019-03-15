@@ -11,9 +11,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class BiKpiMortalidad(models.TransientModel):
-    _name = 'bi.crianza.kpi.mortalidad'
-    _description = 'KPI de mortalidad en crianza'
+class BiKpis(models.TransientModel):
+    _name = 'bi.kpis'
+    _description = 'KPIs de crianza'
 
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
@@ -35,6 +35,87 @@ class BiKpiMortalidad(models.TransientModel):
     uniformidad_real = fields.Float(string="% Uniformiad Ave Real")
     uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
 
+class BiResumenParvada(models.TransientModel):
+    _name = 'bi.resumen.parvada'
+    _description = 'Resumen de la parvada'
+
+    def _get_granja(self):
+        return self.env['bi.granja'].search([], limit=1)
+
+    def _get_parvada(self):
+        return self.env['bi.parvada'].search([], limit=1)
+
+    def _get_envios(self):
+        return self.env['bi.parvada.distribucion'].search([('granja_id','=',self.granja_id.id),('causa_traspaso_id','=',3)], limit=1)
+
+    granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
+    parvada_id = fields.Many2one(comodel_name='bi.parvada', string="# Parvada", default=_get_parvada)
+    periodo_inicio = fields.Date(string="Periodo Inicio")
+    periodo_fin = fields.Date(string="Periodo Fin")
+    ave_recibida = fields.Integer(string="Ave Recibida",compute='_compute_aves_recibidas')
+    ave_enviada = fields.Integer(string="Ave Enviada",compute='_compute_aves_recibidas')
+    mortalidad_total = fields.Integer(string="Mortalidad Total",compute='_compute_aves_recibidas')
+    mortalidad_porcen_acum = fields.Float(string="% Mortalidad Acum",compute='_compute_aves_recibidas')
+    mortalidad_porcen_cierre = fields.Float(string="% Mortalidad al cierre")
+
+    #alimento
+    kgs_enviados = fields.Integer(string="Kgs. Enviados",compute='_compute_aves_recibidas')
+    kgs_consumidos = fields.Float(string="Kgs. Consumidos", compute='_compute_aves_recibidas')
+    grs_acum_consum_enviados = fields.Float(string="Grs. Consumidos Enviados", compute='_compute_aves_recibidas')
+    grs_acum_consum_servido = fields.Float(string="Grs. Consumidos Servidos", compute='_compute_aves_recibidas')
+
+    #envios a posturas
+    envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas",default=_get_envios)
+
+    @api.multi
+    @api.depends('granja_id','parvada_id')
+    def _compute_aves_recibidas(self):
+        for r in self:
+            r.ave_recibida = 0
+            r.mortalidad_total =0
+            r.ave_enviada = 0
+
+            kpis = self.env['bi.wizard.kpi']
+            kpis.unlink()
+            kpis._compute_data()
+
+            #aves recibidas
+            recepciones_objs = self.env['bi.parvada.recepcion'].search([('granja_id', '=', r.granja_id.id),('parvada_id', '=', r.parvada_id.id)])
+            suma_recepciones = 0
+            if recepciones_objs is not None:
+                for e in recepciones_objs:
+                    suma_recepciones += e.poblacion_entrante
+            #ave enviada
+            envios_objs = self.env['bi.parvada.distribucion'].search([('granja_id', '=', r.granja_id.id),('parvada_id', '=', r.parvada_id.id)])
+            suma_envios_postura = 0
+            if envios_objs is not None:
+                for eo in envios_objs:
+                    suma_envios_postura += eo.t_poblacion_traspaso
+
+            suma_mortalidad = 0
+            mortalidad_objs = self.env['bi.parvada.mortalidad'].search(
+                [('granja_id', '=', r.granja_id.id), ('parvada_id', '=', r.parvada_id.id)])
+            if mortalidad_objs is not None:
+                for m in mortalidad_objs:
+                    suma_mortalidad += m.total_mortalidad
+
+            mortalidad_acum_objs = self.env['bi.kpis'].search([('granja', '=', r.granja_id.name), ('semena_edad_ave', '=', 18)], limit=1)
+
+            alimento_entrada_objs = self.env['bi.registro.alimento'].search([('granja_id', '=', r.granja_id.id), ('parvada_id', '=',r.parvada_id.id)])
+            suma_alimento_entrada = 0
+            suma_alimento_consumo = 0.0
+            if alimento_entrada_objs is not None:
+                for a in alimento_entrada_objs:
+                    suma_alimento_entrada += a.kgs_entrada
+                    suma_alimento_consumo += a.consumo
+
+            r.ave_recibida = suma_recepciones
+            r.mortalidad_total = suma_mortalidad
+            r.ave_enviada = suma_envios_postura
+            r.mortalidad_porcen_acum =mortalidad_acum_objs.mortalidad_porcen_acum
+            r.kgs_enviados = suma_alimento_entrada
+            r.kgs_consumidos = suma_alimento_consumo
+
 
 class BiReporteo(models.TransientModel):
     _name = 'bi.wizard.kpi'
@@ -49,7 +130,7 @@ class BiReporteo(models.TransientModel):
             x = []
             y1 = []
             y2 = []
-            mortalidad = rec.env['bi.crianza.kpi.mortalidad'].search([])
+            mortalidad = rec.env['bi.kpis'].search([])
             if rec.periodo == 'semana': ############################################## by week
                 if self.indicador == 'mortalidad_porcentaje':
                     for m in mortalidad:
@@ -208,14 +289,14 @@ class BiReporteo(models.TransientModel):
     @api.multi
     def action_view_lines(self):
         self.bokeh_chart = "";
-        self.env['bi.crianza.kpi.mortalidad'].search([]).unlink()
+        self.env['bi.kpis'].search([]).unlink()
         self.ensure_one()
         self._compute_data()
         self._compute_bokeh_chart()
         return {
             'view_type': 'form',
             'view_mode': 'tree,form,graph',
-            'res_model': 'bi.crianza.kpi.mortalidad',
+            'res_model': 'bi.kpis',
             'type': 'ir.actions.act_window',
             'domain': "[]",
             'target': 'new',
@@ -224,14 +305,14 @@ class BiReporteo(models.TransientModel):
     @api.multi
     def action_view_graph(self):
         self.bokeh_chart = "";
-        self.env['bi.crianza.kpi.mortalidad'].search([]).unlink()
+        self.env['bi.kpis'].search([]).unlink()
         self.ensure_one()
         self._compute_data()
         self._compute_bokeh_chart()
         """ return {
             'view_type': 'form',
             'view_mode': 'tree,form,graph',
-            'res_model': 'bi.crianza.kpi.mortalidad',
+            'res_model': 'bi.kpis',
             'type': 'ir.actions.client',
             'domain': "[]",
             'tag': 'new',
@@ -568,7 +649,7 @@ $BODY$
         if self.periodo == 'semana':
             if self.indicador == 'mortalidad_porcentaje':
                 if self.filtros == 'granja_caseta':
-                    query =""" INSERT INTO bi_crianza_kpi_mortalidad(
+                    query =""" INSERT INTO bi_kpis(
                                granja,
                                caseta,
                                semena_edad_ave,
@@ -579,7 +660,7 @@ $BODY$
                                GROUP BY GRANJA,CASETA,semana_edad_ave,META_PORCENTAJE_MORTALIDAD ORDER BY SEMANA_EDAD_AVE ASC
                            """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """ INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """ INSERT INTO  bi_kpis(
                                         granja,
                                         semena_edad_ave,
                                         mortalidad_porcen,
@@ -590,7 +671,7 @@ $BODY$
                                     """
             elif self.indicador == 'mortalidad_porcentaje_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO  bi_kpis(
                                semena_edad_ave,
                                granja,
                                caseta,
@@ -602,7 +683,7 @@ $BODY$
                                ORDER BY SEMANA_EDAD_AVE ASC
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO  bi_kpis(
                                         semena_edad_ave,
                                         granja,
                                         mortalidad_porcen_acum,
@@ -614,7 +695,7 @@ $BODY$
                             """
             elif self.indicador == 'consumo_grs_ave':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO  bi_kpis(
                                         semena_edad_ave,
                                         granja,
                                         caseta,
@@ -626,7 +707,7 @@ $BODY$
                                         order by semana_edad_ave asc
                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO  bi_kpis(
                                        semena_edad_ave,
                                        granja,
                                        consumo_alimento_grs_ave,
@@ -638,7 +719,7 @@ $BODY$
                                     """
             elif self.indicador == 'consumo_grs_ave_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO  bi_kpis(
                                         semena_edad_ave,
                                         granja,
                                         caseta,
@@ -650,7 +731,7 @@ $BODY$
                                        order by semana_edad_ave asc
                                                           """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO bi_kpis(
                                        semena_edad_ave,
                                        granja,
                                        consumo_alimento_grs_ave_acum,
@@ -663,7 +744,7 @@ $BODY$
                                     """
             elif self.indicador == 'peso':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO  bi_kpis(
                                                       semena_edad_ave,
                                                       granja,
                                                       caseta,
@@ -674,7 +755,7 @@ $BODY$
                                                       GROUP BY GRANJA,CASETA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO  bi_kpis(
                                                       semena_edad_ave,
                                                       granja,
                                                       peso_real,
@@ -685,7 +766,7 @@ $BODY$
                                     """
             elif self.indicador == 'uniformidad':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO  bi_kpis(
                                                        semena_edad_ave,
                                                        granja,
                                                        caseta,
@@ -698,7 +779,7 @@ $BODY$
                                                       GROUP BY GRANJA,CASETA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO  bi_kpis(
                                                       semena_edad_ave,
                                                       granja,
                                                       uniformidad_real,
@@ -711,7 +792,7 @@ $BODY$
         elif self.periodo == 'dia': ############################## by day
             if self.indicador == 'mortalidad_porcentaje':
                 if self.filtros == 'granja_caseta':
-                    query = """ INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """ INSERT INTO  bi_kpis(
                                              dias_edad_ave,
                                             semena_edad_ave,
                                             granja,
@@ -727,7 +808,7 @@ $BODY$
                                             from balanza_aves(%s)
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """ INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """ INSERT INTO  bi_kpis(
                                                                  dias_edad_ave,
                                                                 semena_edad_ave,
                                                                 granja,
@@ -742,7 +823,7 @@ $BODY$
                                                 """
             elif self.indicador == 'mortalidad_porcentaje_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO bi_kpis(
                                dias_edad_ave,
                                semena_edad_ave,
                                granja,
@@ -753,7 +834,7 @@ $BODY$
                                from balanza_aves(%s)
                                """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO bi_kpis(
                                                                            dias_edad_ave,
                                                                            semena_edad_ave,
                                                                            granja,
@@ -764,7 +845,7 @@ $BODY$
                                                                               """
             elif self.indicador == 'consumo_grs_ave':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO bi_kpis(
                                                                       dias_edad_ave,
                                                                       semena_edad_ave,
                                                                       granja,
@@ -775,7 +856,7 @@ $BODY$
                                                                       from balanza_aves(%s)
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO bi_kpis(
                                                                                           dias_edad_ave,
                                                                                           semena_edad_ave,
                                                                                           granja,
@@ -786,7 +867,7 @@ $BODY$
                                                 """
             elif self.indicador == 'consumo_grs_ave_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query = """INSERT INTO bi_kpis(
                                                                     dias_edad_ave,
                                                                     semena_edad_ave,
                                                                     granja,
@@ -797,7 +878,7 @@ $BODY$
                                                                     from balanza_aves(%s)
                                                 """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_crianza_kpi_mortalidad(
+                    query_parvada = """INSERT INTO bi_kpis(
                                                                     dias_edad_ave,
                                                                     semena_edad_ave,
                                                                     granja,

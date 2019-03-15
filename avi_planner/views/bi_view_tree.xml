@@ -153,11 +153,14 @@
             <field name="model">bi.parvada.distribucion</field>
             <field name="arch" type="xml">
                 <tree string="Traspaso">
+                    <field name="granja_destino_id" string="Destino"/>
                     <field name="name" string="Referencia"/>
-                    <!--<field name="granja_seccion_caseta_origen_rel_id" string="Origen" />-->
-                    <field name="t_poblacion_traspaso" string="Cantidad Traspaso" />
-                    <!-- <field name="granja_seccion_caseta_destino_rel_id" string="Destino"/>-->
                     <field name="fecha_traspaso" string="Fecha de traspaso"/>
+                    <field name="granja_id" string="Origen" />
+                    <field name="parvada_id" string="Parvada"/>
+                    <field name="t_poblacion_traspaso" string="Cantidad Traspaso" />
+                    <field name="reales" string="Cantidad Recepcionada"/>
+                    <field name="mortalidad_traspaso" string="Mortalidad al Traspaso"/>
                     <field name="causa_traspaso_id"/>
                     <field name="state"/>
                 </tree>
@@ -393,9 +396,9 @@
         </record>
 
 
-            <record model="ir.ui.view" id="mortalidad_report_view">
-                <field name="name">bi.crianza.kpi.mortalidad</field>
-                <field name="model">bi.crianza.kpi.mortalidad</field>
+            <record model="ir.ui.view" id="kpis_report_view">
+                <field name="name">bi.kpis</field>
+                <field name="model">bi.kpis</field>
                 <field name="type">tree</field>
                 <field name="view_mode">tree,form,graph,pivot,kanban</field>
                 <field name="arch" type="xml">
