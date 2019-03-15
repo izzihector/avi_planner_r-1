@@ -21,11 +21,11 @@ class BiParvadaDistribucion(models.Model):
     name = fields.Char('Nombre', readonly=True)
     fecha_traspaso = fields.Date(default=fields.Date.context_today, string="Fecha traspaso")
     granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja Origen")
-    caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
+    caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta Origen")
     parvada_id = fields.Many2one(related='caseta_id.parvada_id',  string="Parvada", store=True, required=True)
     t_poblacion_traspaso = fields.Integer(string='Cantidad Traspaso')
     granja_destino_id = fields.Many2one(comodel_name='bi.granja', string="Granja Destino",required=True,default=None)
-    caseta_destino_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
+    caseta_destino_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta Destino")
 
     causa_traspaso_id = fields.Many2one(comodel_name="bi.causa.traspaso", string="Causa del Traspaso", default=_get_causa_traspaso, required=True)
     state = fields.Selection([('draft','Borrador'),
