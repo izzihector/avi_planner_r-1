@@ -8,7 +8,9 @@
                 <form string="Resumen de Parvada">
                     <header>
                     </header>
-                    <center><h1 style="background-color:black;color:white;padding:20px 20px 20px 20px;">RESUMEN DE PARVADA</h1></center>
+                     <div style="background-color:#DFA941;color:white;padding:10px 10px 10px 10px;border-radius:10px;" align="middle">
+                        <h1>RESUMEN DE PARVADA</h1>
+                    </div>
                     <group>
                         <group>
                             <field name="granja_id" required="1"/>
@@ -20,6 +22,7 @@
                             <field name="mortalidad_total"/>
                         </group>
                         <group>
+                            <field name="diff_aves"/>
                             <field name="mortalidad_porcen_acum"/>
                             <field name="mortalidad_porcen_cierre"/>
                             <field name="kgs_enviados"/>
@@ -29,7 +32,8 @@
                         </group>
                     </group>
                     <group>
-                            <field name="envios_postura_ids" readonly="1" nolabel="1"/>
+                        <h2>Envios a posturas</h2>
+                            <field name="envios_postura_ids" nolabel="1"/>
                         </group>
                     <footer>
                         <!--<button string="Ver Detalle" name="action_view_lines"  type="object" class="oe_highlight"/>-->

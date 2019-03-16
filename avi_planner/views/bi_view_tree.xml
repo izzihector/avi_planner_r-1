@@ -54,23 +54,6 @@
          	</field>
          </record>
 
-         <!-- tree view granja seccion casetas
-         <record id="granja_seccion_caseta_tree_view" model="ir.ui.view">
-            <field name="name">bi.granja.seccion.caseta.tree</field>
-            <field name="model">bi.granja.seccion.caseta</field>
-            <field name="arch" type="xml">
-                <tree string="Granja Seccion Caseta">
-                    <field name="granja_id" string="Granja"/>
-                    <field name="seccion_id" string="Seccion"/>
-                    <field name="caseta_id" string="Caseta"/>                    
-                    <field name="capacidad_instalada" string="Capacidad instalada"/>
-                    <field name="capacidad_extra_p" string="Extra %"/>
-                    <field name="capacidad_extra_u" string="Extra Unid"/>
-                    <field name="capacidad_maxima" string="Capacidad maxima"/>
-                </tree>
-            </field>
-         </record>-->
-
          <!-- tree view razas -->
         <record id="razas_tree_view" model="ir.ui.view">
             <field name="name">bi.raza.tree</field>
@@ -141,7 +124,7 @@
                     <field name="parvada_id"/>
                     <field name="granja_id"/>
                     <field name="caseta_id"/>
-                    <field name="poblacion_entrante"/>
+                    <field name="poblacion_entrante" sum="entrante"/>
                     <field name="state" string="Estado"/>
                 </tree>
             </field>
@@ -158,9 +141,9 @@
                     <field name="fecha_traspaso" string="Fecha de traspaso"/>
                     <field name="granja_id" string="Origen" />
                     <field name="parvada_id" string="Parvada"/>
-                    <field name="t_poblacion_traspaso" string="Cantidad Traspaso" />
-                    <field name="reales" string="Cantidad Recepcionada"/>
-                    <field name="mortalidad_traspaso" string="Mortalidad al Traspaso"/>
+                    <field name="t_poblacion_traspaso" string="Cantidad Traspaso" sum="Traspaso"/>
+                    <field name="reales" string="Cantidad Recepcionada" sum="Reales"/>
+                    <field name="mortalidad_traspaso" string="Mortalidad al Traspaso" sum="Mortalidad"/>
                     <field name="causa_traspaso_id"/>
                     <field name="state"/>
                 </tree>
@@ -185,11 +168,11 @@
                     <field name="granja_id" />
                     <field name="caseta_id"/>
                     <field name="parvada_id"/>
-                    <field name="causa_seleccion" />
-                    <field name="causa_natural" />
-                    <field name="causa_paralitica"/>
-                    <field name="causa_sacrificada"/>
-                    <field name="total_mortalidad"/>
+                    <field name="causa_seleccion" sum="Seleccion"/>
+                    <field name="causa_natural" sum="Natural"/>
+                    <field name="causa_paralitica" sum="Paralitica"/>
+                    <field name="causa_sacrificada" sum="Sacrificada"/>
+                    <field name="total_mortalidad" sum="Total"/>
                     <field name="fecha" string="Fecha" />
                     <field name="state"/>
                 </tree>
@@ -203,11 +186,16 @@
             <field name="arch" type="xml">
                 <tree string="Mortalidad Postura">
                     <field name="name" string="Referencia"/>
-                    <!--<field name="granja_seccion_caseta_origen_rel_id" string="Granja/Caseta"/>-->
-                    <field name="causa_seleccion" />
-                    <field name="causa_natural" />
-                    <field name="causa_paralitica"/>
+                    <field name="granja_id" />
+                    <field name="caseta_id"/>
+                    <field name="parvada_id"/>
+                    <field name="causa_natural" sum="Natural"/>
+                    <field name="causa_prolapsada" sum="Prolapsada"/>
+                    <field name="causa_sacrificada" sum="Sacrificada"/>
+                    <field name="ventas_vivas" sum="Ventas"/>
+                    <field name="total_mortalidad" sum="Total"/>
                     <field name="fecha" string="Fecha" />
+                    <field name="state"/>
                 </tree>
             </field>
          </record>
@@ -226,9 +214,9 @@
                     <field name="ticket_entrante"/>
                     <field name="fleje"/>
                     <field name="alimento_id"/>
-                    <field name="kgs_entrada"/>
-                    <field name="consumo"/>
-                    <field name="kgs_traspaso"/>
+                    <field name="kgs_entrada" sum="Entrada"/>
+                    <field name="consumo" sum="Consumo"/>
+                    <field name="kgs_traspaso" sum="Traspaso"/>
                     <field name="granja_destino_id"/>
                     <field name="caseta_destino_id"/>
                     <field name="tipo_evento_id"/>
@@ -250,9 +238,9 @@
                     <field name="ticket_entrante"/>
                     <field name="fleje"/>
                     <field name="alimento_id"/>
-                    <field name="kgs_entrada"/>
-                    <field name="consumo"/>
-                    <field name="kgs_traspaso"/>
+                    <field name="kgs_entrada" sum="Entrada"/>
+                    <field name="consumo" sum="Consumo"/>
+                    <field name="kgs_traspaso" sum="Traspaso"/>
                     <field name="granja_destino_id"/>
                     <field name="caseta_destino_id"/>
                     <field name="tipo_evento_id"/>
@@ -270,9 +258,9 @@
                    <field name="fecha"/>
                    <field name="granja_id"/>
                    <field name="empaque_id"/>
-                   <field name="entrada"/>
-                   <field name="merma_fabricacion"/>
-                   <field name="merma_operacion"/>
+                   <field name="entrada" sum="Entrada"/>
+                   <field name="merma_fabricacion" sum="Fabricacion"/>
+                   <field name="merma_operacion" sum="Operacion"/>
                 </tree>
             </field>
          </record>
@@ -287,7 +275,7 @@
                    <field name="fecha"/>
                    <field name="granja_origen__id"/>
                    <field name="empaque_id"/>
-                   <field name="cantidad_traspaso"/>
+                   <field name="cantidad_traspaso" sum="Traspaso"/>
                    <field name="granja_destino__id"/>
                 </tree>
             </field>
@@ -303,15 +291,15 @@
                    <field name="fecha"/>
                    <field name="granja_id"/>
                    <field name="marca_id"/>
-                   <field name="caja_360_chico"/>
-                   <field name="caja_360"/>
-                   <field name="sobra_pz_360"/>
-                   <field name="caja_180"/>
-                   <field name="pza_sucio"/>
-                   <field name="pza_cascado"/>
-                   <field name="pza_deforme"/>
-                   <field name="caja_roto"/>
-                   <field name="bolsa_desyemado"/>
+                   <field name="caja_360_chico" sum="Caja 360 Chico"/>
+                   <field name="caja_360" sum="Caja 360 "/>
+                   <field name="sobra_pz_360" sum="Sobra Pz 360"/>
+                   <field name="caja_180" sum="Caja 180"/>
+                   <field name="pza_sucio"  sum="Sucio"/>
+                   <field name="pza_cascado"  sum="Cascado"/>
+                   <field name="pza_deforme"  sum="Deforme"/>
+                   <field name="caja_roto"  sum="Roto"/>
+                   <field name="bolsa_desyemado"  sum="Desyemado"/>
                 </tree>
             </field>
          </record>
@@ -407,7 +395,7 @@
                         <field name="semena_edad_ave"/>
                         <field name="granja"/>
                         <field name="caseta"/>
-                        <field name="mortalidad_porcen"/>
+                        <field name="mortalidad_porcen" />
                         <field name="mortalidad_porcen_meta"/>
                         <field name="mortalidad_porcen_acum"/>
                         <field name="mortalidad_porcen_acum_meta"/>

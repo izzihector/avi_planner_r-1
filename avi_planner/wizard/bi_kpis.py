@@ -45,8 +45,6 @@ class BiResumenParvada(models.TransientModel):
     def _get_parvada(self):
         return self.env['bi.parvada'].search([], limit=1)
 
-    def _get_envios(self):
-        return self.env['bi.parvada.distribucion'].search([('granja_id','=',self.granja_id.id),('causa_traspaso_id','=',3)], limit=1)
 
     granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
     parvada_id = fields.Many2one(comodel_name='bi.parvada', string="# Parvada", default=_get_parvada)
@@ -54,6 +52,7 @@ class BiResumenParvada(models.TransientModel):
     periodo_fin = fields.Date(string="Periodo Fin")
     ave_recibida = fields.Integer(string="Ave Recibida",compute='_compute_aves_recibidas')
     ave_enviada = fields.Integer(string="Ave Enviada",compute='_compute_aves_recibidas')
+    diff_aves = fields.Integer(string="Diferencia de Aves",compute='_compute_aves_recibidas')
     mortalidad_total = fields.Integer(string="Mortalidad Total",compute='_compute_aves_recibidas')
     mortalidad_porcen_acum = fields.Float(string="% Mortalidad Acum",compute='_compute_aves_recibidas')
     mortalidad_porcen_cierre = fields.Float(string="% Mortalidad al cierre")
@@ -65,7 +64,7 @@ class BiResumenParvada(models.TransientModel):
     grs_acum_consum_servido = fields.Float(string="Grs. Consumidos Servidos", compute='_compute_aves_recibidas')
 
     #envios a posturas
-    envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas",default=_get_envios)
+    envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas",compute='_compute_aves_recibidas')
 
     @api.multi
     @api.depends('granja_id','parvada_id')
@@ -74,10 +73,8 @@ class BiResumenParvada(models.TransientModel):
             r.ave_recibida = 0
             r.mortalidad_total =0
             r.ave_enviada = 0
-
-            kpis = self.env['bi.wizard.kpi']
-            kpis.unlink()
-            kpis._compute_data()
+            r.envios_postura_ids = r.env['bi.parvada.distribucion'].search([('granja_id','=',self.granja_id.id),('causa_traspaso_id','=',3)])
+            r.mortalidad_porcen_acum = 0
 
             #aves recibidas
             recepciones_objs = self.env['bi.parvada.recepcion'].search([('granja_id', '=', r.granja_id.id),('parvada_id', '=', r.parvada_id.id)])
@@ -86,7 +83,7 @@ class BiResumenParvada(models.TransientModel):
                 for e in recepciones_objs:
                     suma_recepciones += e.poblacion_entrante
             #ave enviada
-            envios_objs = self.env['bi.parvada.distribucion'].search([('granja_id', '=', r.granja_id.id),('parvada_id', '=', r.parvada_id.id)])
+            envios_objs = self.env['bi.parvada.distribucion'].search([('granja_id', '=', r.granja_id.id),('parvada_id', '=', r.parvada_id.id),('causa_traspaso_id','=',3)])
             suma_envios_postura = 0
             if envios_objs is not None:
                 for eo in envios_objs:
@@ -99,7 +96,7 @@ class BiResumenParvada(models.TransientModel):
                 for m in mortalidad_objs:
                     suma_mortalidad += m.total_mortalidad
 
-            mortalidad_acum_objs = self.env['bi.kpis'].search([('granja', '=', r.granja_id.name), ('semena_edad_ave', '=', 18)], limit=1)
+
 
             alimento_entrada_objs = self.env['bi.registro.alimento'].search([('granja_id', '=', r.granja_id.id), ('parvada_id', '=',r.parvada_id.id)])
             suma_alimento_entrada = 0
@@ -109,12 +106,18 @@ class BiResumenParvada(models.TransientModel):
                     suma_alimento_entrada += a.kgs_entrada
                     suma_alimento_consumo += a.consumo
 
+            kpis = r.env['bi.wizard.kpi']
+            kpis._sql_report_object()
+            kpis._sql_insert_mortalidad()
+            mortalidad_acum_objs = r.env['bi.kpis'].search([('granja','=',r.granja_id.name),('semena_edad_ave','=',18)])
+
             r.ave_recibida = suma_recepciones
             r.mortalidad_total = suma_mortalidad
             r.ave_enviada = suma_envios_postura
-            r.mortalidad_porcen_acum =mortalidad_acum_objs.mortalidad_porcen_acum
+            r.mortalidad_porcen_acum = mortalidad_acum_objs.mortalidad_porcen_acum
             r.kgs_enviados = suma_alimento_entrada
             r.kgs_consumidos = suma_alimento_consumo
+            r.diff_aves = suma_recepciones - suma_envios_postura - suma_mortalidad
 
 
 class BiReporteo(models.TransientModel):
@@ -323,6 +326,7 @@ class BiReporteo(models.TransientModel):
         self._sql_insert_mortalidad()
 
     def _sql_report_object(self):
+
         if self.filtros == 'granja_caseta':
             query_funcion = """ 
 CREATE OR REPLACE FUNCTION public.balanza_aves(

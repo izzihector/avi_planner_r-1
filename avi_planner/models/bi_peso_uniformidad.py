@@ -15,9 +15,10 @@ class BiPesoUniformidad(models.Model):
         return self.env['bi.granja'].search([], limit=1)
 
     name = fields.Char('Nombre', readonly=True)
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
-    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True)
-    granja_id = fields.Many2one(related='caseta_id.granja_id', default=_get_granja, string="Granja",store=True)
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True, required=True)
+    tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name', readonly=True, string="Tipo Granja")
     lote = fields.Many2one(comodel_name='bi.parvada.recepcion', string="Lote")
     peso = fields.Float(string="Peso Ave")
     peso_huevo = fields.Float(string="Peso Huevo")
