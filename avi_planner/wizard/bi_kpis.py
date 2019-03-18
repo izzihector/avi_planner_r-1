@@ -15,7 +15,7 @@ class BiKpis(models.TransientModel):
 
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
-    fecha = fields.Date(string="Fechas")
+    
     dias_edad_ave = fields.Integer(string="Dias edad ave")
     semena_edad_ave = fields.Integer(string="Semana Edad Ave")
     granja = fields.Char(string="Granja")
@@ -283,14 +283,6 @@ class BiResumenParvada(models.TransientModel):
         params = [int(self.granja_id.id), int(self.parvada_id.id)]
         self.env.cr.execute(query_mortalidad, tuple(params))
 
-    def _sql_fechas(self):
-        query_fechas = """INSERT INTO  bi_kpis(fecha)                                            
-                                                    select fecha
-                                                    from balanza_aves_parvada(%s,%s)
-                                        """
-
-        params = [int(self.granja_id.id), int(self.parvada_id.id)]
-        self.env.cr.execute(query_fechas, tuple(params))
 
 class BiReporteo(models.TransientModel):
     _name = 'bi.wizard.kpi'
