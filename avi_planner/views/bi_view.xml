@@ -464,25 +464,25 @@
         <menuitem name="AVI Planner" id="menu_root" sequence="115" web_icon="avi_planner,static/img/icon.png"/>
         <!-- menu crianza -->
         <menuitem name="Crianza" id="menu_crianza" parent="menu_root" sequence="117"/>
-        <menuitem id="menu_nueva_solicitud" name="Solicitud de Ave" parent="menu_crianza" action="parvada_crianza_action_view" sequence="1"/>
-        <menuitem id="menu_recepcion_crianza" name="Recepcionar Ave" parent="menu_crianza" action="recepcion_crianza_action_view" sequence="2"/>
-        <menuitem id="menu_mortalidad_aves_crianza" name="Aves" parent="menu_crianza" action="mortalidad_action_view" sequence="3"/>
-        <menuitem id="menu_peso_uniformidad" name="Peso y Uniformidad" parent="menu_crianza" action="peso_uniformidad_crianza_action_view" sequence="4"/>
-        <menuitem id="menu_alimento" name="Alimento" parent="menu_crianza" action="alimento_action_view" sequence="5"/>
-        <menuitem id="menu_distribucion_aves" name="Traspaso de Ave" parent="menu_crianza" action="distribucion_action_view" sequence="6"/>
-        <menuitem id="menu_tolvas_crianza" name="Tolvas" parent="menu_crianza" action="tolva_detalle_action_view"/>
+        <menuitem id="menu_nueva_solicitud" name="Parvadas Crianza" parent="menu_crianza" action="parvada_crianza_action_view" sequence="1"/>
+        <menuitem id="menu_recepcion_crianza" name="Recepcionar Ave Crianza" parent="menu_crianza" action="recepcion_crianza_action_view" sequence="2"/>
+        <menuitem id="menu_mortalidad_aves_crianza" name="Aves Crianza" parent="menu_crianza" action="mortalidad_action_view" sequence="3"/>
+        <menuitem id="menu_peso_uniformidad" name="Peso y Uniformidad Crianza" parent="menu_crianza" action="peso_uniformidad_crianza_action_view" sequence="4"/>
+        <menuitem id="menu_alimento" name="Alimento Crianza" parent="menu_crianza" action="alimento_action_view" sequence="5"/>
+        <menuitem id="menu_distribucion_aves" name="Traspaso de Ave Crianza" parent="menu_crianza" action="distribucion_action_view" sequence="6"/>
+        <menuitem id="menu_tolvas_crianza" name="Tolvas Crianza" parent="menu_crianza" action="tolva_detalle_action_view"/>
 
 
         <!--menu postura-->
         <menuitem name="Postura" id="menu_postura" parent="menu_root" sequence="118"/>
-        <menuitem id="menu_nueva_parvada" name="Nueva Parvada"  parent="menu_postura" action="action_parvada_postura" sequence="1"/>
-        <menuitem id="menu_distribucion_postura" name="Traspaso Ave" parent="menu_postura" action="action_recepcion_postura" sequence="2"/>
+        <menuitem id="menu_nueva_parvada" name="Parvadas Postura"  parent="menu_postura" action="action_parvada_postura" sequence="1"/>
+        <menuitem id="menu_distribucion_postura" name="Traspaso Ave Posturas" parent="menu_postura" action="action_recepcion_postura" sequence="2"/>
         <menuitem id="menu_registro_empaque" name="Registro Empaque"  parent="menu_postura" action="registro_empaque_action_view" sequence="3"/>
         <menuitem id="menu_traspaso_empaque" name="Traspaso Empaque"  parent="menu_postura" action="traspaso_empaque_action_view" sequence="4"/>
-        <menuitem id="menu_postura_alimento" name="Registro Alimento" parent="menu_postura" action="alimento_postura_action_view"  sequence="5"/>
-        <menuitem id="menu_peso_huevo" name="Peso huevo,ave y uniformidad" parent="menu_postura" action="peso_uniformidad_postura_action_view" sequence="6"/>
+        <menuitem id="menu_postura_alimento" name="Alimento Postura" parent="menu_postura" action="alimento_postura_action_view"  sequence="5"/>
+        <menuitem id="menu_peso_huevo" name="Peso huevo,ave y uniformidad Postura" parent="menu_postura" action="peso_uniformidad_postura_action_view" sequence="6"/>
         <!--<menuitem id="menu_recepcion" name="Pendiente de Recepcionar" parent="menu_postura" action="recepcion_action_view"/>-->
-        <menuitem id="menu_mortalidad_aves_postura" name="Aves" parent="menu_postura" action="mortalidad_postura_action_view" sequence="7"/>
+        <menuitem id="menu_mortalidad_aves_postura" name="Aves Postura" parent="menu_postura" action="mortalidad_postura_action_view" sequence="7"/>
         <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view" sequence="8"/>
         <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="9"/>
 
