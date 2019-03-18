@@ -15,8 +15,6 @@
                         <group>
                             <field name="granja_id" required="1"/>
                             <field name="parvada_id"/>
-                            <field name="periodo_inicio" required="1"/>
-                            <field name="periodo_fin" required="1"/>
                             <field name="ave_recibida"/>
                             <field name="ave_enviada"/>
                             <field name="mortalidad_total"/>
@@ -24,7 +22,6 @@
                         <group>
                             <field name="diff_aves"/>
                             <field name="mortalidad_porcen_acum"/>
-                            <field name="mortalidad_porcen_cierre"/>
                             <field name="kgs_enviados"/>
                             <field name="kgs_consumidos"/>
                             <field name="grs_acum_consum_enviados"/>

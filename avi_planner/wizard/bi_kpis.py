@@ -15,7 +15,7 @@ class BiKpis(models.TransientModel):
 
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
-
+    fecha = fields.Date(string="Fechas")
     dias_edad_ave = fields.Integer(string="Dias edad ave")
     semena_edad_ave = fields.Integer(string="Semana Edad Ave")
     granja = fields.Char(string="Granja")
@@ -105,16 +105,17 @@ class BiResumenParvada(models.TransientModel):
             self._sql_mortalidad_acum()
 
             mortalidad_acum_objs = self.env['bi.kpis'].search([('granja','=',self.granja_id.name),('semena_edad_ave','=',18)])
-            print("hasta aqui ............................................")
-            if mortalidad_acum_objs is not None:
-                self.mortalidad_porcen_acum = mortalidad_acum_objs.mortalidad_porcen_acum
-
+            self.mortalidad_porcen_acum = mortalidad_acum_objs.mortalidad_porcen_acum
             self.ave_recibida = suma_recepciones
             self.mortalidad_total = suma_mortalidad
             self.ave_enviada = suma_envios_postura
             self.kgs_enviados = suma_alimento_entrada
             self.kgs_consumidos = suma_alimento_consumo
             self.diff_aves = suma_recepciones - suma_envios_postura - suma_mortalidad
+            if suma_alimento_entrada <> 0 and suma_recepciones <>0:
+                self.grs_acum_consum_enviados = float((float(suma_alimento_entrada)/float(suma_recepciones)) *1000)
+            if suma_alimento_consumo <> 0 and suma_recepciones <>0:
+                self.grs_acum_consum_servido = float((float(suma_alimento_consumo) / float(suma_recepciones)) * 1000)
 
     def _sql_report_object_informe(self):
         query_parvada_funcion = """
@@ -282,6 +283,14 @@ class BiResumenParvada(models.TransientModel):
         params = [int(self.granja_id.id), int(self.parvada_id.id)]
         self.env.cr.execute(query_mortalidad, tuple(params))
 
+    def _sql_fechas(self):
+        query_fechas = """INSERT INTO  bi_kpis(fecha)                                            
+                                                    select fecha
+                                                    from balanza_aves_parvada(%s,%s)
+                                        """
+
+        params = [int(self.granja_id.id), int(self.parvada_id.id)]
+        self.env.cr.execute(query_fechas, tuple(params))
 
 class BiReporteo(models.TransientModel):
     _name = 'bi.wizard.kpi'
