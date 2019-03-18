@@ -15,7 +15,7 @@ class BiKpis(models.TransientModel):
 
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
-    
+
     dias_edad_ave = fields.Integer(string="Dias edad ave")
     semena_edad_ave = fields.Integer(string="Semana Edad Ave")
     granja = fields.Char(string="Granja")
@@ -37,40 +37,30 @@ class BiResumenParvada(models.TransientModel):
     _name = 'bi.resumen.parvada'
     _description = 'Resumen de la parvada'
 
-    def _get_granja(self):
-        return self.env['bi.granja'].search([], limit=1)
-
-    def _get_parvada(self):
-        return self.env['bi.parvada'].search([], limit=1)
-
-    granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
-    parvada_id = fields.Many2one(comodel_name='bi.parvada', string="# Parvada", default=_get_parvada)
+    granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja")
+    parvada_id = fields.Many2one(comodel_name='bi.parvada', string="# Parvada")
     periodo_inicio = fields.Date(string="Periodo Inicio")
     periodo_fin = fields.Date(string="Periodo Fin")
-    ave_recibida = fields.Integer(string="Ave Recibida",compute='_compute_informe')
-    ave_enviada = fields.Integer(string="Ave Enviada",compute='_compute_informe')
-    diff_aves = fields.Integer(string="Diferencia de Aves",compute='_compute_informe')
-    mortalidad_total = fields.Integer(string="Mortalidad Total",compute='_compute_informe')
-    mortalidad_porcen_acum = fields.Float(string="% Mortalidad Acum",compute='_compute_informe')
+    ave_recibida = fields.Integer(string="Ave Recibida")
+    ave_enviada = fields.Integer(string="Ave Enviada")
+    diff_aves = fields.Integer(string="Diferencia de Aves")
+    mortalidad_total = fields.Integer(string="Mortalidad Total")
+    mortalidad_porcen_acum = fields.Float(string="% Mortalidad Acum")
     mortalidad_porcen_cierre = fields.Float(string="% Mortalidad al cierre")
 
     #alimento
-    kgs_enviados = fields.Integer(string="Kgs. Enviados",compute='_compute_informe')
-    kgs_consumidos = fields.Float(string="Kgs. Consumidos", compute='_compute_informe')
-    grs_acum_consum_enviados = fields.Float(string="Grs. Consumidos Enviados", compute='_compute_informe')
-    grs_acum_consum_servido = fields.Float(string="Grs. Consumidos Servidos", compute='_compute_informe')
+    kgs_enviados = fields.Integer(string="Kgs. Enviados")
+    kgs_consumidos = fields.Float(string="Kgs. Consumidos")
+    grs_acum_consum_enviados = fields.Float(string="Grs. Consumidos Enviados",)
+    grs_acum_consum_servido = fields.Float(string="Grs. Consumidos Servidos")
 
     #envios a posturas
-    envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas",compute='_compute_informe')
+    envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas")
 
-
-    @api.depends('granja_id','parvada_id')
+    @api.multi
+    @api.onchange('granja_id','parvada_id')
     def _compute_informe(self):
-            self.ave_recibida = 0
-            self.mortalidad_total = 0
-            self.ave_enviada = 0
             self.envios_postura_ids = self.env['bi.parvada.distribucion'].search([('granja_id','=',self.granja_id.id),('causa_traspaso_id','=',3)])
-            self.mortalidad_porcen_acum = 0
 
             #aves recibidas
             recepciones_objs = self.env['bi.parvada.recepcion'].search([('granja_id', '=', self.granja_id.id),('parvada_id', '=', self.parvada_id.id)])
@@ -105,7 +95,8 @@ class BiResumenParvada(models.TransientModel):
             self._sql_mortalidad_acum()
 
             mortalidad_acum_objs = self.env['bi.kpis'].search([('granja','=',self.granja_id.name),('semena_edad_ave','=',18)])
-            self.mortalidad_porcen_acum = mortalidad_acum_objs.mortalidad_porcen_acum
+            if alimento_entrada_objs is not None:
+                self.mortalidad_porcen_acum = mortalidad_acum_objs.mortalidad_porcen_acum
             self.ave_recibida = suma_recepciones
             self.mortalidad_total = suma_mortalidad
             self.ave_enviada = suma_envios_postura
