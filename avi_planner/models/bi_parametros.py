@@ -32,7 +32,7 @@ class BiParametros(models.Model):
     #parametros de crianza
     crianza_edad_dia_inicio = fields.Integer(string="Dia Inicio")
     crianza_edad_dia_fin = fields.Integer(string="Dia Finaliza")
-    crianza_edad_semana = fields.Integer(string="Semana Edad")
+    crianza_edad_semana = fields.Integer(string="Semana Edad Crianza")
     crianza_meta_peso_corporal = fields.Float(string="Peso Corporal Meta")
     crianza_meta_uniformidad = fields.Float(string="Uniformidad")
     crianza_meta_mortalidad = fields.Float(string="Porcenta de Mortalidad Meta")
@@ -42,7 +42,7 @@ class BiParametros(models.Model):
 
 
     #parametros de postura
-    postura_edad_semana = fields.Integer(string="Semana Edad")
+    postura_edad_semana = fields.Integer(string="Semana Edad Postura")
     postura_edad = fields.Integer(string="Postura Edad ave")
     postura_prodAve = fields.Float(string="Postura % Produccion ave")
     postura_viabilidad = fields.Float(string="Postura % Viabilidad")
@@ -50,7 +50,7 @@ class BiParametros(models.Model):
     postura_meta_mortalidad_acum = fields.Float(string="Postura % Mortalidad acumulada")
     postura_meta_sucio = fields.Float(string="Postura % Huevo Sucio")
     postura_meta_cascado = fields.Float(string="Postura % Huevo Cascado")
-    postura_meta_huevo_acumulado_ave = fields.Integer(string="Postura Huevo acumulado por ave")
+    postura_meta_huevo_acumulado_ave = fields.Float(string="Postura Huevo acumulado por ave")
     postura_meta_peso_prom_huevo_gramos = fields.Float(string="Postura Peso promedio de huevo en gramos")
     postura_meta_masa_huevo_dia = fields.Float(string="Postura Masa de huevo al dia")
     postura_meta_masa_huevo_acum_ave = fields.Float(string="Postura Masa de huevo acumulado por ave")

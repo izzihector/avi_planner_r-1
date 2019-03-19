@@ -22,6 +22,7 @@
         'views/bi_view_graph.xml',
         'views/bi_view.xml',
         'wizard/bi_view_report_kpi.xml',
+        'wizard/bi_view_report_kpi_postura.xml',
         'wizard/bi_resumen_parvada.xml',
         'data/data_avi_planner.xml'        
     ],

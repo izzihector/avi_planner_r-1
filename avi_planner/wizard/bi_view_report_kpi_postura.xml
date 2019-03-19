@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+     <record id="wizard_bi_postura_detalle_view" model="ir.ui.view">
+            <field name="name">Reportes de Posturas</field>
+            <field name="model">bi.wizard.kpi.postura</field>
+            <field name="arch" type="xml">
+                <form string="Resumen Por">
+                    <header>
+                    </header>
+                    <div style="background-color:#DFA941;color:white;padding:10px 10px 10px 10px;border-radius:10px;" align="middle">
+                        <image  style="width:70px;height:100px;" src="http://www.clker.com/cliparts/0/G/N/g/O/4/black-egg-hi.png"/>
+                        <image  style="width:90px;height:100px;" src="https://www.freeiconspng.com/uploads/chicken-icon-31.png"/>
+
+                        <h1>BI AVIPLANNER POSTURAS</h1>
+                    </div>
+                    <group>
+                        <group style="width:400px">
+                            <field name="filtros" string="Filtrar a nivel" />
+                            <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+                            <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]" />
+                            <field name="parvada_id"/>
+                            <field name="periodo" required="1"/>
+                            <field name="indicador" string="Indicador" required="1"/>
+                            <button name="action_view_graph_postura" icon = "fa-bar-chart-o" string="Ver Grafica" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
+                            <button name="action_view_lines_postura" icon = "fa-file-o" string="Ver Datos" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
+                        </group>
+                        <group style="width:2px"></group>
+                        <group>
+                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
+                        </group>
+                    </group>
+                    <footer>
+                    </footer>
+                </form>
+
+            </field>
+         </record>
+
+        <record id="report_detalle_postura_action" model="ir.actions.act_window">
+            <field name="name">Reporte de Postura</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bi.wizard.kpi.postura</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_bi_postura_detalle_view"/>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_detalle_postura" name="Graficas Postura" parent="menu_postura" action="report_detalle_postura_action"/>
+
+    </data>
+</odoo>
