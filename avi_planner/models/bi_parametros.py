@@ -42,6 +42,7 @@ class BiParametros(models.Model):
 
 
     #parametros de postura
+    postura_edad_semana = fields.Integer(string="Semana Edad")
     postura_edad = fields.Integer(string="Postura Edad ave")
     postura_prodAve = fields.Float(string="Postura % Produccion ave")
     postura_viabilidad = fields.Float(string="Postura % Viabilidad")
@@ -51,7 +52,7 @@ class BiParametros(models.Model):
     postura_meta_cascado = fields.Float(string="Postura % Huevo Cascado")
     postura_meta_huevo_acumulado_ave = fields.Integer(string="Postura Huevo acumulado por ave")
     postura_meta_peso_prom_huevo_gramos = fields.Float(string="Postura Peso promedio de huevo en gramos")
-    postura_meta_masa_huevo_dia = fields.Float(string="Postura Mas de huevo al dia")
+    postura_meta_masa_huevo_dia = fields.Float(string="Postura Masa de huevo al dia")
     postura_meta_masa_huevo_acum_ave = fields.Float(string="Postura Masa de huevo acumulado por ave")
     postura_meta_cons_alim_ave_dia = fields.Float(string="Postura Consumo de alimento por ave al dia")
     postura_meta_cons_alim_acum_ave_dia = fields.Float(string="Postura Consumo acumulado de alimento por ave al dia")
@@ -60,11 +61,3 @@ class BiParametros(models.Model):
     #TODO: En la base de datos originalmente es tipoAlimento
     alimento_id = fields.Many2one(comodel_name='bi.alimento', string="Alimento", default=_get_alimento, required=True)
     clasificacion_id = fields.Many2one(comodel_name='bi.clasificacion.huevo', string="Clasificacion Huevo", default=_get_clasificaciones)
-
-
-    
-
-
-
-
-    

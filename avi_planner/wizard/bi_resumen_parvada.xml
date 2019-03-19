@@ -15,22 +15,22 @@
                         <group>
                             <field name="granja_id" required="1"/>
                             <field name="parvada_id"/>
-                            <field name="ave_recibida"/>
-                            <field name="ave_enviada"/>
-                            <field name="mortalidad_total"/>
+                            <field name="ave_recibida" readonly="1"/>
+                            <field name="ave_enviada" readonly="1"/>
+                            <field name="mortalidad_total" readonly="1"/>
                         </group>
                         <group>
-                            <field name="diff_aves"/>
-                            <field name="mortalidad_porcen_acum"/>
-                            <field name="kgs_enviados"/>
-                            <field name="kgs_consumidos"/>
-                            <field name="grs_acum_consum_enviados"/>
-                            <field name="grs_acum_consum_servido"/>
+                            <field name="diff_aves" readonly="1"/>
+                            <field name="mortalidad_porcen_acum" readonly="1"/>
+                            <field name="kgs_enviados" readonly="1"/>
+                            <field name="kgs_consumidos" readonly="1"/>
+                            <field name="grs_acum_consum_enviados" readonly="1"/>
+                            <field name="grs_acum_consum_servido" readonly="1"/>
                         </group>
                     </group>
                     <group>
                         <h2>Envios a posturas</h2>
-                            <field name="envios_postura_ids" nolabel="1"/>
+                            <field name="envios_postura_ids" nolabel="1" readonly="1"/>
                         </group>
                     <footer>
                         <!--<button string="Ver Detalle" name="action_view_lines"  type="object" class="oe_highlight"/>-->

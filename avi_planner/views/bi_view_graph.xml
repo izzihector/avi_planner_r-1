@@ -14,5 +14,17 @@
             </field>
          </record>
 
+         <!-- grafica parvadas -->
+         <record id="parvadas_view_graph" model="ir.ui.view">
+            <field name="name">bi.parvada.mortalidad.graph</field>
+            <field name="model">bi.parvada.mortalidad</field>
+            <field name="arch" type="xml">
+                <graph string="Mortalidad">
+                    <field name="parvada_id" type="row"/>
+                    <field name="total_mortalidad" type="measure"/>
+                </graph>
+            </field>
+         </record>
+
 	</data>
 </odoo>

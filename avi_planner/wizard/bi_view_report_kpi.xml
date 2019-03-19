@@ -45,7 +45,7 @@
             <field name="target">inline</field>
         </record>
 
-        <menuitem id="menu_detalle" name="Graficas" parent="menu_crianza" action="report_detalle_action"/>
+        <menuitem id="menu_detalle" name="Graficas Crianza" parent="menu_crianza" action="report_detalle_action"/>
 
     </data>
 </odoo>

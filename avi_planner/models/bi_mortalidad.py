@@ -30,7 +30,7 @@ class BiMortalidad(models.Model):
     causa_sacrificada = fields.Integer(string="Sacrificada") #Causa en Postura y Crianza
     ventas_vivas = fields.Integer(string="Ventas Vivas")
     
-    total_mortalidad = fields.Integer(string="Total", compute="_compute_total_mortalidad")
+    total_mortalidad = fields.Integer(string="Total", compute="_compute_total_mortalidad", store=True)
 
     fecha = fields.Date(default=fields.Date.context_today, string="Fecha")
     # apartado peso
@@ -54,7 +54,7 @@ class BiMortalidad(models.Model):
     @api.depends('causa_seleccion','causa_natural','causa_paralitica','causa_sacrificada')
     def _compute_total_mortalidad(self):
         for r in self:
-            suma_mortalidad = r.causa_seleccion + r.causa_natural + r.causa_paralitica + r.causa_sacrificada
+            suma_mortalidad = r.causa_seleccion + r.causa_natural + r.causa_paralitica + r.causa_sacrificada + r.causa_prolapsada
             r.total_mortalidad = suma_mortalidad
 
     # secuencia de mortalidad

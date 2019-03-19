@@ -115,7 +115,7 @@
                             <group>
                                     <field name="name"/>
                                     <field name="granja_id"/>
-                                    <field name="seccion_id"/>
+                                    <field name="seccion_id"  domain="[('granja_id','=',granja_id)]" />
                                     <field name="capacidad_instalada"/>
                                     <field name="capacidad_extra_p"/>
                                     <field name="capacidad_extra_u"/>
@@ -680,6 +680,7 @@
                             <field name="fecha_solicitud" string="Fecha"/>
                             <field name="poblacion_solicitada" string="Poblacion Inicial"/>
                             <field name="edad_sem_tot" string="Edad del Ave (semanas)"/>
+                            <field name="fecha_nacimiento" string="Fecha de Nacimiento"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

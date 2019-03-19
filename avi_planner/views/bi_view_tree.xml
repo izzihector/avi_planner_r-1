@@ -286,10 +286,14 @@
             <field name="name">bi.produccion.tree</field>
             <field name="model">bi.produccion</field>
             <field name="arch" type="xml">
-                <tree string="Produccion Diaria">
+                <tree string="Produccion Diaria" editable="top">
                    <field name="name"/>
                    <field name="fecha"/>
-                   <field name="granja_id"/>
+                   <field name="granja_id"  domain="[('tipo_granja_id.name','=','POSTURA')]"/>
+                   <field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                   <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                   <field name="parvada_id"/>
+                   <field name="tipo_granja"/>
                    <field name="marca_id"/>
                    <field name="caja_360_chico" sum="Caja 360 Chico"/>
                    <field name="caja_360" sum="Caja 360 "/>
