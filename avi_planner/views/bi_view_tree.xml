@@ -286,7 +286,7 @@
             <field name="name">bi.produccion.tree</field>
             <field name="model">bi.produccion</field>
             <field name="arch" type="xml">
-                <tree string="Produccion Diaria" editable="top">
+                <tree string="Produccion Diaria">
                    <field name="name"/>
                    <field name="fecha"/>
                    <field name="granja_id"  domain="[('tipo_granja_id.name','=','POSTURA')]"/>

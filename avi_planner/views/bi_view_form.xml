@@ -276,7 +276,7 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_id"/>
+                                <field name="granja_id"  domain="[('tipo_granja_id','=',1)]"/>
                             </group>
                             <group>
                                 <field name="empaque_id"/>
@@ -323,12 +323,12 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_origen__id"/>
+                                <field name="granja_origen__id"  domain="[('tipo_granja_id','=',2)]"/>
                             </group>
                             <group>
                                 <field name="empaque_id"/>
                                 <field name="cantidad_traspaso"/>
-                                <field name="granja_destino__id"/>
+                                <field name="granja_destino__id"  domain="[('tipo_granja_id','=',2)]"/>
                             </group>
                         </group>
                     </sheet>
@@ -445,7 +445,7 @@
                         <group>
                             <group>
                                 <field name="fecha" required="1"/>
-                                <field name="granja_id" required="1"/>
+                                <field name="granja_id"  required="1"/>
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
                                 <field name="parvada_id" readonly="1"/>
                                 <field name="capacidad_tolva" readonly="1" style="background-color:grey; color:white;"/>
@@ -1006,7 +1006,7 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_id"/>
+                                <field name="granja_id"  domain="[('tipo_granja_id','=',1)]"/>
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
                                 <field name="parvada_id" readonly="1"/>
                             </group>
@@ -1038,7 +1038,7 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_id"/>
+                                <field name="granja_id"  domain="[('tipo_granja_id','=',2)]"/>
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
                                 <field name="parvada_id" readonly="1"/>
                             </group>

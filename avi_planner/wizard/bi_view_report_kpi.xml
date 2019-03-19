@@ -15,7 +15,7 @@
                     <group>
                         <group style="width:400px">
                             <field name="filtros" string="Filtrar a nivel" />
-                            <field name="granja_id" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
+                            <field name="granja_id"  domain="[('tipo_granja_id','=',1)]" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
                             <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]" />
                             <field name="parvada_id"/>
                             <field name="periodo" required="1"/>

@@ -1059,7 +1059,7 @@ class BiKpisPostura(models.TransientModel):
     _name = 'bi.wizard.kpi.postura'
 
     def _get_granja(self):
-        return self.env['bi.granja'].search([], limit=1)
+        return self.env['bi.granja'].search([('tipo_granja_id','=',2)], limit=1)
 
     def _get_parvada(self):
         return self.env['bi.parvada'].search([], limit=1)
