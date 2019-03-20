@@ -13,7 +13,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="granja_id" required="1"/>
+                            <field name="granja_id" domain="[('tipo_granja_id','=',1)]" required="1"/>
                             <field name="parvada_id"/>
                             <field name="ave_recibida" readonly="1"/>
                             <field name="ave_enviada" readonly="1"/>
