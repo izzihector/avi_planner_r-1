@@ -558,7 +558,7 @@
                             <group>                                
                                 <field name="fecha"/>
                                 <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
-                                <field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                               <!-- <field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>-->
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
                                 <field name="marca_id"/>
                                 <field name="marca" invisible="1"/>
