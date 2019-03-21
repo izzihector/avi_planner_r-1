@@ -115,7 +115,6 @@
                             <group>
                                     <field name="name"/>
                                     <field name="granja_id"/>
-                                    <field name="seccion_id"  domain="[('granja_id','=',granja_id)]" />
                                     <field name="capacidad_instalada"/>
                                     <field name="capacidad_extra_p"/>
                                     <field name="capacidad_extra_u"/>
@@ -132,44 +131,6 @@
          		</form>
          	</field>
          </record>
-        <!-- granja . seccion . caseta
-        <record id="granja_seccion_caseta_form_view" model="ir.ui.view">
-            <field name="name">bi.granja.seccion.caseta.form</field>
-            <field name="model">bi.granja.seccion.caseta</field>
-            <field name="arch" type="xml">
-                <form string="Granja Seccion Caseta">
-                    <sheet>
-                        <div class="oe_title">
-                            <h1>
-                                <table>
-                                    <tr>
-                                        <td><h1><field name="name" readonly="1"/></h1></td>
-                                    </tr>
-                                </table>
-                            </h1>
-                        </div>
-                        <group>
-                                <group>
-                                    <field name="granja_id" string="Granja"/>
-                                    <field name="tipo_granja_id"/>
-                                    <field name="seccion_id" string="Seccion"/>
-                                    <field name="caseta_id" string="Caseta"/>
-                                    <field name="capacidad_instalada" string="Capacidad instalada" />
-                                    <field name="capacidad_extra_p" string="Capacidad Extra %" />
-                                    <field name="capacidad_extra_u" string="Capacidad Extra Unidades"/>
-                                    <field name="capacidad_maxima" string="Capacidad maxima" readonly="1"/>
-                                </group>
-                                <group>
-                                </group>
-                        </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                     </div>
-                </form>
-            </field>
-        </record> -->
 
           <!-- form view razas-->
          <record id="razaas_form_view" model="ir.ui.view">
@@ -551,34 +512,18 @@
                     <sheet>
                         <div class="oe_title">
                              <h2>Produccion Diaria</h2>
-                             <h3><field name="name"/></h3>
+                            <field name="name"/>
                              <hr/>                           
                         </div>
                         <group>
                             <group>                                
                                 <field name="fecha"/>
                                 <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
-                               <!-- <field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>-->
                                 <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
-                                <field name="marca_id"/>
-                                <field name="marca" invisible="1"/>
                                 <field name="tipo_granja" string="Tipo de Granja"/>
                                 <field name="parvada_id" string="Parvada" readonly="1"/>
                             </group>
-                            <group>
-                                <!-- SACAMECATE, HUEVOS DE LA GRANJA y NATURE-->
-                                <field name="caja_360_chico" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-                                <field name="caja_360" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-                                <field name="caja_jumbo" attrs="{'invisible':[('marca','!=', 'SACAMECATE')]}"/>
-                                <field name="caja_180" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-
-                                <field name="pza_sucio" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
-
-                                <field name="pza_cascado" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
-                                <field name="pza_deforme" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
-                                
-                                <field name="bolsa_desyemado" attrs="{'invisible':[('marca','!=','BOLSA')]}"/>
-                            </group>
+                            <field name="registro_produccion_ids"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -588,6 +533,37 @@
                 </form>
             </field>
         </record>
+            <record id="produccion_registro_form_view" model="ir.ui.view">
+            <field name="name">bi.registro.produccion.form</field>
+            <field name="model">bi.registro.produccion</field>
+            <field name="arch" type="xml">
+                <form string="Produccion Diaria">
+                    <sheet>
+                        <div class="oe_title">
+                             <h2>Produccion Diaria</h2>
+                             <hr/>
+                        </div>
+                        <group>
+                            <field name="marca_id"/>
+                            <field name="marca" invisible="1"/>
+                            <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                            <field name="caja_360" sum="Caja 360 " attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                            <field name="caja_jumbo" attrs="{'invisible':[('marca','!=', 'SACAMECATE')]}"/>
+                            <field name="caja_180" sum="Caja 180"  attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                            <field name="pza_sucio"  sum="Sucio" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+                            <field name="pza_cascado"  sum="Cascado"  attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+                            <field name="pza_deforme"  sum="Deforme" attrs="{'invisible':[('marca','!=', 'CAJA LISA')]}"/>
+                            <field name="bolsa_desyemado"  sum="Desyemado" attrs="{'invisible':[('marca','!=','BOLSA')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
          <!-- sequencia de produccion -->
          <record id="sequence_produccion_huevo_id" model="ir.sequence">
             <field name="name">Produccion de Huevo</field>

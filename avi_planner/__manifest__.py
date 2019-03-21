@@ -8,8 +8,8 @@
         Parvadas, Aves, Mortalidad, Empaque, Alimento
         """,
     'author':'Ivan Porras',
-    'website' : 'www.makepler.com',
-    'version' : '10.0.0.0',
+    'website': 'www.makepler.com',
+    'version': '10.0.0.0',
     "support": "ivan.porras@makepler.com",
     "price": 499.00,
     "currency": "EUR",

@@ -53,7 +53,7 @@ class Bicaseta(models.Model):
 
     name = fields.Char(string='Caseta', required=True)
     granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja", default=_get_granja, required=True)
-    seccion_id = fields.Many2one(comodel_name='bi.granja.seccion', string="Seccion", default=_get_seccion)
+    #seccion_id = fields.Many2one(comodel_name='bi.granja.seccion', string="Seccion", default=_get_seccion)
     capacidad_instalada = fields.Integer(string="Capacidad instalada")
     capacidad_extra_p = fields.Integer(string="Capacidad extra %")
     capacidad_extra_u = fields.Integer(string="Capacidad extra Unidades")

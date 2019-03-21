@@ -423,7 +423,8 @@
 
          <!-- action produccion -->
          <record model="ir.actions.act_window" id="produccion_action_view">
-            <field name="name">Produccion Huevo</field>
+            <field name="context">{'readonly_by_pass': True}</field>
+             <field name="name">Produccion Huevo</field>
             <field name="res_model">bi.produccion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
@@ -431,6 +432,15 @@
             <field name="help" type="html">
                  <p class="oe_view_nocontent_create">Crear Produccion</p>
             </field>
+         </record>
+        <!-- action reporte produccion -->
+        <record model="ir.actions.act_window" id="produccion_reporte_action_view">
+            <field name="context">{'readonly_by_pass': True}</field>
+             <field name="name">Reporte Produccion</field>
+            <field name="res_model">bi.registro.produccion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="domain">[]</field>
          </record>
 
           <!-- action causa traspaso -->
@@ -484,7 +494,8 @@
         <!--<menuitem id="menu_recepcion" name="Pendiente de Recepcionar" parent="menu_postura" action="recepcion_action_view"/>-->
         <menuitem id="menu_mortalidad_aves_postura" name="Aves Postura" parent="menu_postura" action="mortalidad_postura_action_view" sequence="7"/>
         <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view" sequence="8"/>
-        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="9"/>
+        <menuitem id="menu_reporte" name="Reporte Produccion" parent="menu_postura" action="produccion_reporte_action_view" sequence="9"/>
+        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="10"/>
 
 
        <!--menu Configuracion -->
@@ -495,7 +506,7 @@
         <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="bi_config_granjas" action="granjas_tipo_action_view" sequence="2"/>
         <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="bi_config_granjas" action="granjas_seccion_action_view" sequence="3"/>
         <menuitem id="bi_granja_casetas" name="Casetas" parent="bi_config_granjas" action="granjas_casetas_action_view" sequence="4"/>
-        <!--<menuitem id="bi_granja_seccion_caseta" name="Granja Seccion Caseta" parent="bi_config_granjas" action="granja_seccion_caseta_action_view" sequence="5"/>-->
+
 
         <!-- configuracion conceptos -->
         <menuitem id="bi_config_conceptos" parent="menu_admon" name="Config. Conceptos" sequence="99"/>

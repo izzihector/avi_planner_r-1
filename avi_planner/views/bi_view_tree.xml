@@ -43,7 +43,6 @@
          	<field name="arch" type="xml">
          		<tree string="Casetas">
                     <field name="granja_id"/>
-                    <field name="seccion_id"/>
                     <field name="name"/>
                     <field name="capacidad_instalada"/>
                     <field name="capacidad_extra_p"/>
@@ -286,24 +285,45 @@
             <field name="name">bi.produccion.tree</field>
             <field name="model">bi.produccion</field>
             <field name="arch" type="xml">
-                <tree string="Produccion Diaria" editable="top">
+                <tree string="Produccion">
                    <field name="name"/>
                    <field name="fecha"/>
                    <field name="granja_id"  domain="[('tipo_granja_id.name','=','POSTURA')]"/>
-                   <!--<field name="seccion_id" domain="[('granja_id','=',granja_id)]" required="1"/>-->
                    <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
-                   <field name="parvada_id"/>
+                   <field name="parvada_id" readonly="1"/>
                    <field name="tipo_granja"/>
+                    <field name="registro_produccion_ids"/>
+                </tree>
+            </field>
+         </record>
+           <record id="produccion_search_view" model="ir.ui.view">
+            <field name="name">bi.produccion.search</field>
+            <field name="model">bi.produccion</field>
+            <field name="arch" type="xml">
+                <search string="Produccion">
+                    <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
+                </search>
+            </field>
+         </record>
+            <!-- tree view registro produccion-->
+        <record id="produccion_registro_tree_view" model="ir.ui.view">
+            <field name="name">bi.registro.produccion.tree</field>
+            <field name="model">bi.registro.produccion</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Produccion">
+                   <field name="fecha"/>
+                   <field name="granja"/>
+                   <field name="caseta"/>
                    <field name="marca_id"/>
-                   <field name="caja_360_chico" sum="Caja 360 Chico"/>
-                   <field name="caja_360" sum="Caja 360 "/>
-                   <field name="sobra_pz_360" sum="Sobra Pz 360"/>
-                   <field name="caja_180" sum="Caja 180"/>
-                   <field name="pza_sucio"  sum="Sucio"/>
-                   <field name="pza_cascado"  sum="Cascado"/>
-                   <field name="pza_deforme"  sum="Deforme"/>
-                   <field name="caja_roto"  sum="Roto"/>
-                   <field name="bolsa_desyemado"  sum="Desyemado"/>
+                   <field name="marca" invisible="1"/>
+                   <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                   <field name="caja_360" sum="Caja 360 " attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                   <field name="caja_jumbo" attrs="{'readonly':[('marca','!=', 'SACAMECATE')]}"/>
+                   <field name="caja_180" sum="Caja 180"  attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                   <field name="pza_sucio"  sum="Sucio" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                   <field name="pza_cascado"  sum="Cascado"  attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                   <field name="pza_deforme"  sum="Deforme" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                   <field name="bolsa_desyemado"  sum="Desyemado" attrs="{'readonly':[('marca','!=','BOLSA')]}"/>
                 </tree>
             </field>
          </record>
