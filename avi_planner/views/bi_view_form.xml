@@ -162,7 +162,7 @@
              <field name="name">bi.marca.form</field>
              <field name="model">bi.marca</field>
              <field name="arch" type="xml">
-                 <form string="Marca">
+                 <form string="Marca" create="false">
                       <sheet>
                         <div class="oe_title">
                             <h1>
@@ -406,15 +406,15 @@
                         <group>
                             <group>
                                 <field name="fecha" required="1"/>
-                                <field name="granja_id"  required="1"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
-                                <field name="parvada_id" readonly="1"/>
+                                <field name="granja_id"  required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
+                                <field name="parvada_id" readonly="1" />
                                 <field name="capacidad_tolva" readonly="1" style="background-color:grey; color:white;"/>
                             </group>
                             <group>
-                                <field name="tipo_evento_id"/>
-                                <field name="tolva_id" domain="[('caseta_id','=',caseta_id)]"/>
-                                <field name="alimento_id"/>
+                                <field name="tipo_evento_id" options="{'no_create': true}"/>
+                                <field name="tolva_id" domain="[('caseta_id','=',caseta_id)]" options="{'no_create': true}"/>
+                                <field name="alimento_id" options="{'no_create': true}"/>
                                 <field name="ticket_entrante" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
                                 <field name="fleje" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
                                 <field name="kgs_entrada" attrs="{'invisible':[('tipo_evento_id','!=', 1)]}"/>
@@ -422,9 +422,9 @@
                             </group>
                         </group>
                         <group>
-                                <field name="granja_destino_id" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
-                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
-                                <field name="tolva_destino_id" domain="[('caseta_id','=',caseta_destino_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
+                                <field name="granja_destino_id" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}" options="{'no_create': true}"/>
+                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}" options="{'no_create': true}"/>
+                                <field name="tolva_destino_id" domain="[('caseta_id','=',caseta_destino_id)]" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}" options="{'no_create': true}"/>
                                 <field name="kgs_traspaso" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}"/>
                                 <field name="capacidad_tolva_destino" attrs="{'invisible':[('tipo_evento_id','!=', 3)]}" readonly="1" style="background-color:grey; color:white;"/>
 
@@ -518,12 +518,24 @@
                         <group>
                             <group>                                
                                 <field name="fecha"/>
-                                <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
-                               <!-- <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
-                                <field name="tipo_granja" string="Tipo de Granja"/>
-                                <field name="parvada_id" string="Parvada" readonly="1"/>-->
+                                <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]" options="{'no_create': true}"/>
                             </group>
-                            <field name="registro_produccion_ids"  options="{'reload_on_button': true}"/>
+                            <field name="registro_produccion_ids" context="{'granja_id': granja_id}">
+                                <tree editable="top">
+                                   <field name="caseta_id" domain="[('granja_id','=',granja_id)]" options="{'no_create': true}"/>
+                                   <field name="parvada_id" readonly="1"/>
+                                   <field name="marca_id" options="{'no_create': true}"/>
+                                   <field name="marca" invisible="1"/>
+                                   <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                                   <field name="caja_360" sum="Caja 360 " attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                                   <field name="caja_jumbo" attrs="{'readonly':[('marca','!=', 'SACAMECATE')]}"/>
+                                   <field name="caja_180" sum="Caja 180"  attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                                   <field name="pza_sucio"  sum="Sucio" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                                   <field name="pza_cascado"  sum="Cascado"  attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                                   <field name="pza_deforme"  sum="Deforme" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                                   <field name="bolsa_desyemado"  sum="Desyemado" attrs="{'readonly':[('marca','!=','BOLSA')]}"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -540,12 +552,12 @@
                 <form string="Produccion Diaria">
                     <sheet>
                         <div class="oe_title">
-                             <h2>Produccion Diaria</h2>
+                             <h2>Registro Produccion Diaria</h2>
                              <hr/>
                         </div>
                         <group>
                             <field name="caseta_id"/>
-                            <field name="marca_id"/>
+                            <field name="marca_id" options="{'no_create': true}"/>
                             <field name="marca" invisible="1"/>
                             <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
                             <field name="caja_360" sum="Caja 360 " attrs="{'invisible':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
@@ -601,9 +613,9 @@
                         <hr/>
                         <group col="4">
                             <field name="fecha_solicitud" string="Fecha de Solicitud" attrs="{'readonly':[('state','!=','draft')]}"/>
-							<field name="proveedor_id" string="Proveedor"/>
+							<field name="proveedor_id" string="Proveedor" options="{'no_create': true}"/>
                             <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
-                            <field name="raza_id" placeholder="Raza" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="raza_id" placeholder="Raza" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_create': true}"/>
                             <field name="poblacion_solicitada" attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="edad_sem_tot" string="Edad del Ave (semanas)"  attrs="{'readonly':[('state','!=','draft')]}"/>
                             <field name="fecha_nacimiento" string="Fecha de Nacimiento" attrs="{'readonly':[('state','!=','draft')]}"/>
@@ -653,7 +665,7 @@
                         <hr/>
                         <group col="4">
                             <field name="name"/>
-                            <field name="raza_id" placeholder="Raza" />
+                            <field name="raza_id" placeholder="Raza" options="{'no_create': true}"/>
                             <field name="fecha_solicitud" string="Fecha"/>
                             <field name="poblacion_solicitada" string="Poblacion Inicial"/>
                             <field name="edad_sem_tot" string="Edad del Ave (semanas)"/>
@@ -697,7 +709,7 @@
                         </div>
                         <h3>Programado</h3>
                         <group col="4">
-                            <field name="parvada_id" string="Parvada" domain="['|',('state','=','transit'),('state','=','partially_received')]"/>
+                            <field name="parvada_id" string="Parvada" domain="['|',('state','=','transit'),('state','=','partially_received')]" options="{'no_create': true}"/>
                             <field name="s_poblacion_solicitada" readonly="1"/>
                             <field name="s_poblacion_recepcionada"  readonly="1"/>
                             <field name="s_poblacion_sin_recepcion"  readonly="1"/>
@@ -711,8 +723,8 @@
                                 <field name="folio"/>
                             </group>
                             <group>
-                                <field name="granja_id" required="1"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="granja_id" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
                             </group>
                         </group>
                     </sheet>
@@ -757,7 +769,7 @@
                         </div>
                         <h3>Programado POSTURAS</h3>
                         <group col="4">
-                            <field name="parvada_id" string="Parvada" domain="[('state_postura','=','transit')]"/>
+                            <field name="parvada_id" string="Parvada" domain="[('state_postura','=','transit')]" options="{'no_create': true}"/>
                             <field name="s_poblacion_solicitada" string="POBLACION INICIAL" readonly="1"/>
                             <field name="s_poblacion_recepcionada"  readonly="1"/>
                             <field name="s_poblacion_sin_recepcion"  readonly="1"/>
@@ -770,8 +782,8 @@
                                 <field name="poblacion_entrante"/>
                             </group>
                             <group>
-                                <field name="granja_id" required="1"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="granja_id" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
                             </group>
                         </group>
                     </sheet>
@@ -804,15 +816,15 @@
                         <group>
                             <group>
                                 <field name="fecha_traspaso" required="1" />
-                                <field name="granja_id" required="1"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="granja_id" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
                                 <field name="parvada_id" readonly="1"/>
                             </group>
                             <group>
-                                <field name="causa_traspaso_id"/>
+                                <field name="causa_traspaso_id" options="{'no_create': true}"/>
                                 <field name="t_poblacion_traspaso" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
-                                <field name="granja_destino_id" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
-                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                                <field name="granja_destino_id" attrs="{'readonly':[('state','!=','draft')]}" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
                             </group>
                         </group>
                         <hr/>
@@ -880,9 +892,9 @@
                         <group>
                             <group>
                                 <field name="fecha" required="1"/>
-                                <field name="granja_id" domain="[('tipo_granja_id','=',1)]" required="1"/>
-                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]"/>
-                                <field name="parvada_id" readonly="1"/>
+                                <field name="granja_id" domain="[('tipo_granja_id','=',1)]" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]" options="{'no_create': true}"/>
+                                <field name="parvada_id" readonly="1" options="{'no_create': true}"/>
                                 <field name="tipo_granja" readonly="1"/>
                                 <field name="poblacion_existente"/>
                             </group>
@@ -930,9 +942,9 @@
                         <group>
                             <group>
                                 <field name="fecha" required="1"/>
-                                <field name="granja_id" domain="[('tipo_granja_id','=',2)]" required="1"/>
-                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]"/>
-                                <field name="parvada_id" readonly="1"/>
+                                <field name="granja_id" domain="[('tipo_granja_id','=',2)]" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_id" required="1" domain="[('granja_id','=',granja_id)]" options="{'no_create': true}"/>
+                                <field name="parvada_id" readonly="1" options="{'no_create': true}"/>
                                 <field name="tipo_granja" readonly="1"/>
                                 <field name="poblacion_existente"/>
                             </group>
@@ -983,9 +995,9 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_id"  domain="[('tipo_granja_id','=',1)]"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
-                                <field name="parvada_id" readonly="1"/>
+                                <field name="granja_id"  domain="[('tipo_granja_id','=',1)]" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" options="{'no_create': true}"/>
+                                <field name="parvada_id" readonly="1" options="{'no_create': true}"/>
                             </group>
                             <group>
                                 <field name="peso"/>
@@ -1015,9 +1027,9 @@
                         <group>
                             <group>
                                 <field name="fecha"/>
-                                <field name="granja_id"  domain="[('tipo_granja_id','=',2)]"/>
-                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
-                                <field name="parvada_id" readonly="1"/>
+                                <field name="granja_id"  domain="[('tipo_granja_id','=',2)]" options="{'no_create': true}"/>
+                                <field name="caseta_id" domain="[('granja_id','=',granja_id)]" options="{'no_create': true}"/>
+                                <field name="parvada_id" readonly="1" />
                             </group>
                             <group>
                                 <field name="peso_huevo"/>
