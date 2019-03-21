@@ -289,9 +289,9 @@
                    <field name="name"/>
                    <field name="fecha"/>
                    <field name="granja_id"  domain="[('tipo_granja_id.name','=','POSTURA')]"/>
-                   <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                   <!--<field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
                    <field name="parvada_id" readonly="1"/>
-                   <field name="tipo_granja"/>
+                   <field name="tipo_granja"/>-->
                     <field name="registro_produccion_ids"/>
                 </tree>
             </field>
@@ -310,10 +310,11 @@
             <field name="name">bi.registro.produccion.tree</field>
             <field name="model">bi.registro.produccion</field>
             <field name="arch" type="xml">
-                <tree string="Reporte de Produccion">
+                <tree string="Reporte de Produccion" editable="top">
                    <field name="fecha"/>
-                   <field name="granja"/>
-                   <field name="caseta"/>
+                   <field name="granja_id" invisible="1"/>
+                   <field name="caseta_id" domain="[('granja_id','=',granja_id)]" required="1"/>
+                   <field name="parvada_id" readonly="1"/>
                    <field name="marca_id"/>
                    <field name="marca" invisible="1"/>
                    <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>

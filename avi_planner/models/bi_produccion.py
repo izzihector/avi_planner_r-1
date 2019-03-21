@@ -16,13 +16,19 @@ class BiProduccion(models.Model):
     name = fields.Char(string="Referencia", readonly=True)
     fecha= fields.Date(default=fields.Date.context_today)  
     granja_id = fields.Many2one(comodel_name='bi.granja', string="Granja", default=_get_granja, required=True)
-    caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
-    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True,required=True)
-    tipo_granja = fields.Char(related='granja_id.tipo_granja_id.name',readonly=True)
+
 
     #one2many
-
     registro_produccion_ids = fields.One2many('bi.registro.produccion','registro_produccion_id', string="Produccion")
+
+    @api.multi
+    @api.onchange('granja_id')
+    def _compute_fill_one_many(self):
+        casetas_ids = self.env['bi.granja.caseta'].search([('granja_id','=',self.granja_id.id)])
+        c_ids = []
+        for c in casetas_ids:
+            c_ids.append((0,0,{'caseta_id':c.id}))
+        self.registro_produccion_ids = c_ids
 
     #secuencia de produccion
     @api.model
@@ -49,7 +55,10 @@ class BiRegistroProduccion(models.Model):
     registro_produccion_id = fields.Many2one(comodel_name='bi.produccion', string="Registro Produccion")
     fecha = fields.Date(related='registro_produccion_id.fecha', string="Fecha", store=True)
     granja = fields.Char(related='registro_produccion_id.granja_id.name', string="Granja", store=True)
-    caseta = fields.Char(related='registro_produccion_id.caseta_id.name', string="Caseta", store=True)
+    granja_id = fields.Integer(related='registro_produccion_id.granja_id.id', string="Granja", store=True)
+    caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
+    parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True, required=True)
+
 
     marca_id = fields.Many2one(comodel_name='bi.marca', string="Marca", default=_get_marca, required=True)
     marca = fields.Char(related='marca_id.name', readonly=True)
