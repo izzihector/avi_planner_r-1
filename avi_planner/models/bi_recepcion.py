@@ -16,6 +16,8 @@ class BiParvadaRecepcion(models.Model):
 
     name = fields.Char('Lote', readonly=True)
     fecha_recepcion = fields.Date(default=fields.Date.context_today, required=True, string="Fecha de Recepcion")
+    fecha_nacimiento = fields.Date(default=fields.Date.context_today, required=True,
+                                   help="Fecha requerida para generar calculos de KPIs")
     parvada_id = fields.Many2one(comodel_name='bi.parvada', string="Parvada", default=_get_solicitud, required=True)
     poblacion_entrante = fields.Integer(string="Aves Entrantes", required=True,help="En el formato de Crianza el campo se llama Recepcion")
     folio = fields.Char(string="Folio")

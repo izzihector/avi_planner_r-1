@@ -725,15 +725,12 @@ $BODY$
 		    _dias_edad_ave := (select r.fecha::date - _fecha_nacimiento::date);
 		    RAISE NOTICE 'Fecha actual  % y fecha recepcion % y dia %',r.fecha,_fecha_nacimiento,(select date_part('day', age(r.fecha, _fecha_nacimiento)));
 		    _semana_edad_ave:= ((select r.fecha::date  -  _fecha_nacimiento::date)/7);
-
-		  
-		  
 		    --granja
 		    _granja := (select ga.name from bi_granja ga where ga.id = x_granja_id);	 
 		    --poblacion inicial
 		    _poblacion_inicial := (select BA.poblacion_final from BALANZA_AVES BA where BA.fecha = (r.fecha - interval '1 day'));
 		    --entradas
-		    _entradas:= (select COALESCE(sum(bpr.poblacion_entrante),0) from bi_parvada_recepcion bpr where bpr.fecha_recepcion = r.fecha and bpr.parvada_id = x_parvada_id and bpr.granja_id = x_granja_id); 
+		    _entradas:= (select COALESCE(sum(bpr.poblacion_entrante),0) from bi_parvada_recepcion bpr where bpr.fecha_nacimiento = r.fecha and bpr.parvada_id = x_parvada_id and bpr.granja_id = x_granja_id); 
 		    --mortalidad
 		    _mortalidad := (select COALESCE(sum(causa_seleccion),0) + COALESCE(sum(causa_paralitica),0) + COALESCE(sum(causa_natural),0) + COALESCE(sum(causa_sacrificada),0) from bi_parvada_mortalidad bpm where bpm.fecha = r.fecha and bpm.parvada_id = x_parvada_id 
 				    and bpm.granja_id = x_granja_id);
@@ -1497,9 +1494,6 @@ $BODY$
 		    _dias_edad_ave := (select r.fecha::date - _fecha_nacimiento::date);
 		    RAISE NOTICE 'Fecha actual  % y fecha recepcion % y dia %',r.fecha,_fecha_nacimiento,(select date_part('day', age(r.fecha, _fecha_nacimiento)));
 		    _semana_edad_ave:= ((select r.fecha::date  -  _fecha_nacimiento::date)/7);
-
-		  
-		  
 		    --granja
 		    _granja := (select ga.name from bi_granja ga where ga.id = x_granja_id);	 
 		    --poblacion inicial
