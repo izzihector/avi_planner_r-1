@@ -22,6 +22,7 @@
                         <group>
                             <field name="diff_aves" readonly="1"/>
                             <field name="mortalidad_porcen_acum" readonly="1"/>
+                            <field name="mortalidad_porcen_cierre" readonly="1"/>
                             <field name="kgs_enviados" readonly="1"/>
                             <field name="kgs_consumidos" readonly="1"/>
                             <field name="grs_acum_consum_enviados" readonly="1"/>

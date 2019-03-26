@@ -108,6 +108,9 @@ class BiResumenParvada(models.TransientModel):
             if suma_alimento_consumo <> 0 and suma_recepciones <>0:
                 self.grs_acum_consum_servido = float((float(suma_alimento_consumo) / float(suma_recepciones)) * 1000)
 
+            if suma_recepciones > 0:
+                self.mortalidad_porcen_cierre = (float(self.mortalidad_total + self.diff_aves)/ float(self.ave_recibida))*100
+
     def _sql_report_object_informe(self):
         query_parvada_funcion = """
            CREATE OR REPLACE FUNCTION public.balanza_aves_parvada(IN x_granja_id integer,IN x_parvada_id integer)
