@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
         <!-- tree view granja -->
         <record id="granja_tree_view" model="ir.ui.view">
             <field name="name">bi.granja.tree</field>
@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <tree string="Granjas">
                     <field name="name"/>
-                    <field name="tipo_granja_id" />
-                </tree> 
+                    <field name="tipo_granja_id"/>
+                </tree>
             </field>
         </record>
 
@@ -19,8 +19,8 @@
             <field name="model">bi.granja.tipo</field>
             <field name="arch" type="xml">
                 <tree string="Tipo de Granjas">
-                    <field name="name" string="Nombre" />
-                </tree> 
+                    <field name="name" string="Nombre"/>
+                </tree>
             </field>
         </record>
 
@@ -30,18 +30,18 @@
             <field name="model">bi.granja.seccion</field>
             <field name="arch" type="xml">
                 <tree string="Secciones">
-                    <field name="name" string="Seccion" />
+                    <field name="name" string="Seccion"/>
                     <field name="granja_id" string="Granja"/>
-                </tree> 
+                </tree>
             </field>
         </record>
 
-		<!-- tree view casetas-->
-         <record id="casetas_tree_view" model="ir.ui.view">
-         	<field name="name">bi.granja.caseta.tree</field>
-         	<field name="model">bi.granja.caseta</field>
-         	<field name="arch" type="xml">
-         		<tree string="Casetas">
+        <!-- tree view casetas-->
+        <record id="casetas_tree_view" model="ir.ui.view">
+            <field name="name">bi.granja.caseta.tree</field>
+            <field name="model">bi.granja.caseta</field>
+            <field name="arch" type="xml">
+                <tree string="Casetas">
                     <field name="granja_id"/>
                     <field name="name"/>
                     <field name="capacidad_instalada"/>
@@ -49,11 +49,11 @@
                     <field name="capacidad_extra_u"/>
                     <field name="capacidad_maxima" string="Capacidad maxima" readonly="1"/>
                     <field name="parvada_id"/>
-         		</tree>
-         	</field>
-         </record>
+                </tree>
+            </field>
+        </record>
 
-         <!-- tree view razas -->
+        <!-- tree view razas -->
         <record id="razas_tree_view" model="ir.ui.view">
             <field name="name">bi.raza.tree</field>
             <field name="model">bi.raza</field>
@@ -62,10 +62,10 @@
                     <field name="name"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-         <!-- tree view parvadas crianza-->
-         <record id="solicitud_tree_view" model="ir.ui.view">
+        <!-- tree view parvadas crianza-->
+        <record id="solicitud_tree_view" model="ir.ui.view">
             <field name="name">bi.parvada.tree</field>
             <field name="model">bi.parvada</field>
             <field name="arch" type="xml">
@@ -78,10 +78,10 @@
                     <field name="state" string="Estado"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
         <!-- tree view parvadas postura-->
-         <record id="parvadas_tree_view" model="ir.ui.view">
+        <record id="parvadas_tree_view" model="ir.ui.view">
             <field name="name">bi.parvada.tree</field>
             <field name="model">bi.parvada</field>
             <field name="arch" type="xml">
@@ -93,10 +93,10 @@
                     <field name="state_postura" string="Estado"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-         <!-- tree view recepcion-->
-         <record id="recepcion_tree_view" model="ir.ui.view">
+        <!-- tree view recepcion-->
+        <record id="recepcion_tree_view" model="ir.ui.view">
             <field name="name">bi.parvada.recepcion.tree</field>
             <field name="model">bi.parvada.recepcion</field>
             <field name="arch" type="xml">
@@ -110,10 +110,10 @@
                     <field name="state" string="Estado"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
         <!-- tree view recepcion POSTURA-->
-         <record id="recepcion_postura_t_view" model="ir.ui.view">
+        <record id="recepcion_postura_t_view" model="ir.ui.view">
             <field name="name">bi.parvada.recepcion.tree</field>
             <field name="model">bi.parvada.recepcion</field>
             <field name="arch" type="xml">
@@ -127,10 +127,10 @@
                     <field name="state" string="Estado"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
         <!-- tree view distribucion -->
-          <record id="distribucion_tree_view" model="ir.ui.view">
+        <record id="distribucion_tree_view" model="ir.ui.view">
             <field name="name">bi.parvada.distribucion.tree</field>
             <field name="model">bi.parvada.distribucion</field>
             <field name="arch" type="xml">
@@ -138,7 +138,7 @@
                     <field name="granja_destino_id" string="Destino"/>
                     <field name="name" string="Referencia"/>
                     <field name="fecha_traspaso" string="Fecha de traspaso"/>
-                    <field name="granja_id" string="Origen" />
+                    <field name="granja_id" string="Origen"/>
                     <field name="parvada_id" string="Parvada"/>
                     <field name="t_poblacion_traspaso" string="Cantidad Traspaso" sum="Traspaso"/>
                     <field name="reales" string="Cantidad Recepcionada" sum="Reales"/>
@@ -147,8 +147,8 @@
                     <field name="state"/>
                 </tree>
             </field>
-         </record>
-         <!-- tree view mortalidad crianza-->
+        </record>
+        <!-- tree view mortalidad crianza-->
         <record id="mortalidad_search_view" model="ir.ui.view">
             <field name="name">bi.parvada.mortalidad.search</field>
             <field name="model">bi.parvada.mortalidad</field>
@@ -157,14 +157,14 @@
                     <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
                 </search>
             </field>
-         </record>
+        </record>
         <record id="mortalidad_tree_view" model="ir.ui.view">
             <field name="name">bi.parvada.mortalidad.tree</field>
             <field name="model">bi.parvada.mortalidad</field>
             <field name="arch" type="xml">
                 <tree string="Mortalidad">
                     <field name="name" string="Referencia"/>
-                    <field name="granja_id" />
+                    <field name="granja_id"/>
                     <field name="caseta_id"/>
                     <field name="parvada_id"/>
                     <field name="causa_seleccion" sum="Seleccion"/>
@@ -172,20 +172,20 @@
                     <field name="causa_paralitica" sum="Paralitica"/>
                     <field name="causa_sacrificada" sum="Sacrificada"/>
                     <field name="total_mortalidad" sum="Total"/>
-                    <field name="fecha" string="Fecha" />
+                    <field name="fecha" string="Fecha"/>
                     <field name="state"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-         <!-- tree view mortalidad postura-->
+        <!-- tree view mortalidad postura-->
         <record id="postura_mortalidad_tree2_view" model="ir.ui.view">
             <field name="name">bi.parvada.postura.mortalidad.tree</field>
             <field name="model">bi.parvada.mortalidad</field>
             <field name="arch" type="xml">
                 <tree string="Mortalidad Postura">
                     <field name="name" string="Referencia"/>
-                    <field name="granja_id" />
+                    <field name="granja_id"/>
                     <field name="caseta_id"/>
                     <field name="parvada_id"/>
                     <field name="causa_natural" sum="Natural"/>
@@ -193,13 +193,13 @@
                     <field name="causa_sacrificada" sum="Sacrificada"/>
                     <field name="ventas_vivas" sum="Ventas"/>
                     <field name="total_mortalidad" sum="Total"/>
-                    <field name="fecha" string="Fecha" />
+                    <field name="fecha" string="Fecha"/>
                     <field name="state"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-          <!-- tree view registro de alimento crianza-->
+        <!-- tree view registro de alimento crianza-->
         <record id="registro_alimento_tree_view" model="ir.ui.view">
             <field name="name">bi.registro.alimento.tree</field>
             <field name="model">bi.registro.alimento</field>
@@ -209,7 +209,7 @@
                     <field name="fecha"/>
                     <field name="granja_id"/>
                     <field name="caseta_id"/>
-                    <field name="tolva_id" />
+                    <field name="tolva_id"/>
                     <field name="ticket_entrante"/>
                     <field name="fleje"/>
                     <field name="alimento_id"/>
@@ -221,9 +221,9 @@
                     <field name="tipo_evento_id"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-          <!-- tree view registro de alimento postura-->
+        <!-- tree view registro de alimento postura-->
         <record id="postura_alimento_tree_view" model="ir.ui.view">
             <field name="name">bi.registro.alimento.tree</field>
             <field name="model">bi.registro.alimento</field>
@@ -233,7 +233,7 @@
                     <field name="fecha"/>
                     <field name="granja_id"/>
                     <field name="caseta_id"/>
-                    <field name="tolva_id" />
+                    <field name="tolva_id"/>
                     <field name="ticket_entrante"/>
                     <field name="fleje"/>
                     <field name="alimento_id"/>
@@ -245,55 +245,55 @@
                     <field name="tipo_evento_id"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-           <!-- tree view registro empaque postura-->
+        <!-- tree view registro empaque postura-->
         <record id="empaque_tree_view" model="ir.ui.view">
             <field name="name">bi.registro.empaque.tree</field>
             <field name="model">bi.registro.empaque</field>
             <field name="arch" type="xml">
                 <tree string="Empaque">
-                   <field name="name"/>
-                   <field name="fecha"/>
-                   <field name="granja_id"/>
-                   <field name="empaque_id"/>
-                   <field name="entrada" sum="Entrada"/>
-                   <field name="merma_fabricacion" sum="Fabricacion"/>
-                   <field name="merma_operacion" sum="Operacion"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="granja_id"/>
+                    <field name="empaque_id"/>
+                    <field name="entrada" sum="Entrada"/>
+                    <field name="merma_fabricacion" sum="Fabricacion"/>
+                    <field name="merma_operacion" sum="Operacion"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-             <!-- tree view traspaso empaque postura-->
+        <!-- tree view traspaso empaque postura-->
         <record id="traspaso_empaque_tree_view" model="ir.ui.view">
             <field name="name">bi.traspaso.empaque.tree</field>
             <field name="model">bi.traspaso.empaque</field>
             <field name="arch" type="xml">
                 <tree string="Traspaso Empaque">
-                   <field name="name"/>
-                   <field name="fecha"/>
-                   <field name="granja_origen__id"/>
-                   <field name="empaque_id"/>
-                   <field name="cantidad_traspaso" sum="Traspaso"/>
-                   <field name="granja_destino__id"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="granja_origen__id"/>
+                    <field name="empaque_id"/>
+                    <field name="cantidad_traspaso" sum="Traspaso"/>
+                    <field name="granja_destino__id"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
-           <!-- tree view produccion-->
+        <!-- tree view produccion-->
         <record id="produccion_tree_view" model="ir.ui.view">
             <field name="name">bi.produccion.tree</field>
             <field name="model">bi.produccion</field>
             <field name="arch" type="xml">
                 <tree string="Produccion">
-                   <field name="name"/>
-                   <field name="fecha"/>
-                   <field name="granja_id"  domain="[('tipo_granja_id.name','=','POSTURA')]"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="granja_id" domain="[('tipo_granja_id.name','=','POSTURA')]"/>
                     <field name="registro_produccion_ids"/>
                 </tree>
             </field>
-         </record>
-           <record id="produccion_search_view" model="ir.ui.view">
+        </record>
+        <record id="produccion_search_view" model="ir.ui.view">
             <field name="name">bi.produccion.search</field>
             <field name="model">bi.produccion</field>
             <field name="arch" type="xml">
@@ -301,30 +301,33 @@
                     <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
                 </search>
             </field>
-         </record>
-            <!-- tree view registro produccion-->
+        </record>
+        <!-- tree view registro produccion-->
         <record id="produccion_registro_tree_view" model="ir.ui.view">
             <field name="name">bi.registro.produccion.tree</field>
             <field name="model">bi.registro.produccion</field>
             <field name="arch" type="xml">
                 <tree string="Reporte de Produccion" create="false">
-                   <field name="fecha"/>
-                   <field name="granja"/>
-                   <field name="caseta_id"/>
-                   <field name="parvada_id" readonly="1"/>
-                   <field name="marca_id" options="{'no_create': true}"/>
-                   <field name="marca" invisible="1"/>
-                   <field name="caja_360_chico" sum="Caja 360 Chico" attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-                   <field name="caja_360" sum="Caja 360 " attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-                   <field name="caja_jumbo" attrs="{'readonly':[('marca','!=', 'SACAMECATE')]}"/>
-                   <field name="caja_180" sum="Caja 180"  attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
-                   <field name="pza_sucio"  sum="Sucio" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
-                   <field name="pza_cascado"  sum="Cascado"  attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
-                   <field name="pza_deforme"  sum="Deforme" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
-                   <field name="bolsa_desyemado"  sum="Desyemado" attrs="{'readonly':[('marca','!=','BOLSA')]}"/>
+                    <field name="fecha"/>
+                    <field name="granja"/>
+                    <field name="caseta_id"/>
+                    <field name="parvada_id" readonly="1"/>
+                    <field name="marca_id" options="{'no_create': true}"/>
+                    <field name="marca" invisible="1"/>
+                    <field name="caja_360_chico" sum="Caja 360 Chico"
+                           attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                    <field name="caja_360" sum="Caja 360 "
+                           attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                    <field name="caja_jumbo" attrs="{'readonly':[('marca','!=', 'SACAMECATE')]}"/>
+                    <field name="caja_180" sum="Caja 180"
+                           attrs="{'readonly':['|',('marca','=', 'CAJA LISA'),('marca','=','BOLSA')]}"/>
+                    <field name="pza_sucio" sum="Sucio" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                    <field name="pza_cascado" sum="Cascado" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                    <field name="pza_deforme" sum="Deforme" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
+                    <field name="bolsa_desyemado" sum="Desyemado" attrs="{'readonly':[('marca','!=','BOLSA')]}"/>
                 </tree>
             </field>
-         </record>
+        </record>
         <!-- tree view tolvas-->
         <record id="tolvas_tree_view" model="ir.ui.view">
             <field name="name">bi.tolva.tree</field>
@@ -338,9 +341,9 @@
                     <!--<field name="alimento_existente"/>-->
                 </tree>
             </field>
-         </record>
+        </record>
 
-          <!-- tree tipo de evento-->
+        <!-- tree tipo de evento-->
         <record id="tipo_evento_tree_view" model="ir.ui.view">
             <field name="name">bi.alimento.tipo.evento.tree</field>
             <field name="model">bi.alimento.tipo.evento</field>
@@ -350,7 +353,7 @@
                     <field name="name"/>
                 </tree>
             </field>
-         </record>
+        </record>
 
         <!-- DETALLE -->
         <record id="view_tax_tree_balance" model="ir.ui.view">
@@ -372,99 +375,129 @@
             <field eval="100" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Parametros">
-                                      <field name="tipo_granja_id"/>
-                                    <field name="raza_id"/>
-                                    <field name="crianza_edad_dia_inicio" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_edad_dia_fin" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_edad_semana"/>
-                                    <field name="crianza_meta_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_meta_uniformidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_meta_cons_alim_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
-                                    <field name="crianza_meta_cons_alim_acum_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="tipo_granja_id"/>
+                    <field name="raza_id"/>
+                    <field name="crianza_edad_dia_inicio" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_edad_dia_fin" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_edad_semana"/>
+                    <field name="crianza_meta_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_meta_uniformidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_meta_cons_alim_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
+                    <field name="crianza_meta_cons_alim_acum_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
 
 
-                                    <field name="postura_edad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_prodAve" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_viabilidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_sucio" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_cascado" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_huevo_acumulado_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_peso_prom_huevo_gramos" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_masa_huevo_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_masa_huevo_acum_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_cons_alim_ave_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_meta_cons_alim_acum_ave_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="postura_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="alimento_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
-                                    <field name="clasificacion_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_edad_semana" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_prodAve" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_viabilidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_mortalidad_acum" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_sucio" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_cascado" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_huevo_acumulado_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_peso_prom_huevo_gramos"
+                           attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_masa_huevo_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_masa_huevo_acum_ave" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_cons_alim_ave_dia" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_meta_cons_alim_acum_ave_dia"
+                           attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="postura_peso_corporal" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="alimento_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                    <field name="clasificacion_id" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
                 </tree>
             </field>
         </record>
 
+       <!-- KPIS Crianzas -->
+        <record model="ir.ui.view" id="kpis_report_view">
+            <field name="name">bi.kpis</field>
+            <field name="model">bi.kpis</field>
+            <field name="type">tree</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="dias_edad_ave" attrs="{'invisible':[('dias_edad_ave','=',0)]}"/>
+                    <field name="semena_edad_ave"/>
+                    <field name="granja"/>
+                    <field name="caseta"/>
+                    <field name="mortalidad_porcen"/>
+                    <field name="mortalidad_porcen_meta"/>
+                    <field name="mortalidad_porcen_acum"/>
+                    <field name="mortalidad_porcen_acum_meta"/>
+                    <field name="consumo_alimento_grs_ave"/>
+                    <field name="consumo_alimento_grs_ave_meta"/>
+                    <field name="consumo_alimento_grs_ave_acum"/>
+                    <field name="consumo_alimento_grs_ave_acum_meta"/>
+                    <field name="peso_real"/>
+                    <field name="peso_meta"/>
+                    <field name="uniformidad_real"/>
+                    <field name="uniformidad_meta"/>
+                </tree>
+            </field>
+        </record>
+           <record model="ir.ui.view" id="kpis_report_view">
+            <field name="name">bi.kpis.postura.tree</field>
+            <field name="model">bi.kpis.postura</field>
+            <field name="type">tree</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="dias_edad_ave" attrs="{'invisible':[('dias_edad_ave','=',0)]}"/>
+                    <field name="semena_edad_ave"/>
+                    <field name="granja"/>
+                    <field name="caseta"/>
+                    <field name="mortalidad_porcen"/>
+                    <field name="mortalidad_porcen_meta"/>
+                    <field name="mortalidad_porcen_acum"/>
+                    <field name="mortalidad_porcen_acum_meta"/>
+                    <field name="consumo_alimento_grs_ave"/>
+                    <field name="consumo_alimento_grs_ave_meta"/>
+                    <field name="consumo_alimento_grs_ave_acum"/>
+                    <field name="consumo_alimento_grs_ave_acum_meta"/>
+                    <field name="peso_real"/>
+                    <field name="peso_meta"/>
+                    <field name="uniformidad_real"/>
+                    <field name="uniformidad_meta"/>
+                    <field name="produccion_meta"/>
+                    <field name="produccion_real"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="peso_uniformidad_view">
+            <field name="name">bi.peso.uniformidad.tree</field>
+            <field name="model">bi.peso.uniformidad</field>
+            <field name="type">tree</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fecha"/>
+                    <field name="granja_id"/>
+                    <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                    <field name="parvada_id"/>
+                    <field name="peso"/>
+                    <field name="uniformidad"/>
+                </tree>
+            </field>
+        </record>
 
-            <record model="ir.ui.view" id="kpis_report_view">
-                <field name="name">bi.kpis</field>
-                <field name="model">bi.kpis</field>
-                <field name="type">tree</field>
-                <field name="view_mode">tree,form,graph,pivot,kanban</field>
-                <field name="arch" type="xml">
-                    <tree>
-                        <field name="dias_edad_ave"  attrs="{'invisible':[('dias_edad_ave','=',0)]}"/>
-                        <field name="semena_edad_ave"/>
-                        <field name="granja"/>
-                        <field name="caseta"/>
-                        <field name="mortalidad_porcen" />
-                        <field name="mortalidad_porcen_meta"/>
-                        <field name="mortalidad_porcen_acum"/>
-                        <field name="mortalidad_porcen_acum_meta"/>
-                        <field name="consumo_alimento_grs_ave"/>
-                        <field name="consumo_alimento_grs_ave_meta"/>
-                        <field name="consumo_alimento_grs_ave_acum"/>
-                        <field name="consumo_alimento_grs_ave_acum_meta"/>
-                        <field name="peso_real"/>
-                        <field name="peso_meta"/>
-                        <field name="uniformidad_real"/>
-                        <field name="uniformidad_meta"/>
-                    </tree>
-                </field>
-            </record>
-          <record model="ir.ui.view" id="peso_uniformidad_view">
-                <field name="name">bi.peso.uniformidad.tree</field>
-                <field name="model">bi.peso.uniformidad</field>
-                <field name="type">tree</field>
-                <field name="view_mode">tree,form,graph,pivot,kanban</field>
-                <field name="arch" type="xml">
-                    <tree>
-                          <field name="fecha"/>
-                          <field name="granja_id"/>
-                          <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
-                          <field name="parvada_id"/>
-                          <field name="peso"/>
-                          <field name="uniformidad"/>
-                    </tree>
-                </field>
-            </record>
-
-               <record model="ir.ui.view" id="postura_peso_tree_view">
-                <field name="name">bi.peso.uniformidad.tree</field>
-                <field name="model">bi.peso.uniformidad</field>
-                <field name="type">tree</field>
-                <field name="view_mode">tree,form,graph,pivot,kanban</field>
-                <field name="arch" type="xml">
-                    <tree>
-                          <field name="fecha"/>
-                          <field name="granja_id"/>
-                          <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
-                          <field name="parvada_id"/>
-                          <field name="peso_huevo"/>
-                          <field name="peso"/>
-                          <field name="uniformidad"/>
-                    </tree>
-                </field>
-            </record>
-	</data>
+        <record model="ir.ui.view" id="postura_peso_tree_view">
+            <field name="name">bi.peso.uniformidad.tree</field>
+            <field name="model">bi.peso.uniformidad</field>
+            <field name="type">tree</field>
+            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fecha"/>
+                    <field name="granja_id"/>
+                    <field name="caseta_id" domain="[('granja_id','=',granja_id)]"/>
+                    <field name="parvada_id"/>
+                    <field name="peso_huevo"/>
+                    <field name="peso"/>
+                    <field name="uniformidad"/>
+                </tree>
+            </field>
+        </record>
+    </data>
 </odoo>

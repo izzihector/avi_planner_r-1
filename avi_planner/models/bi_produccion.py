@@ -57,6 +57,7 @@ class BiRegistroProduccion(models.Model):
     registro_produccion_id = fields.Many2one(comodel_name='bi.produccion', string="Registro Produccion")
     fecha = fields.Date(related='registro_produccion_id.fecha', string="Fecha", store=True)
     granja = fields.Char(related='registro_produccion_id.granja_id.name', string="Granja", store=True)
+    granja_id = fields.Integer(related='registro_produccion_id.granja_id.id', string="ID Granja", store=True)
     caseta_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta")
     parvada_id = fields.Many2one(related='caseta_id.parvada_id', string="Parvada", store=True, required=True)
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
+    <data>
         <!-- action proveedor -->
-         <record model="ir.actions.act_window" id="proveedor_action_view">
+        <record model="ir.actions.act_window" id="proveedor_action_view">
             <field name="name">Proveedor</field>
             <field name="res_model">bi.proveedor</field>
             <field name="view_type">form</field>
@@ -11,9 +11,9 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear proveedor</p>
             </field>
-         </record>
-         <!-- action casetas -->
-         <record model="ir.actions.act_window" id="granjas_casetas_action_view">
+        </record>
+        <!-- action casetas -->
+        <record model="ir.actions.act_window" id="granjas_casetas_action_view">
             <field name="name">Casetas</field>
             <field name="res_model">bi.granja.caseta</field>
             <field name="view_type">form</field>
@@ -22,9 +22,9 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear caseta</p>
             </field>
-         </record>
-         <!-- action razas -->
-         <record model="ir.actions.act_window" id="razas_action_view">
+        </record>
+        <!-- action razas -->
+        <record model="ir.actions.act_window" id="razas_action_view">
             <field name="name">Razas</field>
             <field name="res_model">bi.raza</field>
             <field name="view_type">form</field>
@@ -33,10 +33,10 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Raza</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action granjas -->
-         <record model="ir.actions.act_window" id="granjas_action_view">
+        <!-- action granjas -->
+        <record model="ir.actions.act_window" id="granjas_action_view">
             <field name="name">Granjas</field>
             <field name="res_model">bi.granja</field>
             <field name="view_type">form</field>
@@ -45,10 +45,10 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear granja</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action tipos de granja -->
-         <record model="ir.actions.act_window" id="granjas_tipo_action_view">
+        <!-- action tipos de granja -->
+        <record model="ir.actions.act_window" id="granjas_tipo_action_view">
             <field name="name">Tipo de Granjas</field>
             <field name="res_model">bi.granja.tipo</field>
             <field name="view_type">form</field>
@@ -57,10 +57,10 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear tipo de granja</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action Seccion -->
-         <record model="ir.actions.act_window" id="granjas_seccion_action_view">
+        <!-- action Seccion -->
+        <record model="ir.actions.act_window" id="granjas_seccion_action_view">
             <field name="name">Seccion</field>
             <field name="res_model">bi.granja.seccion</field>
             <field name="view_type">form</field>
@@ -69,7 +69,7 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Seccion</p>
             </field>
-         </record>
+        </record>
 
         <!-- action parvada crianza -->
         <record model="ir.actions.act_window" id="parvada_crianza_action_view">
@@ -81,12 +81,7 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Solicitud</p>
             </field>
-         </record>
-
-
-
-
-
+        </record>
 
         <!--******************* POSTURAS ********************************************************* -->
         <!-- action Nueva Parvada -->
@@ -104,15 +99,15 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="parvadas_tree_view"/>
             <field name="act_window_id" ref="action_parvada_postura"/>
-         </record>
+        </record>
 
-         <!-- action form view NUEVA PARVADA -->
+        <!-- action form view NUEVA PARVADA -->
         <record model="ir.actions.act_window.view" id="parvada_postura_form_view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="parvadas_postura_form_view"/>
             <field name="act_window_id" ref="action_parvada_postura"/>
-         </record>
+        </record>
 
         <!-- action de posturas TRASPASO DE AVES O RECEPCION -->
         <record model="ir.actions.act_window" id="action_recepcion_postura">
@@ -129,15 +124,15 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="recepcion_postura_t_view"/>
             <field name="act_window_id" ref="action_recepcion_postura"/>
-         </record>
+        </record>
 
-         <!-- action form view postura RECEPCION-->
+        <!-- action form view postura RECEPCION-->
         <record model="ir.actions.act_window.view" id="recepcion_postura_form_view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="recepcion_postura_f_view"/>
             <field name="act_window_id" ref="action_recepcion_postura"/>
-         </record>
+        </record>
 
         <!-- action recepcion crianza -->
         <record model="ir.actions.act_window" id="recepcion_crianza_action_view">
@@ -150,7 +145,7 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Recepcion</p>
             </field>
-         </record>
+        </record>
 
 
         <!-- action peso uniformidad  crianza-->
@@ -164,20 +159,20 @@
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Registro</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action peso uniformidad postura-->
+        <!-- action peso uniformidad postura-->
         <record model="ir.actions.act_window" id="peso_uniformidad_postura_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Peso huevo, peso ave y uniformidad</field>
             <field name="res_model">bi.peso.uniformidad</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
-           <field name="domain">[('tipo_granja','=','POSTURA')]</field>
+            <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Registro</p>
             </field>
-         </record>
+        </record>
 
         <!-- action peso uniformidad postura vista tree-->
         <record model="ir.actions.act_window.view" id="tree_postura_peso_action_view">
@@ -187,7 +182,7 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="postura_peso_tree_view"/>
             <field name="act_window_id" ref="peso_uniformidad_postura_action_view"/>
-         </record>
+        </record>
 
         <!-- action mpeso uniformidad postura vista form-->
         <record model="ir.actions.act_window.view" id="form_postura_peso_action_view">
@@ -196,7 +191,7 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="postura_peso_form_view"/>
             <field name="act_window_id" ref="peso_uniformidad_postura_action_view"/>
-         </record>
+        </record>
 
         <!-- action distribucion -->
         <record model="ir.actions.act_window" id="distribucion_action_view">
@@ -207,9 +202,9 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Crear traspaso</p>
+                <p class="oe_view_nocontent_create">Crear traspaso</p>
             </field>
-         </record>
+        </record>
 
         <!-- action recepcion y distribucion -->
         <record model="ir.actions.act_window" id="recepcion_action_view">
@@ -220,11 +215,11 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Recepcionar</p>
+                <p class="oe_view_nocontent_create">Recepcionar</p>
             </field>
-         </record>
+        </record>
 
-    <!-- MORTALIDAD **************************************************************-->
+        <!-- MORTALIDAD **************************************************************-->
         <!-- action mortalidad crianza-->
         <record model="ir.actions.act_window" id="mortalidad_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
@@ -234,10 +229,10 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Datos de Aves</p>
+                <p class="oe_view_nocontent_create">Datos de Aves</p>
             </field>
-         </record>
-            <!-- action mortalidad postura vista tree-->
+        </record>
+        <!-- action mortalidad postura vista tree-->
         <record model="ir.actions.act_window" id="mortalidad_postura_action_view">
             <field name="name">Datos de Aves</field>
             <field name="res_model">bi.parvada.mortalidad</field>
@@ -246,10 +241,10 @@
             <field eval="False" name="view_id"/>
             <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Datos de Aves</p>
+                <p class="oe_view_nocontent_create">Datos de Aves</p>
             </field>
-           </record>
-              <!-- action mortalidad postura vista tree 22222-->
+        </record>
+        <!-- action mortalidad postura vista tree 22222-->
         <record model="ir.actions.act_window.view" id="tree_postura_mortalidad_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field eval="1" name="sequence"/>
@@ -257,15 +252,15 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="postura_mortalidad_tree2_view"/>
             <field name="act_window_id" ref="mortalidad_postura_action_view"/>
-         </record>
-         <!-- action mortalidad postura vista form-->
+        </record>
+        <!-- action mortalidad postura vista form-->
         <record model="ir.actions.act_window.view" id="form_mortalidad_postura_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="postura_mortalidad_parvadas_form_view"/>
             <field name="act_window_id" ref="mortalidad_postura_action_view"/>
-         </record>
+        </record>
 
 
         <!-- action alimento -->
@@ -277,9 +272,9 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Alimento</p>
+                <p class="oe_view_nocontent_create">Alimento</p>
             </field>
-         </record>
+        </record>
 
         <!-- action registro de alimento crianza-->
         <record model="ir.actions.act_window" id="alimento_action_view">
@@ -290,9 +285,9 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Datos del Alimento</p>
+                <p class="oe_view_nocontent_create">Datos del Alimento</p>
             </field>
-         </record>
+        </record>
         <!-- action registro de alimento POSTURA-->
         <record model="ir.actions.act_window" id="alimento_postura_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
@@ -302,10 +297,10 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Registro de Alimento</p>
+                <p class="oe_view_nocontent_create">Registro de Alimento</p>
             </field>
-         </record>
-         <!-- action regitro alimento postura vista tree-->
+        </record>
+        <!-- action regitro alimento postura vista tree-->
         <record model="ir.actions.act_window.view" id="tree_postura_alimento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field eval="1" name="sequence"/>
@@ -313,9 +308,9 @@
             <field name="view_mode">tree</field>
             <field name="view_id" ref="postura_alimento_tree_view"/>
             <field name="act_window_id" ref="alimento_postura_action_view"/>
-         </record>
+        </record>
 
-         <!-- action tolva -->
+        <!-- action tolva -->
         <record model="ir.actions.act_window" id="alta_tolva_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Tolva</field>
@@ -324,11 +319,11 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Tolva</p>
+                <p class="oe_view_nocontent_create">Tolva</p>
             </field>
-         </record>
+        </record>
 
-          <!-- action tipo de evento en alimento -->
+        <!-- action tipo de evento en alimento -->
         <record model="ir.actions.act_window" id="tipo_evento_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Tipo de Evento</field>
@@ -337,11 +332,11 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Tipo de evento</p>
+                <p class="oe_view_nocontent_create">Tipo de evento</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action tolva crianzas -->
+        <!-- action tolva crianzas -->
         <record model="ir.actions.act_window" id="tolva_detalle_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Tolva</field>
@@ -350,13 +345,12 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Tolva</p>
+                <p class="oe_view_nocontent_create">Tolva</p>
             </field>
-         </record>
+        </record>
 
 
-
-         <!-- action marca -->
+        <!-- action marca -->
         <record model="ir.actions.act_window" id="marca_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Marca</field>
@@ -365,11 +359,11 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Marca</p>
+                <p class="oe_view_nocontent_create">Marca</p>
             </field>
-         </record>
+        </record>
 
-            <!-- action parametros -->
+        <!-- action parametros -->
         <record model="ir.actions.act_window" id="param_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Parametros</field>
@@ -378,11 +372,11 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Parametros</p>
+                <p class="oe_view_nocontent_create">Parametros</p>
             </field>
-         </record>
+        </record>
 
-          <!-- action empaque -->
+        <!-- action empaque -->
         <record model="ir.actions.act_window" id="empaque_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
             <field name="name">Empaque</field>
@@ -391,9 +385,9 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Empaque</p>
+                <p class="oe_view_nocontent_create">Empaque</p>
             </field>
-         </record>
+        </record>
 
         <!-- action registro empaque -->
         <record model="ir.actions.act_window" id="registro_empaque_action_view">
@@ -404,9 +398,9 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Registro de Empaque</p>
+                <p class="oe_view_nocontent_create">Registro de Empaque</p>
             </field>
-         </record>
+        </record>
 
         <!-- action traspaso empaque -->
         <record model="ir.actions.act_window" id="traspaso_empaque_action_view">
@@ -417,46 +411,46 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Traspaso de Empaque</p>
+                <p class="oe_view_nocontent_create">Traspaso de Empaque</p>
             </field>
-         </record>
+        </record>
 
-         <!-- action produccion -->
-         <record model="ir.actions.act_window" id="produccion_action_view">
+        <!-- action produccion -->
+        <record model="ir.actions.act_window" id="produccion_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
-             <field name="name">Produccion Huevo</field>
+            <field name="name">Produccion Huevo</field>
             <field name="res_model">bi.produccion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Crear Produccion</p>
+                <p class="oe_view_nocontent_create">Crear Produccion</p>
             </field>
-         </record>
+        </record>
         <!-- action reporte produccion -->
         <record model="ir.actions.act_window" id="produccion_reporte_action_view">
             <field name="context">{'readonly_by_pass': True}</field>
-             <field name="name">Reporte Produccion</field>
+            <field name="name">Reporte Produccion</field>
             <field name="res_model">bi.registro.produccion</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
-         </record>
+        </record>
 
-          <!-- action causa traspaso -->
-         <record model="ir.actions.act_window" id="causa_traspaso_action_view">
+        <!-- action causa traspaso -->
+        <record model="ir.actions.act_window" id="causa_traspaso_action_view">
             <field name="name">Causa Traspaso</field>
             <field name="res_model">bi.causa.traspaso</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Causa Traspaso</p>
+                <p class="oe_view_nocontent_create">Causa Traspaso</p>
             </field>
-         </record>
+        </record>
 
-          <!-- action aves en transito postura -->
-         <record model="ir.actions.act_window" id="aves_transito_action_view">
+        <!-- action aves en transito postura -->
+        <record model="ir.actions.act_window" id="aves_transito_action_view">
             <field name="context">{'state': 'transit'}</field>
             <field name="name">Aves en transito</field>
             <field name="res_model">bi.parvada.distribucion</field>
@@ -464,48 +458,67 @@
             <field name="view_mode">tree,form,graph,pivot,kanban</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                 <p class="oe_view_nocontent_create">Aves en transito</p>
+                <p class="oe_view_nocontent_create">Aves en transito</p>
             </field>
-         </record>
-
+        </record>
 
 
         <!-- menu parent-->
         <menuitem name="AVI Planner" id="menu_root" sequence="115" web_icon="avi_planner,static/img/icon.png"/>
         <!-- menu crianza -->
-        <menuitem name="Crianza" id="menu_crianza" parent="menu_root" sequence="117"/>
-        <menuitem id="menu_nueva_solicitud" name="Parvadas Crianza" parent="menu_crianza" action="parvada_crianza_action_view" sequence="1"/>
-        <menuitem id="menu_recepcion_crianza" name="Recepcionar Ave Crianza" parent="menu_crianza" action="recepcion_crianza_action_view" sequence="2"/>
-        <menuitem id="menu_mortalidad_aves_crianza" name="Aves Crianza" parent="menu_crianza" action="mortalidad_action_view" sequence="3"/>
-        <menuitem id="menu_peso_uniformidad" name="Peso y Uniformidad Crianza" parent="menu_crianza" action="peso_uniformidad_crianza_action_view" sequence="4"/>
-        <menuitem id="menu_alimento" name="Alimento Crianza" parent="menu_crianza" action="alimento_action_view" sequence="5"/>
-        <menuitem id="menu_distribucion_aves" name="Traspaso de Ave Crianza" parent="menu_crianza" action="distribucion_action_view" sequence="6"/>
-        <menuitem id="menu_tolvas_crianza" name="Tolvas Crianza" parent="menu_crianza" action="tolva_detalle_action_view"/>
+        <menuitem name="Crianza" id="menu_crianza" parent="menu_root"/>
+        <menuitem id="menu_nueva_solicitud" name="Parvadas Crianza" parent="menu_crianza"
+                  action="parvada_crianza_action_view" sequence="1"/>
+        <menuitem id="menu_recepcion_crianza" name="Recepcionar Ave Crianza" parent="menu_crianza"
+                  action="recepcion_crianza_action_view" sequence="2"/>
+        <menuitem id="menu_mortalidad_aves_crianza" name="Aves Crianza" parent="menu_crianza"
+                  action="mortalidad_action_view" sequence="3"/>
+        <menuitem id="menu_peso_uniformidad" name="Peso y Uniformidad Crianza" parent="menu_crianza"
+                  action="peso_uniformidad_crianza_action_view" sequence="4"/>
+        <menuitem id="menu_alimento" name="Alimento Crianza" parent="menu_crianza" action="alimento_action_view"
+                  sequence="5"/>
+        <menuitem id="menu_distribucion_aves" name="Traspaso de Ave Crianza" parent="menu_crianza"
+                  action="distribucion_action_view" sequence="6"/>
+        <menuitem id="menu_tolvas_crianza" name="Tolvas Crianza" parent="menu_crianza"
+                  action="tolva_detalle_action_view"/>
 
 
         <!--menu postura-->
         <menuitem name="Postura" id="menu_postura" parent="menu_root" sequence="118"/>
-        <menuitem id="menu_nueva_parvada" name="Parvadas Postura"  parent="menu_postura" action="action_parvada_postura" sequence="1"/>
-        <menuitem id="menu_distribucion_postura" name="Traspaso Ave Posturas" parent="menu_postura" action="action_recepcion_postura" sequence="2"/>
-        <menuitem id="menu_registro_empaque" name="Registro Empaque"  parent="menu_postura" action="registro_empaque_action_view" sequence="3"/>
-        <menuitem id="menu_traspaso_empaque" name="Traspaso Empaque"  parent="menu_postura" action="traspaso_empaque_action_view" sequence="4"/>
-        <menuitem id="menu_postura_alimento" name="Alimento Postura" parent="menu_postura" action="alimento_postura_action_view"  sequence="5"/>
-        <menuitem id="menu_peso_huevo" name="Peso huevo,ave y uniformidad Postura" parent="menu_postura" action="peso_uniformidad_postura_action_view" sequence="6"/>
+        <menuitem id="menu_nueva_parvada" name="Parvadas Postura" parent="menu_postura" action="action_parvada_postura"
+                  sequence="1"/>
+        <menuitem id="menu_distribucion_postura" name="Traspaso Ave Posturas" parent="menu_postura"
+                  action="action_recepcion_postura" sequence="2"/>
+        <menuitem id="menu_registro_empaque" name="Registro Empaque" parent="menu_postura"
+                  action="registro_empaque_action_view" sequence="3"/>
+        <menuitem id="menu_traspaso_empaque" name="Traspaso Empaque" parent="menu_postura"
+                  action="traspaso_empaque_action_view" sequence="4"/>
+        <menuitem id="menu_postura_alimento" name="Alimento Postura" parent="menu_postura"
+                  action="alimento_postura_action_view" sequence="5"/>
+        <menuitem id="menu_peso_huevo" name="Peso huevo,ave y uniformidad Postura" parent="menu_postura"
+                  action="peso_uniformidad_postura_action_view" sequence="6"/>
         <!--<menuitem id="menu_recepcion" name="Pendiente de Recepcionar" parent="menu_postura" action="recepcion_action_view"/>-->
-        <menuitem id="menu_mortalidad_aves_postura" name="Aves Postura" parent="menu_postura" action="mortalidad_postura_action_view" sequence="7"/>
-        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view" sequence="8"/>
-        <menuitem id="menu_reporte" name="Reporte Produccion" parent="menu_postura" action="produccion_reporte_action_view" sequence="9"/>
-        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura" action="aves_transito_action_view" sequence="10"/>
+        <menuitem id="menu_mortalidad_aves_postura" name="Aves Postura" parent="menu_postura"
+                  action="mortalidad_postura_action_view" sequence="7"/>
+        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view"
+                  sequence="8"/>
+        <menuitem id="menu_reporte" name="Reporte Produccion" parent="menu_postura"
+                  action="produccion_reporte_action_view" sequence="9"/>
+        <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura"
+                  action="aves_transito_action_view" sequence="10"/>
 
 
-       <!--menu Configuracion -->
+        <!--menu Configuracion -->
         <menuitem name="Configuracion" id="menu_admon" parent="menu_root" sequence="119"/>
         <!-- configuracion granjas -->
         <menuitem id="bi_config_granjas" parent="menu_admon" name="Config. Granjas" sequence="99"/>
         <menuitem id="bi_granja" name="Granjas" parent="bi_config_granjas" action="granjas_action_view" sequence="1"/>
-        <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="bi_config_granjas" action="granjas_tipo_action_view" sequence="2"/>
-        <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="bi_config_granjas" action="granjas_seccion_action_view" sequence="3"/>
-        <menuitem id="bi_granja_casetas" name="Casetas" parent="bi_config_granjas" action="granjas_casetas_action_view" sequence="4"/>
+        <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="bi_config_granjas"
+                  action="granjas_tipo_action_view" sequence="2"/>
+        <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="bi_config_granjas"
+                  action="granjas_seccion_action_view" sequence="3"/>
+        <menuitem id="bi_granja_casetas" name="Casetas" parent="bi_config_granjas" action="granjas_casetas_action_view"
+                  sequence="4"/>
 
 
         <!-- configuracion conceptos -->
@@ -516,10 +529,12 @@
         <menuitem id="bi_empaque" name="Empaques" parent="bi_config_conceptos" action="empaque_action_view"/>
         <menuitem id="bi_marca" name="Marcas" parent="bi_config_conceptos" action="marca_action_view"/>
         <menuitem id="bi_param_postura" name="Parametros" parent="bi_config_conceptos" action="param_action_view"/>
-        <menuitem id="bi_causa_traspaso" name="Causas de Traspaso" parent="bi_config_conceptos" action="causa_traspaso_action_view"/>
-        <menuitem id="bi_tipo_evento" name="Tipo de Evento - Alimento" parent="bi_config_conceptos" action="tipo_evento_action_view"/>
+        <menuitem id="bi_causa_traspaso" name="Causas de Traspaso" parent="bi_config_conceptos"
+                  action="causa_traspaso_action_view"/>
+        <menuitem id="bi_tipo_evento" name="Tipo de Evento - Alimento" parent="bi_config_conceptos"
+                  action="tipo_evento_action_view"/>
         <menuitem id="bi_proveedor" parent="menu_admon" name="Proveedores" action="proveedor_action_view"/>
 
-       
-	</data>
+
+    </data>
 </odoo>

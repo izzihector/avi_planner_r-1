@@ -33,6 +33,32 @@ class BiKpis(models.TransientModel):
     uniformidad_real = fields.Float(string="% Uniformiad Ave Real")
     uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
 
+class BiKpisPostura(models.TransientModel):
+    _name = 'bi.kpis.postura'
+    _description = 'KPIs de postura'
+
+    def _get_granja(self):
+        return self.env['bi.granja'].search([], limit=1)
+
+    dias_edad_ave = fields.Integer(string="Dias edad ave")
+    semena_edad_ave = fields.Integer(string="Semana Edad Ave")
+    granja = fields.Char(string="Granja")
+    caseta = fields.Char(string="Caseta")
+    mortalidad_porcen = fields.Float(string="% Mortalidad Real")
+    mortalidad_porcen_meta = fields.Float(string="% Mortalidad Meta")
+    mortalidad_porcen_acum = fields.Float(string="% Mortalidad Acum")
+    mortalidad_porcen_acum_meta = fields.Float(string="% Mortalidad Acum Meta")
+    consumo_alimento_grs_ave = fields.Float(string="Consumo alimento GRS Ave")
+    consumo_alimento_grs_ave_meta = fields.Float(string="Consumo alimento GRS Ave Meta")
+    consumo_alimento_grs_ave_acum = fields.Float(string="Consumo alimento GRS Ave Acumulado Real")
+    consumo_alimento_grs_ave_acum_meta = fields.Float(string="Consumo alimento GRS Ave Acumulado Meta")
+    peso_real = fields.Float(string="Peso Ave Real")
+    peso_meta = fields.Float(string="Peso Ave Meta")
+    uniformidad_real = fields.Float(string="% Uniformiad Ave Real")
+    uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
+    produccion_real = fields.Float(string="% Produccion Real")
+    produccion_meta = fields.Float(string="% Produccion Meta")
+
 class BiResumenParvada(models.TransientModel):
     _name = 'bi.resumen.parvada'
     _description = 'Resumen de la parvada'
@@ -53,6 +79,7 @@ class BiResumenParvada(models.TransientModel):
     kgs_consumidos = fields.Float(string="Kgs. Consumidos")
     grs_acum_consum_enviados = fields.Float(string="Grs. Consumidos Enviados",)
     grs_acum_consum_servido = fields.Float(string="Grs. Consumidos Servidos")
+
 
     #envios a posturas
     envios_postura_ids = fields.Many2many('bi.parvada.distribucion', string="Envios a posturas")
@@ -1067,7 +1094,7 @@ class BiKpisPostura(models.TransientModel):
             x = []
             y1 = []
             y2 = []
-            mortalidad = rec.env['bi.kpis'].search([])
+            mortalidad = rec.env['bi.kpis.postura'].search([])
             if rec.periodo == 'semana':  ############################################## by week
                 if self.indicador == 'mortalidad_porcentaje':
                     for m in mortalidad:
@@ -1099,6 +1126,11 @@ class BiKpisPostura(models.TransientModel):
                         x.append(m.semena_edad_ave)
                         y1.append(m.uniformidad_real)
                         y2.append(m.uniformidad_meta)
+                elif self.indicador == 'produccion_porcentaje':
+                    for m in mortalidad:
+                        x.append(m.semena_edad_ave)
+                        y1.append(m.produccion_real)
+                        y2.append(m.produccion_meta)
 
             elif rec.periodo == 'dia':  ################################################ by day
                 if self.indicador == 'mortalidad_porcentaje':
@@ -1130,7 +1162,15 @@ class BiKpisPostura(models.TransientModel):
             legend2 = "Meta"
 
             hover = HoverTool()
-            if self.indicador == 'mortalidad_porcentaje':
+            if self.indicador == 'produccion_porcentaje':
+                title = "% PRODUCCION POR " + rec.periodo.upper() + " > GRANJA: " + rec.granja_id.name
+                x_axis_label = "" + rec.periodo + " " + "edad"
+                y_axis_label = "% produccion"
+                hover.tooltips = [
+                    (rec.periodo + " " + "edad", "@x"),
+                    (y_axis_label, "@y{0.0000}%"),
+                ]
+            elif self.indicador == 'mortalidad_porcentaje':
                 title = "% MORTALIDAD POR " + rec.periodo.upper() + " > GRANJA: " + rec.granja_id.name
                 x_axis_label = "" + rec.periodo + " " + "edad"
                 y_axis_label = "% mortalidad"
@@ -1183,7 +1223,7 @@ class BiKpisPostura(models.TransientModel):
             p = figure(
                 tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=1000, plot_height=400
+                plot_width=900, plot_height=400
             )
 
             p.tools.append(hover)
@@ -1207,7 +1247,8 @@ class BiKpisPostura(models.TransientModel):
     granja_id = fields.Many2one(comodel_name='bi.granja', default=_get_granja, string="Granja")
     parvada_id = fields.Many2one(comodel_name='bi.parvada', string="# Parvada", default=_get_parvada)
     periodo = fields.Selection([('dia', 'Dia'), ('semana', 'Semana')])
-    indicador = fields.Selection([('consumo_grs_ave_acum', 'Consumo Gramos Ave Acumulado'),
+    indicador = fields.Selection([('produccion_porcentaje', '% Produccion'),
+                                  ('consumo_grs_ave_acum', 'Consumo Gramos Ave Acumulado'),
                                   ('consumo_grs_ave', 'Consumo Gramos Ave'),
                                   ('mortalidad_porcentaje', '% Mortalidad'),
                                   ('mortalidad_porcentaje_acum', '% Mortalidad Acumulada'),
@@ -1217,14 +1258,14 @@ class BiKpisPostura(models.TransientModel):
     @api.multi
     def action_view_lines_postura(self):
         self.bokeh_chart = "";
-        self.env['bi.kpis'].search([]).unlink()
+        self.env['bi.kpis.postura'].search([]).unlink()
         self.ensure_one()
         self._compute_data_postura()
         self._compute_bokeh_chart()
         return {
             'view_type': 'form',
             'view_mode': 'tree,form,graph',
-            'res_model': 'bi.kpis',
+            'res_model': 'bi.kpis.postura',
             'type': 'ir.actions.act_window',
             'domain': "[]",
             'target': 'new',
@@ -1233,14 +1274,14 @@ class BiKpisPostura(models.TransientModel):
     @api.multi
     def action_view_graph_postura(self):
         self.bokeh_chart = "";
-        self.env['bi.kpis'].search([]).unlink()
+        self.env['bi.kpis.postura'].search([]).unlink()
         self.ensure_one()
         self._compute_data_postura()
         self._compute_bokeh_chart()
         """ return {
             'view_type': 'form',
             'view_mode': 'tree,form,graph',
-            'res_model': 'bi.kpis',
+            'res_model': 'bi.kpis.postura',
             'type': 'ir.actions.client',
             'domain': "[]",
             'tag': 'new',
@@ -1327,7 +1368,7 @@ $BODY$
                           uniformidad_real numeric,uniformidad_meta numeric);
 
 	   _parvada_id := (select parvada_id from bi_granja_caseta where id = x_caseta_id);
-	  _fecha_inicio_cursor := (select fecha_nacimiento from bi_parvada where id = x_parvada_id limit 1);
+	_fecha_inicio_cursor := (select fecha_nacimiento from bi_parvada where id = x_parvada_id limit 1);
 
           FOR r IN c LOOP
             -- Para obtener la edad de la parvada
@@ -1419,7 +1460,10 @@ $BODY$
        CREATE OR REPLACE FUNCTION public.balanza_aves_parvada_postura(
     IN x_granja_id integer,
     IN x_parvada_id integer)
-  RETURNS TABLE(fecha date, semana_year character varying, semana_edad_ave numeric, dias_edad_ave numeric, granja character varying, poblacion_inicial numeric, entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, meta_porcentaje_mortalidad numeric, mortalidad_acum numeric, porcentaje_mortalidad_acum numeric, meta_mortalidad_acum numeric, poblacion_final numeric, consumo_alimento_kgs_total numeric, consumo_alimento_grs_ave numeric, consumo_alimento_grs_ave_meta numeric, consumo_alimento_grs_ave_acum numeric, consumo_alimento_grs_ave_acum_meta numeric, peso_real numeric, peso_meta numeric, uniformidad_real numeric, uniformidad_meta numeric) AS
+  RETURNS TABLE(fecha date, semana_year character varying, semana_edad_ave numeric, dias_edad_ave numeric, granja character varying, poblacion_inicial numeric, entradas numeric, mortalidad numeric, porcentaje_mortalidad numeric, meta_porcentaje_mortalidad numeric, mortalidad_acum numeric, 
+                               porcentaje_mortalidad_acum numeric, meta_mortalidad_acum numeric, poblacion_final numeric, consumo_alimento_kgs_total numeric, consumo_alimento_grs_ave numeric, 
+                               consumo_alimento_grs_ave_meta numeric, consumo_alimento_grs_ave_acum numeric, consumo_alimento_grs_ave_acum_meta numeric, peso_real numeric, peso_meta numeric,
+                              uniformidad_real numeric, uniformidad_meta numeric, porcentaje_produccion numeric, porcentaje_produccion_meta numeric) AS
 $BODY$
         DECLARE
           _parvada_id numeric;
@@ -1445,6 +1489,10 @@ $BODY$
           _total_recepciones numeric; 
           _fecha_inicio_cursor date;
           _fecha_finaliza_curos date;
+
+          -- PRODUCCION
+          _porcentaje_produccion numeric;
+	  _porcentaje_produccion_meta numeric;
           
           r record;
           c CURSOR FOR  select date(dd.dd) as Fecha from
@@ -1484,18 +1532,15 @@ $BODY$
                           consumo_alimento_grs_ave_acum numeric,
                           consumo_alimento_grs_ave_acum_meta numeric,
                           peso_real numeric,peso_meta numeric,                          
-                          uniformidad_real numeric,uniformidad_meta numeric);
-
-
-	  _fecha_inicio_cursor := (select fecha_nacimiento from bi_parvada  bpr where id = x_parvada_id limit 1);
+                          uniformidad_real numeric,uniformidad_meta numeric,porcentaje_produccion numeric, porcentaje_produccion_meta numeric);
+	   _fecha_inicio_cursor := (select  fecha_postura from bi_parvada  bpr where id = x_parvada_id limit 1);
 	  IF _fecha_inicio_cursor  is not null
 	  THEN
 		  FOR r IN c LOOP
 		    -- Para obtener la edad de la parvada
-		    _fecha_nacimiento :=(select fecha_nacimiento from bi_parvada  bpr where id = x_parvada_id limit 1);
+		    _fecha_nacimiento :=(select  fecha_postura from bi_parvada  bpr where id = x_parvada_id limit 1);
 		    _fecha_inicial_edad_ave := _fecha_nacimiento + interval '1 days';
 		    _dias_edad_ave := (select r.fecha::date - _fecha_nacimiento::date);
-		    RAISE NOTICE 'Fecha actual  % y fecha recepcion % y dia %',r.fecha,_fecha_nacimiento,(select date_part('day', age(r.fecha, _fecha_nacimiento)));
 		    _semana_edad_ave:= ((select r.fecha::date  -  _fecha_nacimiento::date)/7);
 		    --granja
 		    _granja := (select ga.name from bi_granja ga where ga.id = x_granja_id);	 
@@ -1536,7 +1581,13 @@ $BODY$
 		    _peso_meta := (select postura_peso_corporal from  bi_parametros where postura_edad_semana = round(_semana_edad_ave,0));
 		    _uniformidad_real := (SELECT sum(pu.uniformidad)/count(pu.uniformidad)FROM public.bi_peso_uniformidad pu where pu.fecha = r.fecha and pu.parvada_id = x_parvada_id and pu.granja_id = x_granja_id);
                     _uniformidad_meta := (select crianza_meta_uniformidad from  bi_parametros where postura_edad_semana = round(_semana_edad_ave,0));
-		    
+
+	
+            ---PRODUCCION
+            _porcentaje_produccion := (SELECT ( COALESCE(sum(bolsa_desyemado) * 180,0) + COALESCE(sum(caja_360_chico)  *  360,0) +  COALESCE(sum(caja_180) * 180,0) + COALESCE(sum(caja_360)*360,0) + sum(pza_sucio)+
+							sum(pza_cascado)+ sum(pza_deforme) ) as HUEVOS_TOTALES FROM public.bi_registro_produccion birp where birp.parvada_id = x_parvada_id and birp.granja_id = x_granja_id and birp.fecha = r.fecha);
+        
+		    _porcentaje_produccion_meta := (SELECT "postura_prodAve" from public.bi_parametros   where postura_edad_semana = round(_semana_edad_ave,0));
 		    INSERT INTO BALANZA_AVES VALUES(
 				     r.fecha,
 				    _semana_year,
@@ -1560,7 +1611,10 @@ $BODY$
 				    _peso_real,
 				    _peso_meta,
 				    _uniformidad_real,
-				    _uniformidad_meta);
+				    _uniformidad_meta,
+				    ((_porcentaje_produccion/7)/_poblacion_inicial)*100,
+				    _porcentaje_produccion_meta
+				    );
 		  END LOOP;  
 	  END IF;
           RETURN QUERY SELECT * FROM BALANZA_AVES;
@@ -1577,7 +1631,7 @@ $BODY$
         if self.periodo == 'semana':
             if self.indicador == 'mortalidad_porcentaje':
                 if self.filtros == 'granja_caseta':
-                    query = """ INSERT INTO bi_kpis(
+                    query = """ INSERT INTO bi_kpis_postura(
                                granja,
                                caseta,
                                semena_edad_ave,
@@ -1590,7 +1644,7 @@ $BODY$
                                
                            """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """ INSERT INTO  bi_kpis(
+                    query_parvada = """ INSERT INTO  bi_kpis_postura(
                                         granja,
                                         semena_edad_ave,
                                         mortalidad_porcen,
@@ -1602,7 +1656,7 @@ $BODY$
                                     """
             elif self.indicador == 'mortalidad_porcentaje_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO  bi_kpis(
+                    query = """INSERT INTO  bi_kpis_postura(
                                semena_edad_ave,
                                granja,
                                caseta,
@@ -1615,7 +1669,7 @@ $BODY$
                                ORDER BY SEMANA_EDAD_AVE ASC
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO  bi_kpis(
+                    query_parvada = """INSERT INTO  bi_kpis_postura(
                                         semena_edad_ave,
                                         granja,
                                         mortalidad_porcen_acum,
@@ -1628,7 +1682,7 @@ $BODY$
                             """
             elif self.indicador == 'consumo_grs_ave':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO  bi_kpis(
+                    query = """INSERT INTO  bi_kpis_postura(
                                         semena_edad_ave,
                                         granja,
                                         caseta,
@@ -1641,7 +1695,7 @@ $BODY$
                                         order by semana_edad_ave asc
                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO  bi_kpis(
+                    query_parvada = """INSERT INTO  bi_kpis_postura(
                                        semena_edad_ave,
                                        granja,
                                        consumo_alimento_grs_ave,
@@ -1654,7 +1708,7 @@ $BODY$
                                     """
             elif self.indicador == 'consumo_grs_ave_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO  bi_kpis(
+                    query = """INSERT INTO  bi_kpis_postura(
                                         semena_edad_ave,
                                         granja,
                                         caseta,
@@ -1667,7 +1721,7 @@ $BODY$
                                        order by semana_edad_ave asc
                                                           """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_kpis(
+                    query_parvada = """INSERT INTO bi_kpis_postura(
                                        semena_edad_ave,
                                        granja,
                                        consumo_alimento_grs_ave_acum,
@@ -1681,7 +1735,7 @@ $BODY$
                                     """
             elif self.indicador == 'peso':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO  bi_kpis(
+                    query = """INSERT INTO  bi_kpis_postura(
                                                       semena_edad_ave,
                                                       granja,
                                                       caseta,
@@ -1693,7 +1747,7 @@ $BODY$
                                                       GROUP BY GRANJA,CASETA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO  bi_kpis(
+                    query_parvada = """INSERT INTO  bi_kpis_postura(
                                                       semena_edad_ave,
                                                       granja,
                                                       peso_real,
@@ -1705,7 +1759,7 @@ $BODY$
                                     """
             elif self.indicador == 'uniformidad':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO  bi_kpis(
+                    query = """INSERT INTO  bi_kpis_postura(
                                                        semena_edad_ave,
                                                        granja,
                                                        caseta,
@@ -1718,7 +1772,7 @@ $BODY$
                                                       GROUP BY GRANJA,CASETA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
                                                                          """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO  bi_kpis(
+                    query_parvada = """INSERT INTO  bi_kpis_postura(
                                                       semena_edad_ave,
                                                       granja,
                                                       uniformidad_real,
@@ -1728,10 +1782,36 @@ $BODY$
                                                       GROUP BY GRANJA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
 
                                                    """
+            elif self.indicador == 'produccion_porcentaje':
+                if self.filtros == 'granja_caseta':
+                    query = """INSERT INTO  bi_kpis_postura(
+                                                          semena_edad_ave,
+                                                          granja,
+                                                          caseta,
+                                                          produccion_real,
+                                                          produccion_meta)
+                                                                 
+                                SELECT GRANJA,semana_edad_ave,COALESCE(SUM(porcentaje_produccion),0),porcentaje_produccion_meta
+                                FROM balanza_aves_parvada_postura(%s,%s)
+                                where semana_edad_ave > 14
+                                GROUP BY GRANJA,semana_edad_ave,porcentaje_produccion_meta ORDER BY SEMANA_EDAD_AVE ASC
+                                                                                    """
+                elif self.filtros == 'granja_parvada':
+                    query_parvada = """INSERT INTO  bi_kpis_postura(
+                                                                 semena_edad_ave,
+                                                                 granja,
+                                                                  produccion_real,
+                                                                    produccion_meta)
+                                SELECT semana_edad_ave,GRANJA,COALESCE(SUM(porcentaje_produccion),0),porcentaje_produccion_meta
+                                FROM balanza_aves_parvada_postura(%s,%s)
+                                where semana_edad_ave > 14
+                                GROUP BY GRANJA,semana_edad_ave,porcentaje_produccion_meta ORDER BY SEMANA_EDAD_AVE ASC
+
+                                                              """
         elif self.periodo == 'dia':  ############################## by day
             if self.indicador == 'mortalidad_porcentaje':
                 if self.filtros == 'granja_caseta':
-                    query = """ INSERT INTO  bi_kpis(
+                    query = """ INSERT INTO  bi_kpis_postura(
                                              dias_edad_ave,
                                             semena_edad_ave,
                                             granja,
@@ -1747,7 +1827,7 @@ $BODY$
                                             from balanza_aves_parvada_postura(%s)
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """ INSERT INTO  bi_kpis(
+                    query_parvada = """ INSERT INTO  bi_kpis_postura(
                                                                  dias_edad_ave,
                                                                 semena_edad_ave,
                                                                 granja,
@@ -1762,7 +1842,7 @@ $BODY$
                                                 """
             elif self.indicador == 'mortalidad_porcentaje_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_kpis(
+                    query = """INSERT INTO bi_kpis_postura(
                                dias_edad_ave,
                                semena_edad_ave,
                                granja,
@@ -1773,7 +1853,7 @@ $BODY$
                                from balanza_aves_parvada_postura(%s)
                                """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_kpis(
+                    query_parvada = """INSERT INTO bi_kpis_postura(
                                                                            dias_edad_ave,
                                                                            semena_edad_ave,
                                                                            granja,
@@ -1784,7 +1864,7 @@ $BODY$
                                                                               """
             elif self.indicador == 'consumo_grs_ave':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_kpis(
+                    query = """INSERT INTO bi_kpis_postura(
                                                                       dias_edad_ave,
                                                                       semena_edad_ave,
                                                                       granja,
@@ -1795,7 +1875,7 @@ $BODY$
                                                                       from balanza_aves_parvada_postura(%s)
                             """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_kpis(
+                    query_parvada = """INSERT INTO bi_kpis_postura(
                                                                                           dias_edad_ave,
                                                                                           semena_edad_ave,
                                                                                           granja,
@@ -1806,7 +1886,7 @@ $BODY$
                                                 """
             elif self.indicador == 'consumo_grs_ave_acum':
                 if self.filtros == 'granja_caseta':
-                    query = """INSERT INTO bi_kpis(
+                    query = """INSERT INTO bi_kpis_postura(
                                                                     dias_edad_ave,
                                                                     semena_edad_ave,
                                                                     granja,
@@ -1817,7 +1897,7 @@ $BODY$
                                                                     from balanza_aves_parvada_postura(%s)
                                                 """
                 elif self.filtros == 'granja_parvada':
-                    query_parvada = """INSERT INTO bi_kpis(
+                    query_parvada = """INSERT INTO bi_kpis_postura(
                                                                     dias_edad_ave,
                                                                     semena_edad_ave,
                                                                     granja,

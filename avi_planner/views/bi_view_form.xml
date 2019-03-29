@@ -476,7 +476,7 @@
                                     <field name="crianza_meta_cons_alim_acum_grs" attrs="{'invisible':[('tipo_granja_id','=', 2)]}"/>
 
 
-                                    <field name="postura_edad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
+                                    <field name="postura_edad_semana" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
                                     <field name="postura_prodAve" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
                                     <field name="postura_viabilidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
                                     <field name="postura_meta_mortalidad" attrs="{'invisible':[('tipo_granja_id','=', 1)]}"/>
@@ -670,6 +670,7 @@
                             <field name="poblacion_solicitada" string="Poblacion Inicial"/>
                             <field name="edad_sem_tot" string="Edad del Ave (semanas)"/>
                             <field name="fecha_nacimiento" string="Fecha de Nacimiento"/>
+                            <field name="fecha_postura"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -779,6 +780,7 @@
                         <h3>Recepcion</h3>
                         <group>
                             <group>
+                                <field name="fecha_nacimiento"/>
                                 <field name="fecha_recepcion"/>
                                 <field name="poblacion_entrante"/>
                             </group>
