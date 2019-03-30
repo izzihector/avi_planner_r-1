@@ -15,23 +15,17 @@ var AviDashboardView = KanbanView.extend({
     display_name: _lt('Dashboard'),
     icon: 'fa-dashboard text-red',
     searchview_hidden: true,//  To hide the search and filter bar
-
+    events: {
+        'click .info-parvada': 'info_parvada',
+    },
     init: function (parent, dataset, view_id, options) {
         this._super(parent, dataset, view_id, options);
         this.options.creatable = false;
         var uid = dataset.context.uid;
         var isFirefox = false;
         var self = this;
-        //Here we can bind any functions to be called before or after render.
-        //_.bindAll(this, 'render', 'graph');
-        //var _this = this;
-        //this.render = _.wrap(this.render, function(render) {
-        //    render();
-        //    _this.graph();
-        //    return _this;
-        //});
+        var mortalidad_acum_data = [];
     },
-    // Here we are calling a function 'get_employee_info' from model to retrieve enough data
     render: function() {
         var super_render = this._super;
         var self = this;
@@ -40,7 +34,25 @@ var AviDashboardView = KanbanView.extend({
                 });
                 super_render.call(self);
                 $(avi_dashboard).prependTo(self.$el);
-        self.graph();
+                self.graph();
+
+       var model_granjas  = new Model('avi.dashboard').call('get_granjas',[]).then(function(result){
+            for (var i = 0; i < result.length; i++) {
+                var opt = document.createElement('option');
+                opt.appendChild(document.createTextNode(result[i]['name']));
+                opt.value = result[i]['id'];
+                document.getElementById("granjas").appendChild(opt);
+             }
+        });
+        var model_parvadas  = new Model('avi.dashboard').call('get_parvadas',[]).then(function(result){
+            for (var i = 0; i < result.length; i++) {
+                var opt = document.createElement('option');
+                opt.appendChild(document.createTextNode(result[i]['name']));
+                opt.value = result[i]['id'];
+                document.getElementById("parvadas").appendChild(opt);
+             }
+        });
+
     },
       // Function which gives random color for charts.
     getRandomColor: function () {
@@ -51,11 +63,50 @@ var AviDashboardView = KanbanView.extend({
         }
         return color;
     },
+    fetch_data: function() {
+		// Overwrite this function with useful data
+		return $.when();
+	},
+    info_parvada: function(){
+      var self = this;
+      var granja_id = document.getElementById("granjas").value;
+      var parvada_id = document.getElementById("parvadas").value;
+      if (granja_id != 'G' && parvada_id != 'P'){
+          var model  = new Model('avi.dashboard').call('get_granjas_info',[{'parameters':{'granja_id':granja_id,'parvada_id':parvada_id}}]).then(function(result){
+               document.getElementById("ave_recibida").innerHTML = result[0]['ave_recibida'];
+               document.getElementById("ave_enviada").innerHTML = result[0]['ave_enviada'];
+               document.getElementById("mortalidad_total").innerHTML = result[0]['mortalidad_total'];
+               document.getElementById("mortalidad_porcen_acum").innerHTML = result[0]['mortalidad_porcen_acum'];
+               document.getElementById("diff_aves").innerHTML = result[0]['diff_aves'];
+               document.getElementById("mortalidad_al_cierre").innerHTML = result[0]['mortalidad_al_cierre'];
+               document.getElementById("alimento_enviado").innerHTML = result[0]['alimento_enviado'];
+               document.getElementById("alimento_consumido").innerHTML = result[0]['alimento_consumido'];
+               document.getElementById("grs_acum_consum_enviados").innerHTML = result[0]['grs_acum_consum_enviados'];
+               document.getElementById("grs_acum_consum_servido").innerHTML = result[0]['grs_acum_consum_servido'];
+               self.isFirefox = typeof InstallTrigger !== 'undefined';
+               self.mortalidad_acum_data = result[0]['mortalidad_acum_info']
+               return self.fetch_data().then(function(result){
+                    self.graph();
+                })
+
+
+          });//termina el model
+      }//termina el if
+
+       
+    },
     graph: function() {
-        console.log("papaya de celaya----- aqui ando en chinga")
         var self = this
         var ctx = this.$el.find('#Chetos')
-        console.log("papaya de celaya----- aqui ando en chinga", ctx)
+        var semanas_edad =[]
+        var mortalidad_porcen_acum = []
+        var mortalidad_porcen_acum_meta = []
+        for (var i = 0; i < _.size(self.mortalidad_acum_data); i++ ) {
+           semanas_edad.push(self.mortalidad_acum_data[i]['semena_edad_ave'])
+           mortalidad_porcen_acum.push(self.mortalidad_acum_data[i]['mortalidad_porcen_acum'])
+           mortalidad_porcen_acum_meta.push(self.mortalidad_acum_data[i]['mortalidad_porcen_acum_meta'])
+        }
+        console.log('consumo',mortalidad_porcen_acum)
         // Fills the canvas with white background
         Chart.plugins.register({
           beforeDraw: function(chartInstance) {
@@ -70,52 +121,33 @@ var AviDashboardView = KanbanView.extend({
         for (var i=0;i<=12;i++){
             bg_color_list.push(self.getRandomColor())
         }
+        var dataFirst = {
+          label: "% Mortalidad Acum Real",
+          data: mortalidad_porcen_acum,
+        };
+        var dataSecond = {
+          label: "% Mortalidad Acum Meta",
+          data: mortalidad_porcen_acum_meta,
+        };
+        var speedData = {
+          labels: semanas_edad,
+          datasets: [mortalidad_porcen_acum, mortalidad_porcen_acum_meta]
+        };
+        var chartOptions = {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              boxWidth: 80,
+              fontColor: 'black'
+            }
+          }
+        };
         var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                //labels: ["January","February", "March", "April", "May", "June", "July", "August", "September",
-                // "October", "November", "December"],
-                labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-                datasets: [{
-                    label: 'Granjas',
-                    data: [2478,5267,734,784,433],
-                    backgroundColor: bg_color_list,
-                    borderColor: bg_color_list,
-                    borderWidth: 1,
-                    pointBorderColor: 'white',
-                    pointBackgroundColor: 'red',
-                    pointRadius: 5,
-                    pointHoverRadius: 10,
-                    pointHitRadius: 30,
-                    pointBorderWidth: 2,
-                    pointStyle: 'rectRounded'
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 1000,
-                            max: 10000,
-                          }
-                    }]
-                },
-                responsive: true,
-                maintainAspectRatio: true,
-                animation: {
-                    duration: 100, // general animation time
-                },
-                hover: {
-                    animationDuration: 500, // duration of animations when hovering an item
-                },
-                responsiveAnimationDuration: 500, // animation duration after a resize
-                legend: {
-                    display: true,
-                    labels: {
-                        fontColor: 'black'
-                    }
-                },
-            },
+            type: 'line',
+            data:speedData,
+            options: chartOptions,
+            responsive: true,
         });
     },      
 })

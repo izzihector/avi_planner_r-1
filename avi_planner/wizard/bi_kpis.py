@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class BiKpis(models.TransientModel):
+class BiKpis(models.Model):
     _name = 'bi.kpis'
     _description = 'KPIs de crianza'
 
