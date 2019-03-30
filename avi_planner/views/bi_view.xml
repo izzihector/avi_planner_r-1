@@ -17,7 +17,7 @@
             <field name="name">Casetas</field>
             <field name="res_model">bi.granja.caseta</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear caseta</p>
@@ -28,7 +28,7 @@
             <field name="name">Razas</field>
             <field name="res_model">bi.raza</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Raza</p>
@@ -40,7 +40,7 @@
             <field name="name">Granjas</field>
             <field name="res_model">bi.granja</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear granja</p>
@@ -52,7 +52,7 @@
             <field name="name">Tipo de Granjas</field>
             <field name="res_model">bi.granja.tipo</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear tipo de granja</p>
@@ -64,7 +64,7 @@
             <field name="name">Seccion</field>
             <field name="res_model">bi.granja.seccion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Seccion</p>
@@ -76,7 +76,7 @@
             <field name="name">Solicitud de Ave</field>
             <field name="res_model">bi.parvada</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('edad_sem_tot','=',0)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Solicitud</p>
@@ -140,7 +140,7 @@
             <field name="name">Recepcion de Ave</field>
             <field name="res_model">bi.parvada.recepcion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Recepcion</p>
@@ -154,7 +154,7 @@
             <field name="name">Peso y Uniformidad de Aves</field>
             <field name="res_model">bi.peso.uniformidad</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Registro</p>
@@ -167,7 +167,7 @@
             <field name="name">Peso huevo, peso ave y uniformidad</field>
             <field name="res_model">bi.peso.uniformidad</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Registro</p>
@@ -199,7 +199,7 @@
             <field name="name">Traspaso de Ave</field>
             <field name="res_model">bi.parvada.distribucion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear traspaso</p>
@@ -212,7 +212,7 @@
             <field name="name">Recepcion de Aves</field>
             <field name="res_model">bi.parvada.distribucion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Recepcionar</p>
@@ -226,7 +226,7 @@
             <field name="name">Datos de Aves</field>
             <field name="res_model">bi.parvada.mortalidad</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Datos de Aves</p>
@@ -269,7 +269,7 @@
             <field name="name">Alimento</field>
             <field name="res_model">bi.alimento</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Alimento</p>
@@ -282,7 +282,7 @@
             <field name="name">Registro de Alimento</field>
             <field name="res_model">bi.registro.alimento</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Datos del Alimento</p>
@@ -294,7 +294,7 @@
             <field name="name">Registro de Alimento</field>
             <field name="res_model">bi.registro.alimento</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('tipo_granja','=','POSTURA')]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Registro de Alimento</p>
@@ -316,7 +316,7 @@
             <field name="name">Tolva</field>
             <field name="res_model">bi.tolva</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Tolva</p>
@@ -329,7 +329,7 @@
             <field name="name">Tipo de Evento</field>
             <field name="res_model">bi.alimento.tipo.evento</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Tipo de evento</p>
@@ -342,7 +342,7 @@
             <field name="name">Tolva</field>
             <field name="res_model">bi.tolva</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Tolva</p>
@@ -356,7 +356,7 @@
             <field name="name">Marca</field>
             <field name="res_model">bi.marca</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Marca</p>
@@ -369,7 +369,7 @@
             <field name="name">Parametros</field>
             <field name="res_model">bi.parametros</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Parametros</p>
@@ -382,7 +382,7 @@
             <field name="name">Empaque</field>
             <field name="res_model">bi.empaque</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Empaque</p>
@@ -395,7 +395,7 @@
             <field name="name">Registro de Empaque</field>
             <field name="res_model">bi.registro.empaque</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Registro de Empaque</p>
@@ -408,7 +408,7 @@
             <field name="name">Traspaso de Empaque</field>
             <field name="res_model">bi.traspaso.empaque</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Traspaso de Empaque</p>
@@ -421,7 +421,7 @@
             <field name="name">Produccion Huevo</field>
             <field name="res_model">bi.produccion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Crear Produccion</p>
@@ -433,7 +433,7 @@
             <field name="name">Reporte Produccion</field>
             <field name="res_model">bi.registro.produccion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
         </record>
 
@@ -442,7 +442,7 @@
             <field name="name">Causa Traspaso</field>
             <field name="res_model">bi.causa.traspaso</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Causa Traspaso</p>
@@ -455,7 +455,7 @@
             <field name="name">Aves en transito</field>
             <field name="res_model">bi.parvada.distribucion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,graph,pivot,kanban</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Aves en transito</p>
@@ -464,74 +464,63 @@
 
 
         <!-- menu parent-->
-        <menuitem name="AVI Planner" id="menu_root" sequence="115" web_icon="avi_planner,static/img/icon.png"/>
+        <menuitem name="AVI Planner" id="menu_avi_planner" web_icon="avi_planner,static/img/icon.png"/>
         <!-- menu crianza -->
-        <menuitem name="Crianza" id="menu_crianza" parent="menu_root"/>
+        <menuitem name="Crianza" id="menu_crianza" parent="menu_avi_planner"/>
         <menuitem id="menu_nueva_solicitud" name="Parvadas Crianza" parent="menu_crianza"
-                  action="parvada_crianza_action_view" sequence="1"/>
+                  action="parvada_crianza_action_view"/>
         <menuitem id="menu_recepcion_crianza" name="Recepcionar Ave Crianza" parent="menu_crianza"
-                  action="recepcion_crianza_action_view" sequence="2"/>
+                  action="recepcion_crianza_action_view"/>
         <menuitem id="menu_mortalidad_aves_crianza" name="Aves Crianza" parent="menu_crianza"
-                  action="mortalidad_action_view" sequence="3"/>
+                  action="mortalidad_action_view"/>
         <menuitem id="menu_peso_uniformidad" name="Peso y Uniformidad Crianza" parent="menu_crianza"
-                  action="peso_uniformidad_crianza_action_view" sequence="4"/>
+                  action="peso_uniformidad_crianza_action_view"/>
         <menuitem id="menu_alimento" name="Alimento Crianza" parent="menu_crianza" action="alimento_action_view"
-                  sequence="5"/>
+        />
         <menuitem id="menu_distribucion_aves" name="Traspaso de Ave Crianza" parent="menu_crianza"
-                  action="distribucion_action_view" sequence="6"/>
+                  action="distribucion_action_view"/>
         <menuitem id="menu_tolvas_crianza" name="Tolvas Crianza" parent="menu_crianza"
                   action="tolva_detalle_action_view"/>
-
-
         <!--menu postura-->
-        <menuitem name="Postura" id="menu_postura" parent="menu_root" sequence="118"/>
-        <menuitem id="menu_nueva_parvada" name="Parvadas Postura" parent="menu_postura" action="action_parvada_postura"
-                  sequence="1"/>
+        <menuitem name="Postura" id="menu_postura" parent="menu_avi_planner"/>
+        <menuitem id="menu_nueva_parvada" name="Parvadas Postura" parent="menu_postura"
+                  action="action_parvada_postura"/>
         <menuitem id="menu_distribucion_postura" name="Traspaso Ave Posturas" parent="menu_postura"
-                  action="action_recepcion_postura" sequence="2"/>
+                  action="action_recepcion_postura"/>
         <menuitem id="menu_registro_empaque" name="Registro Empaque" parent="menu_postura"
-                  action="registro_empaque_action_view" sequence="3"/>
+                  action="registro_empaque_action_view"/>
         <menuitem id="menu_traspaso_empaque" name="Traspaso Empaque" parent="menu_postura"
-                  action="traspaso_empaque_action_view" sequence="4"/>
+                  action="traspaso_empaque_action_view"/>
         <menuitem id="menu_postura_alimento" name="Alimento Postura" parent="menu_postura"
-                  action="alimento_postura_action_view" sequence="5"/>
+                  action="alimento_postura_action_view"/>
         <menuitem id="menu_peso_huevo" name="Peso huevo,ave y uniformidad Postura" parent="menu_postura"
-                  action="peso_uniformidad_postura_action_view" sequence="6"/>
-        <!--<menuitem id="menu_recepcion" name="Pendiente de Recepcionar" parent="menu_postura" action="recepcion_action_view"/>-->
+                  action="peso_uniformidad_postura_action_view"/>
         <menuitem id="menu_mortalidad_aves_postura" name="Aves Postura" parent="menu_postura"
-                  action="mortalidad_postura_action_view" sequence="7"/>
-        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view"
-                  sequence="8"/>
+                  action="mortalidad_postura_action_view"/>
+        <menuitem id="menu_produccion" name="Produccion Huevo" parent="menu_postura" action="produccion_action_view"/>
         <menuitem id="menu_reporte" name="Reporte Produccion" parent="menu_postura"
-                  action="produccion_reporte_action_view" sequence="9"/>
+                  action="produccion_reporte_action_view"/>
         <menuitem id="menu_aves_transito" name="Aves en Transito" parent="menu_postura"
-                  action="aves_transito_action_view" sequence="10"/>
-
+                  action="aves_transito_action_view"/>
 
         <!--menu Configuracion -->
-        <menuitem name="Configuracion" id="menu_admon" parent="menu_root" sequence="119"/>
-        <!-- configuracion granjas -->
-        <menuitem id="bi_config_granjas" parent="menu_admon" name="Config. Granjas" sequence="99"/>
-        <menuitem id="bi_granja" name="Granjas" parent="bi_config_granjas" action="granjas_action_view" sequence="1"/>
-        <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="bi_config_granjas"
-                  action="granjas_tipo_action_view" sequence="2"/>
-        <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="bi_config_granjas"
-                  action="granjas_seccion_action_view" sequence="3"/>
-        <menuitem id="bi_granja_casetas" name="Casetas" parent="bi_config_granjas" action="granjas_casetas_action_view"
-                  sequence="4"/>
-
-
-        <!-- configuracion conceptos -->
-        <menuitem id="bi_config_conceptos" parent="menu_admon" name="Config. Conceptos" sequence="99"/>
-        <menuitem id="bi_raza" name="Razas" parent="bi_config_conceptos" action="razas_action_view"/>
-        <menuitem id="bi_alimento" name="Alimentos" parent="bi_config_conceptos" action="alta_alimento_action_view"/>
-        <menuitem id="bi_tolva" name="Tolvas" parent="bi_config_conceptos" action="alta_tolva_action_view"/>
-        <menuitem id="bi_empaque" name="Empaques" parent="bi_config_conceptos" action="empaque_action_view"/>
-        <menuitem id="bi_marca" name="Marcas" parent="bi_config_conceptos" action="marca_action_view"/>
-        <menuitem id="bi_param_postura" name="Parametros" parent="bi_config_conceptos" action="param_action_view"/>
-        <menuitem id="bi_causa_traspaso" name="Causas de Traspaso" parent="bi_config_conceptos"
+        <menuitem name="Configuracion" id="menu_admon" parent="menu_avi_planner"/>
+        <menuitem id="bi_granja" name="Granjas" parent="menu_admon" action="granjas_action_view"/>
+        <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="menu_admon"
+                  action="granjas_tipo_action_view"/>
+        <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="menu_admon"
+                  action="granjas_seccion_action_view"/>
+        <menuitem id="bi_granja_casetas" name="Casetas" parent="menu_admon"
+                  action="granjas_casetas_action_view"/>
+        <menuitem id="bi_raza" name="Razas" parent="menu_admon" action="razas_action_view"/>
+        <menuitem id="bi_alimento" name="Alimentos" parent="menu_admon" action="alta_alimento_action_view"/>
+        <menuitem id="bi_tolva" name="Tolvas" parent="menu_admon" action="alta_tolva_action_view"/>
+        <menuitem id="bi_empaque" name="Empaques" parent="menu_admon" action="empaque_action_view"/>
+        <menuitem id="bi_marca" name="Marcas" parent="menu_admon" action="marca_action_view"/>
+        <menuitem id="bi_param_postura" name="Parametros" parent="menu_admon" action="param_action_view"/>
+        <menuitem id="bi_causa_traspaso" name="Causas de Traspaso" parent="menu_admon"
                   action="causa_traspaso_action_view"/>
-        <menuitem id="bi_tipo_evento" name="Tipo de Evento - Alimento" parent="bi_config_conceptos"
+        <menuitem id="bi_tipo_evento" name="Tipo de Evento - Alimento" parent="menu_admon"
                   action="tipo_evento_action_view"/>
         <menuitem id="bi_proveedor" parent="menu_admon" name="Proveedores" action="proveedor_action_view"/>
 

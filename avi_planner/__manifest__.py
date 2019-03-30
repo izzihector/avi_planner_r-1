@@ -2,7 +2,6 @@
 {
     'name' : 'AVI Planner',
     'category': 'Inventory',
-    'sequence': 1000,
     'summary': 'Administracion de granjas de Crianza y Postura',
     'description' : """
         Parvadas, Aves, Mortalidad, Empaque, Alimento
@@ -18,13 +17,16 @@
 
     'data': [
         'views/bi_view_tree.xml',        
-        'views/bi_view_form.xml',        
-        'views/bi_view_graph.xml',
+        'views/bi_view_form.xml',
         'views/bi_view.xml',
+        'views/avi_dashboard.xml',
         'wizard/bi_view_report_kpi.xml',
         'wizard/bi_view_report_kpi_postura.xml',
         'wizard/bi_resumen_parvada.xml',
         'data/data_avi_planner.xml'        
+    ],
+    'qweb': [
+        "static/src/xml/avi_dashboard.xml",
     ],
 
     'installable': True,

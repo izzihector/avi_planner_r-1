@@ -8,27 +8,27 @@
                 <form string="Resumen Por">
                     <header>
                     </header>
-                    <div style="background-color:#DFA941;color:white;padding:10px 10px 10px 10px;border-radius:10px;" align="middle">
-                        <image  style="width:70px;height:100px;" src="http://www.clker.com/cliparts/0/G/N/g/O/4/black-egg-hi.png"/>
-                        <image  style="width:90px;height:100px;" src="https://www.freeiconspng.com/uploads/chicken-icon-31.png"/>
-
-                        <h1>BI AVIPLANNER POSTURAS</h1>
+                    <div style="background-color:#F5C144;color:white;padding:3px 3px 3px 3px;border-radius:5px;" align="middle">
+                        <image  style="width:25px;height:40px;" src="http://www.clker.com/cliparts/0/G/N/g/O/4/black-egg-hi.png"/>
+                        <image  style="width:35px;height:40px;" src="https://www.freeiconspng.com/uploads/chicken-icon-31.png"/>
+                        <h3>BI AVIPLANNER POSTURAS</h3>
                     </div>
                     <group>
-                        <group style="width:400px">
+                        <group>
                             <field name="filtros" string="Filtrar a nivel" />
                             <field name="granja_id" domain="[('tipo_granja_id','=',2)]" required="1" attrs="{'invisible':[('filtros','=', 'a')]}"/>
                             <field name="caseta_id" attrs="{'invisible':[('filtros','!=', 'granja_caseta')]}" domain="[('granja_id','=',granja_id)]" />
                             <field name="parvada_id"/>
                             <field name="periodo" required="1"/>
-                            <field name="indicador" string="Indicador" required="1"/>
-                            <button name="action_view_graph_postura" icon = "fa-bar-chart-o" string="Ver Grafica" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
-                            <button name="action_view_lines_postura" icon = "fa-file-o" string="Ver Datos" type="object" class="oe_highlight" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px"/>
+                            <field name="indicador" string="Indicador" required="1"/>                            
                         </group>
-                        <group style="width:2px"></group>
                         <group>
-                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
+                            <button name="action_view_graph_postura" icon = "fa-bar-chart-o" string="Ver Grafica" type="object" class="btn btn-warning" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px;"/><br/>
+                            <button name="action_view_lines_postura" icon = "fa-file-o" string="Ver Datos" type="object" class="btn btn-danger" attrs="{'invisible':[('filtros','=', 'a')]}"  style="width:200px;"/>
                         </group>
+                    </group>
+                    <group>
+                            <field name="bokeh_chart" widget="bokeh_chart" nolabel="1"  options="{'reload_on_button': true}"/>
                     </group>
                     <footer>
                     </footer>

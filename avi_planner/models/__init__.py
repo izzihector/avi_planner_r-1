@@ -9,3 +9,4 @@ from . import bi_alimento
 from . import bi_produccion
 from . import bi_parametros
 from . import bi_peso_uniformidad
+from . import dashboard

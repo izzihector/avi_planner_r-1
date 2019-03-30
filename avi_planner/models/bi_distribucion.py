@@ -13,8 +13,6 @@ class BiParvadaDistribucion(models.Model):
 
     def _get_granja(self):
         return self.env['bi.granja'].search([], limit=1)
-    def _get_causa_traspaso(self):
-        return self.env['bi.causa.traspaso'].search([], limit=1)
     def _get_granja_destino(self):
         return self.env['bi.granja'].search([('tipo_granja_id','=',2)], limit=1)
 
@@ -27,7 +25,7 @@ class BiParvadaDistribucion(models.Model):
     granja_destino_id = fields.Many2one(comodel_name='bi.granja', string="Granja Destino",required=True,default=None)
     caseta_destino_id = fields.Many2one(comodel_name='bi.granja.caseta', string="Caseta Destino")
 
-    causa_traspaso_id = fields.Many2one(comodel_name="bi.causa.traspaso", string="Causa del Traspaso", default=_get_causa_traspaso, required=True)
+    causa_traspaso_id = fields.Many2one(comodel_name="bi.causa.traspaso", string="Causa del Traspaso", required=True)
     state = fields.Selection([('draft','Borrador'),
                               ('transit','En Transito'),
                               ('received','Recepcionado'),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @author: Ivan Porras
 from bokeh.plotting import figure
-from bokeh.models import HoverTool
+from bokeh.models import HoverTool, FactorRange
 from bokeh.embed import components
 
 from odoo import api, fields, models
@@ -1223,9 +1223,8 @@ class BiKpisPostura(models.TransientModel):
             p = figure(
                 tools="pan,box_zoom,reset,save,wheel_zoom", title=title,
                 x_axis_label=x_axis_label, y_axis_label=y_axis_label,
-                plot_width=900, plot_height=400
+                plot_width=1000, plot_height=400,responsive = True
             )
-
             p.tools.append(hover)
 
             p.line(x, y1, legend=legend1, line_color="red")
@@ -1278,14 +1277,6 @@ class BiKpisPostura(models.TransientModel):
         self.ensure_one()
         self._compute_data_postura()
         self._compute_bokeh_chart()
-        """ return {
-            'view_type': 'form',
-            'view_mode': 'tree,form,graph',
-            'res_model': 'bi.kpis.postura',
-            'type': 'ir.actions.client',
-            'domain': "[]",
-            'tag': 'new',
-        }"""
 
     def _compute_data_postura(self):
         self._sql_report_object_postura()

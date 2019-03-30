@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- grafica parvadas -->
+        <record id="parvadas_view_graph" model="ir.ui.view">
+            <field name="name">bi.parvada.graph</field>
+            <field name="model">bi.parvada</field>
+            <field name="arch" type="xml">
+                <graph string="Parvadas">
+                    <field name="name"/>
+                    <field name="raza_id" type="row"/>
+                    <field name="poblacion_solicitada" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- grafica parvadas -->
+        <record id="parvadas_view_graph" model="ir.ui.view">
+            <field name="name">bi.parvada.mortalidad.graph</field>
+            <field name="model">bi.parvada.mortalidad</field>
+            <field name="arch" type="xml">
+                <graph string="Mortalidad">
+                    <field name="parvada_id" type="row"/>
+                    <field name="total_mortalidad" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <!-- Dashboard Action for Menu HR Dashboard -->
+        <record id="action_avi_dashboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">avi.dashboard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">avi_dashboard_view</field>
+            <field name="context">{
+            'avi_dashboard_view_view_ref' : 'avi_planner.avi_dashboard_view'
+            }</field>
+
+        </record>
+
+        <!-- Default View for Avi Dashboard, which is extended to make Dashboard View -->
+        <record model="ir.ui.view" id="avi_dashboard_view">
+            <field name="name">Avi Dashboard</field>
+            <field name="model">avi.dashboard</field>
+            <field name="arch" type="xml">
+                <kanban>
+                </kanban>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_avi_dashboard" 
+            parent= "menu_avi_planner" sequence= "1" name= "Tablero" action="action_avi_dashboard"/>
+
+
+
+        <template id="assets_backend" name="Avi assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/avi_planner/static/src/js/avi_dashboard.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/charts/Chart.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/charts/Chart.bundle.min.js"/>
+                <!-- Datatable scripts -->
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/datatables.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/dataTables.buttons.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.flash.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.html5.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.print.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/pdfmake.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/vfs_fonts.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/jszip.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.bootstrap.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.bootstrap4.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/dataTables/buttons.colVis.min.js"/>
+                <!-- Scripts to export html to pdf -->
+                <script type="text/javascript" src="/avi_planner/static/lib/jsPdf/jspdf.min.js"/>
+                <script type="text/javascript" src="/avi_planner/static/lib/jsPdf/jspdf.debug.js"/>
+                <!-- Css scripts for dashboard view and table -->
+                <link rel="stylesheet" href="/avi_planner/static/src/css/dashboard.css"/>
+                <link rel="stylesheet" href="/avi_planner/static/lib/dataTables/datatables.min.css"/>
+                <link rel="stylesheet" href="/avi_planner/static/lib/dataTables/buttons.dataTables.min.css"/>
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>
