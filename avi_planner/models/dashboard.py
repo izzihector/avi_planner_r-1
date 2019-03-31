@@ -18,12 +18,13 @@ class AviplannerDashboard(models.Model):
         return parvada
 
     @api.model
-    def get_granjas_info(self,parameters):
+    def get_granjas_info(self, parameters):
         # aves)
         granja = self.env['bi.granja'].sudo().search_read([])
         # aves recibidas
         recepciones_objs = self.env['bi.parvada.recepcion'].search(
-            [('granja_id', '=', int(parameters['parameters']['granja_id'])),('parvada_id','=',int(parameters['parameters']['parvada_id']))])
+            [('granja_id', '=', int(parameters['parameters']['granja_id'])),
+             ('parvada_id', '=', int(parameters['parameters']['parvada_id']))])
         suma_recepciones = 0
         if recepciones_objs is not None:
             for e in recepciones_objs:
@@ -60,40 +61,76 @@ class AviplannerDashboard(models.Model):
         self._sql_report_object_informe()
         self._sql_mortalidad_acum(parameters)
 
-        granja_name = self.env['bi.granja'].search([('id','=',int(parameters['parameters']['granja_id']))])
+        granja_name = self.env['bi.granja'].search([('id', '=', int(parameters['parameters']['granja_id']))])
         mortalidad_acum_objs = self.env['bi.kpis'].search(
             [('granja', '=', granja_name.name), ('semena_edad_ave', '=', 18)])
 
         mortalidad_acum_info = self.env['bi.kpis'].sudo().search_read([])
 
-        mortalidad_porcen_cierre=0
+        self.env['bi.kpis'].search([]).unlink()
+        self._sql_report_object_informe()
+        self._sql_mortalidad(parameters)
+
+        mortalidad_info = self.env['bi.kpis'].sudo().search_read([])
+
+        self.env['bi.kpis'].search([]).unlink()
+        self._sql_report_object_informe()
+        self._sql_consumo_grs_acumulados(parameters)
+
+        consumo_grs_acum_info = self.env['bi.kpis'].sudo().search_read([])
+
+        self.env['bi.kpis'].search([]).unlink()
+        self._sql_report_object_informe()
+        self._sql_consumo_grs(parameters)
+
+        consumo_grs_info = self.env['bi.kpis'].sudo().search_read([])
+
+        self.env['bi.kpis'].search([]).unlink()
+        self._sql_report_object_informe()
+        self._sql_peso(parameters)
+
+        peso_info = self.env['bi.kpis'].sudo().search_read([])
+
+        self.env['bi.kpis'].search([]).unlink()
+        self._sql_report_object_informe()
+        self._sql_uniformidad(parameters)
+
+        uniformidad_info = self.env['bi.kpis'].sudo().search_read([])
+
+        mortalidad_porcen_cierre = 0
         if suma_recepciones > 0 and suma_envios_postura > 0:
-            mortalidad_porcen_cierre = (float(suma_mortalidad + (suma_recepciones - suma_envios_postura - suma_mortalidad)) / float(suma_recepciones)) * 100
+            mortalidad_porcen_cierre = (float(
+                suma_mortalidad + (suma_recepciones - suma_envios_postura - suma_mortalidad)) / float(
+                suma_recepciones)) * 100
         grs_acum_consum_enviados = 0
         if suma_alimento_entrada > 0:
-            grs_acum_consum_enviados= round((float((float(suma_alimento_entrada)/float(suma_recepciones)) *1000)),2)
+            grs_acum_consum_enviados = round((float((float(suma_alimento_entrada) / float(suma_recepciones)) * 1000)),
+                                             2)
         grs_acum_consum_servido = 0
         if suma_alimento_consumo > 0:
             grs_acum_consum_servido = round((float((float(suma_alimento_entrada) / float(suma_recepciones)) * 1000)),
-                                             2)
+                                            2)
 
         if granja:
             data = {
                 'ave_recibida': suma_recepciones,
                 'ave_enviada': suma_envios_postura,
-                'mortalidad_total':suma_mortalidad,
-                'mortalidad_porcen_acum':round(mortalidad_acum_objs.mortalidad_porcen_acum,2),
-                'diff_aves':suma_recepciones - suma_envios_postura - suma_mortalidad,
-                'mortalidad_al_cierre':round(mortalidad_porcen_cierre,2),
-                'alimento_enviado':suma_alimento_entrada,
-                'alimento_consumido':suma_alimento_consumo,
-                'grs_acum_consum_enviados':grs_acum_consum_enviados,
-                'grs_acum_consum_servido':grs_acum_consum_servido,
-                'mortalidad_acum_info':mortalidad_acum_info,
+                'mortalidad_total': suma_mortalidad,
+                'diff_aves': suma_recepciones - suma_envios_postura - suma_mortalidad,
+                'mortalidad_al_cierre': round(mortalidad_porcen_cierre, 2),
+                'alimento_enviado': suma_alimento_entrada,
+                'alimento_consumido': suma_alimento_consumo,
+                'grs_acum_consum_enviados': grs_acum_consum_enviados,
+                'grs_acum_consum_servido': grs_acum_consum_servido,
+                'mortalidad_acum_info': mortalidad_acum_info,
+                'mortalidad_info': mortalidad_info,
+                'consumo_acum_info': consumo_grs_acum_info,
+                'consumo_info': consumo_grs_info,
+                'peso_info': peso_info,
+                'uniformidad_info':uniformidad_info,
             }
         granja[0].update(data)
         return granja
-
 
     def _sql_report_object_informe(self):
         query_parvada_funcion = """
@@ -245,7 +282,7 @@ class AviplannerDashboard(models.Model):
       LANGUAGE plpgsql VOLATILE"""
         self.env.cr.execute(query_parvada_funcion)
 
-    def _sql_mortalidad_acum(self,parameters):
+    def _sql_mortalidad_acum(self, parameters):
         query_mortalidad = """INSERT INTO  bi_kpis(
                                             semena_edad_ave,
                                             granja,
@@ -257,6 +294,77 @@ class AviplannerDashboard(models.Model):
                                             ORDER BY SEMANA_EDAD_AVE ASC
                                 """
 
-
         params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
         self.env.cr.execute(query_mortalidad, tuple(params))
+
+    def _sql_mortalidad(self, parameters):
+        query_parvada = """ INSERT INTO  bi_kpis(
+                                              granja,
+                                              semena_edad_ave,
+                                              mortalidad_porcen,
+                                              mortalidad_porcen_meta)      
+                                              SELECT GRANJA,semana_edad_ave,SUM(PORCENTAJE_MORTALIDAD),META_PORCENTAJE_MORTALIDAD
+                                              FROM balanza_aves_parvada(%s,%s)
+                                              GROUP BY GRANJA,semana_edad_ave,META_PORCENTAJE_MORTALIDAD ORDER BY SEMANA_EDAD_AVE ASC
+                                          """
+
+        params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
+        self.env.cr.execute(query_parvada, tuple(params))
+
+    def _sql_consumo_grs_acumulados(self, parameters):
+        query_parvada = """INSERT INTO bi_kpis(
+                                          semena_edad_ave,
+                                          granja,
+                                          consumo_alimento_grs_ave_acum,
+                                          consumo_alimento_grs_ave_acum_meta)
+                                          select semana_edad_ave,granja,sum(consumo_alimento_grs_ave_acum)/7,consumo_alimento_grs_ave_acum_meta
+                                          from balanza_aves_parvada(%s,%s)
+                                          GROUP BY semana_edad_ave,granja,consumo_alimento_grs_ave_acum_meta
+                                          order by semana_edad_ave asc
+
+                                       """
+
+        params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
+        self.env.cr.execute(query_parvada, tuple(params))
+
+    def _sql_consumo_grs(self, parameters):
+        query_parvada = """INSERT INTO  bi_kpis(
+                                               semena_edad_ave,
+                                               granja,
+                                               consumo_alimento_grs_ave,
+                                               consumo_alimento_grs_ave_meta)
+                                               select semana_edad_ave,granja,SUM(consumo_alimento_grs_ave),SUM(consumo_alimento_grs_ave_meta)
+                                               from balanza_aves_parvada(%s,%s)
+                                               GROUP BY semana_edad_ave,granja
+                                               order by semana_edad_ave asc
+                                            """
+
+        params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
+        self.env.cr.execute(query_parvada, tuple(params))
+
+    def _sql_peso(self, parameters):
+        query_parvada = """INSERT INTO  bi_kpis(
+                                                                 semena_edad_ave,
+                                                                 granja,
+                                                                 peso_real,
+                                                                 peso_meta)
+                                                                 SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(PESO_REAL) = 0) THEN sum(COALESCE(PESO_REAL,0)) ELSE sum(COALESCE(PESO_REAL,0))/COUNT(PESO_REAL) END  PESO_REAL,PESO_META
+                                                                 FROM balanza_aves_parvada(%s,%s)
+                                                                 GROUP BY GRANJA,semana_edad_ave,PESO_META ORDER BY SEMANA_EDAD_AVE ASC
+                                               """
+        params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
+        self.env.cr.execute(query_parvada, tuple(params))
+
+    def _sql_uniformidad(self, parameters):
+        query_parvada = """INSERT INTO  bi_kpis(
+                                                              semena_edad_ave,
+                                                              granja,
+                                                              uniformidad_real,
+                                                              uniformidad_meta)
+                                                              SELECT semana_edad_ave,GRANJA,CASE WHEN (COUNT(uniformidad_real) = 0) THEN sum(COALESCE(uniformidad_real,0)) ELSE sum(COALESCE(uniformidad_real,0))/COUNT(uniformidad_real) END  uniformidad_real,uniformidad_meta
+                                                              FROM balanza_aves_parvada(%s,%s)
+                                                              GROUP BY GRANJA,semana_edad_ave,uniformidad_meta ORDER BY SEMANA_EDAD_AVE ASC
+
+                                                           """
+        params = [int(parameters['parameters']['granja_id']), int(parameters['parameters']['parvada_id'])]
+        self.env.cr.execute(query_parvada, tuple(params))

@@ -157,13 +157,63 @@
           </div>
         <div class="container-fluid">
                   <div class="row">
-                      <div class="col-md-7">
+                      <div class="col-md-6">
                           <div class="panel">
                               <div class="panel-heading">
-                                  <h3 class="panel-title">% Mortalidad Acumulada</h3>
+                                  <h3 class="panel-title">% Mortalidad Acumlada</h3>
                               </div>
                               <div class="panel-body">
-                                    <canvas id="Chetos" width="300px" height="100px"></canvas>
+                                    <canvas id="canva_mortalidad_acum" height="120px"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="col-md-6">
+                          <div class="panel">
+                              <div class="panel-heading">
+                                  <h3 class="panel-title">% Mortalidad</h3>
+                              </div>
+                              <div class="panel-body">
+                                    <canvas id="canva_mortalidad" height="120px"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="col-md-6">
+                          <div class="panel">
+                              <div class="panel-heading">
+                                  <h3 class="panel-title">(GRS) Consumo Acumulado por Ave</h3>
+                              </div>
+                              <div class="panel-body">
+                                    <canvas id="canva_consumo_grs_acum" height="120px"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="panel">
+                              <div class="panel-heading">
+                                  <h3 class="panel-title">(GRS) Consumo por Ave</h3>
+                              </div>
+                              <div class="panel-body">
+                                    <canvas id="canva_consumo_grs" height="120px"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="panel">
+                              <div class="panel-heading">
+                                  <h3 class="panel-title">Peso</h3>
+                              </div>
+                              <div class="panel-body">
+                                    <canvas id="canva_peso" height="120px"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="panel">
+                              <div class="panel-heading">
+                                  <h3 class="panel-title">Uniformidad</h3>
+                              </div>
+                              <div class="panel-body">
+                                    <canvas id="canva_uniformidad" height="120px"></canvas>
                               </div>
                           </div>
                       </div>
