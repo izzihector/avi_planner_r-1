@@ -24,44 +24,50 @@
            </div>
         <!--Dashboard buttons-->
         <div class="col-xs-12 o_box" style="padding-top: 25px;">
-                        <div class="col-md-2 col-sm-2 hr_payslip">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="fas fa-kiwi-bird"/></div>
-                                        <div class="stat-content dib">
-                                            <div class="stat-text">Ave Recibida</div>
-                                            <div class="stat-digit"><span id="ave_recibida">0</span></div>
+                        <div class="col-md-2 col-sm-2">
+                            <a href="javascript:;" class="dashboard-block ave-recibida">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="stat-widget-one">
+                                            <div class="stat-icon dib"><i class="fas fa-kiwi-bird"/></div>
+                                            <div class="stat-content dib">
+                                                <div class="stat-text">Ave Recibida</div>
+                                                <div class="stat-digit"><span id="ave_recibida">0</span></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>  
                         <div class="col-md-2 col-sm-2">
-                          <div class="card">
-                              <div class="card-body">
-                                  <div class="stat-widget-one">
-                                      <div class="stat-icon dib"><i class="fas fa-kiwi-bird"/></div>
-                                      <div class="stat-content dib">
-                                          <div class="stat-text">Ave Enviada Posturas</div>
-                                          <div class="stat-digit"><span id="ave_enviada">0</span></div>
+                          <a href="javascript:;" class="dashboard-block ave-enviada">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <div class="stat-widget-one">
+                                          <div class="stat-icon dib"><i class="fas fa-kiwi-bird"/></div>
+                                          <div class="stat-content dib">
+                                              <div class="stat-text">Ave Enviada Posturas</div>
+                                              <div class="stat-digit"><span id="ave_enviada">0</span></div>
+                                          </div>
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                          </a>
                         </div> 
                         <div class="col-md-2 col-sm-2">
-                          <div class="card">
-                              <div class="card-body">
-                                  <div class="stat-widget-one">
-                                      <div class="stat-icon dib"><i class="fas fa-book-dead"/></div>
-                                      <div class="stat-content dib">
-                                          <div class="stat-text">Mortalidad Total</div>
-                                          <div class="stat-digit"><span id="mortalidad_total">0</span></div>
+                          <a href="javascript:;" class="dashboard-block mortalidad-total">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <div class="stat-widget-one">
+                                          <div class="stat-icon dib"><i class="fas fa-book-dead"/></div>
+                                          <div class="stat-content dib">
+                                              <div class="stat-text">Mortalidad Total</div>
+                                              <div class="stat-digit"><span id="mortalidad_total">0</span></div>
+                                          </div>
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                          </a>
                         </div>  
                         <div class="col-md-2 col-sm-2">
                           <div class="card">
@@ -103,30 +109,34 @@
                           </div>
                         </div>  
                         <div class="col-md-2 col-sm-2">
-                          <div class="card">
-                              <div class="card-body">
-                                  <div class="stat-widget-one">
-                                      <div class="stat-icon dib"><i class="fas fa-truck-moving"/></div>
-                                      <div class="stat-content dib">
-                                          <div class="stat-text">Kgs. Alimento Enviado</div>
-                                          <div class="stat-digit"><span id="alimento_enviado">0</span></div>
+                          <a href="javascript:;" class="dashboard-block kgs-enviados">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <div class="stat-widget-one">
+                                          <div class="stat-icon dib"><i class="fas fa-truck-moving"/></div>
+                                          <div class="stat-content dib">
+                                              <div class="stat-text">Kgs. Alimento Enviado</div>
+                                              <div class="stat-digit"><span id="alimento_enviado">0</span></div>
+                                          </div>
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                          </a>
                         </div> 
                         <div class="col-md-2 col-sm-2">
-                          <div class="card">
-                              <div class="card-body">
-                                  <div class="stat-widget-one">
-                                      <div class="stat-icon dib"><i class="fas fa-truck"/></div>
-                                      <div class="stat-content dib">
-                                          <div class="stat-text">Kgs. Alimento Consumido</div>
-                                          <div class="stat-digit"><span id="alimento_consumido">0</span></div>
+                          <a href="javascript:;" class="dashboard-block kgs-enviados">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <div class="stat-widget-one">
+                                          <div class="stat-icon dib"><i class="fas fa-truck"/></div>
+                                          <div class="stat-content dib">
+                                              <div class="stat-text">Kgs. Alimento Consumido</div>
+                                              <div class="stat-digit"><span id="alimento_consumido">0</span></div>
+                                          </div>
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                          </a>
                         </div> 
                         <div class="col-md-2 col-sm-2">
                           <div class="card">
@@ -162,8 +172,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">% Mortalidad Acumlada</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_mortalidad_acum" height="120px"></canvas>
+                              <div id="graph-container-mortalidad-acum" class="panel-body">
+                                    <canvas id="canva_mortalidad_acum" height="150px"></canvas>
                               </div>
                           </div>
                       </div>
@@ -172,8 +182,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">% Mortalidad</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_mortalidad" height="120px"></canvas>
+                              <div id="graph-container-mortalidad" class="panel-body">
+                                    <canvas id="canva_mortalidad" height="150px"></canvas>
                               </div>
                           </div>
                       </div>
@@ -182,8 +192,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">(GRS) Consumo Acumulado por Ave</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_consumo_grs_acum" height="120px"></canvas>
+                              <div id="graph-container-consumo-acum" class="panel-body">
+                                    <canvas id="canva_consumo_grs_acum" height="150px"></canvas>
                               </div>
                           </div>
                       </div>
@@ -192,8 +202,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">(GRS) Consumo por Ave</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_consumo_grs" height="120px"></canvas>
+                              <div id="graph-container-consumo" class="panel-body">
+                                    <canvas id="canva_consumo_grs" height="150px"></canvas>
                               </div>
                           </div>
                       </div>
@@ -202,8 +212,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">Peso</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_peso" height="120px"></canvas>
+                              <div id="graph-container-peso" class="panel-body">
+                                    <canvas id="canva_peso" height="150px"></canvas>
                               </div>
                           </div>
                       </div>
@@ -212,8 +222,8 @@
                               <div class="panel-heading">
                                   <h3 class="panel-title">Uniformidad</h3>
                               </div>
-                              <div class="panel-body">
-                                    <canvas id="canva_uniformidad" height="120px"></canvas>
+                              <div id="graph-container-uniformidad" class="panel-body">
+                                    <canvas id="canva_uniformidad" height="150px"></canvas>
                               </div>
                           </div>
                       </div>

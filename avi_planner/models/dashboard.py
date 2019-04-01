@@ -9,7 +9,7 @@ class AviplannerDashboard(models.Model):
 
     @api.model
     def get_granjas(self):
-        granja = self.env['bi.granja'].sudo().search_read([])
+        granja = self.env['bi.granja'].sudo().search_read([('tipo_granja_id','=',1)])
         return granja
 
     @api.model
@@ -61,16 +61,14 @@ class AviplannerDashboard(models.Model):
         self._sql_report_object_informe()
         self._sql_mortalidad_acum(parameters)
 
-        granja_name = self.env['bi.granja'].search([('id', '=', int(parameters['parameters']['granja_id']))])
-        mortalidad_acum_objs = self.env['bi.kpis'].search(
-            [('granja', '=', granja_name.name), ('semena_edad_ave', '=', 18)])
-
+        mortalidad_objs = self.env['bi.kpis'].search([('semena_edad_ave', '=', 18)], limit=1)
+        if mortalidad_objs is not None:
+            mortalidad_porcen_acum = round(mortalidad_objs.mortalidad_porcen_acum,2)
         mortalidad_acum_info = self.env['bi.kpis'].sudo().search_read([])
 
         self.env['bi.kpis'].search([]).unlink()
         self._sql_report_object_informe()
         self._sql_mortalidad(parameters)
-
         mortalidad_info = self.env['bi.kpis'].sudo().search_read([])
 
         self.env['bi.kpis'].search([]).unlink()
@@ -117,6 +115,7 @@ class AviplannerDashboard(models.Model):
                 'ave_enviada': suma_envios_postura,
                 'mortalidad_total': suma_mortalidad,
                 'diff_aves': suma_recepciones - suma_envios_postura - suma_mortalidad,
+                'mortalidad_porcen_acum':mortalidad_porcen_acum,
                 'mortalidad_al_cierre': round(mortalidad_porcen_cierre, 2),
                 'alimento_enviado': suma_alimento_entrada,
                 'alimento_consumido': suma_alimento_consumo,

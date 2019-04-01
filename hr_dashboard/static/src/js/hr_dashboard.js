@@ -160,7 +160,8 @@ var HrDashboardView = KanbanView.extend({
                     },
             domain: [['type','=','remove'],],
             search_view_id: self.employee_data.leave_search_view_id,
-            target: 'current'
+            target: 'current',
+
         })
     },
     action_timesheets_to_approve: function(event) {
