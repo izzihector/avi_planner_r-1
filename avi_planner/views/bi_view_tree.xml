@@ -155,6 +155,8 @@
             <field name="arch" type="xml">
                 <search string="Mortalidad">
                     <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
+                    <filter string="Granja" name="granja" domain="[]" context="{'group_by': 'granja_id'}"/>
+                    <filter string="Parvada" name="parvada" domain="[]" context="{'group_by': 'parvada_id'}"/>
                 </search>
             </field>
         </record>
@@ -220,6 +222,16 @@
                     <field name="caseta_destino_id"/>
                     <field name="tipo_evento_id"/>
                 </tree>
+            </field>
+        </record>
+        <!-- tree view search alimento crianza-->
+        <record id="alimento_search_view" model="ir.ui.view">
+            <field name="name">bi.registro.alimento.search</field>
+            <field name="model">bi.registro.alimento</field>
+            <field name="arch" type="xml">
+                <search string="Alimento">
+                    <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
+                </search>
             </field>
         </record>
 
@@ -326,6 +338,15 @@
                     <field name="pza_deforme" sum="Deforme" attrs="{'readonly':[('marca','!=', 'CAJA LISA')]}"/>
                     <field name="bolsa_desyemado" sum="Desyemado" attrs="{'readonly':[('marca','!=','BOLSA')]}"/>
                 </tree>
+            </field>
+        </record>
+          <record id="registro_produccion_search_view" model="ir.ui.view">
+            <field name="name">bi.registro.produccion.search</field>
+            <field name="model">bi.registro.produccion</field>
+            <field name="arch" type="xml">
+                <search string="Produccion">
+                    <filter string="Dia" name="today" domain="[]" context="{'group_by': 'create_date:day'}"/>
+                </search>
             </field>
         </record>
         <!-- tree view tolvas-->

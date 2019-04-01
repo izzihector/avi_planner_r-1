@@ -8,16 +8,22 @@
         </style>
            <div class="col-md-12" style="padding-top: 16px">
               <form class="form-inline">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-2">
                   <h3><label for="granjas">Granja</label></h3>
                   <select id="granjas" class="form-control info-parvada">
                       <option value="G">Seleccione Granja</option>
                   </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-2">
                   <h3><label for="parvadas">Parvada</label></h3>
                   <select id="parvadas" class="form-control info-parvada">
                       <option value="P">Seleccione Parvada</option>
+                  </select>
+                </div>
+                 <div class="form-group col-md-2">
+                  <h3><label for="periodos">Periodo</label></h3>
+                  <select id="periodos" class="form-control info-parvada">
+                      <option value="semana">Semana</option>
                   </select>
                 </div>
               </form>
