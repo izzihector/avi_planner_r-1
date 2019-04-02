@@ -51,14 +51,40 @@
         </record>
 
 
+        <record id="action_avi_dashboard_postura" model="ir.actions.act_window">
+            <field name="name">Dashboard Postura</field>
+            <field name="res_model">avi.dashboard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">avi_dashboard_postura_view</field>
+            <field name="context">{
+            'avi_dashboard_postura_view_view_ref' : 'avi_planner.avi_dashboard_postura_view'
+            }</field>
+
+        </record>
+
+        <!-- Default View for Avi Dashboard, which is extended to make Dashboard View -->
+        <record model="ir.ui.view" id="avi_dashboard_postura_view">
+            <field name="name">Avi Dashboard Postura</field>
+            <field name="model">avi.dashboard</field>
+            <field name="arch" type="xml">
+                <kanban>
+                </kanban>
+            </field>
+        </record>
+
         <menuitem id="menu_avi_dashboard" 
             parent= "menu_avi_planner" sequence= "1" name= "Tablero Crianzas" action="action_avi_dashboard"/>
 
+
+        <menuitem id="menu_avi_dashboard_postura"
+            parent= "menu_avi_planner" sequence= "1" name= "Tablero Postura" action="action_avi_dashboard_postura"/>
 
 
         <template id="assets_backend" name="Avi assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/avi_planner/static/src/js/avi_dashboard.js"/>
+                <script type="text/javascript" src="/avi_planner/static/src/js/avi_dashboard_postura.js"/>
                 <script type="text/javascript" src="/avi_planner/static/lib/charts/Chart.min.js"/>
                 <script type="text/javascript" src="/avi_planner/static/lib/charts/Chart.bundle.min.js"/>
                 <!-- Datatable scripts -->

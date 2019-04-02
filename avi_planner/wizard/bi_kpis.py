@@ -32,7 +32,6 @@ class BiKpis(models.Model):
     peso_meta = fields.Float(string="Peso Ave Meta")
     uniformidad_real = fields.Float(string="% Uniformiad Ave Real")
     uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
-
 class BiKpisPostura(models.TransientModel):
     _name = 'bi.kpis.postura'
     _description = 'KPIs de postura'
@@ -58,7 +57,6 @@ class BiKpisPostura(models.TransientModel):
     uniformidad_meta = fields.Float(string="% Uniformiad Ave Meta")
     produccion_real = fields.Float(string="% Produccion Real")
     produccion_meta = fields.Float(string="% Produccion Meta")
-
 class BiResumenParvada(models.TransientModel):
     _name = 'bi.resumen.parvada'
     _description = 'Resumen de la parvada'
@@ -303,7 +301,6 @@ class BiResumenParvada(models.TransientModel):
 
         params = [int(self.granja_id.id), int(self.parvada_id.id)]
         self.env.cr.execute(query_mortalidad, tuple(params))
-
 class BiReporteo(models.TransientModel):
     _name = 'bi.wizard.kpi'
 
@@ -1079,7 +1076,6 @@ $BODY$
         elif self.filtros == 'granja_parvada':
             params = [self.granja_id.id,self.parvada_id.id]
             self.env.cr.execute(query_parvada, tuple(params))
-
 class BiKpisPostura(models.TransientModel):
     _name = 'bi.wizard.kpi.postura'
 

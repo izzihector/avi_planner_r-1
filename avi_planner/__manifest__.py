@@ -27,6 +27,7 @@
     ],
     'qweb': [
         "static/src/xml/avi_dashboard.xml",
+        "static/src/xml/avi_dashboard_postura.xml",
     ],
 
     'installable': True,
