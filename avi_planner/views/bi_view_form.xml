@@ -827,7 +827,7 @@
                                 <field name="causa_traspaso_id" options="{'no_create': true}"/>
                                 <field name="t_poblacion_traspaso" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
                                 <field name="granja_destino_id" attrs="{'readonly':[('state','!=','draft')]}" required="1" options="{'no_create': true}"/>
-                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_id)]" required="1" options="{'no_create': true}"/>
+                                <field name="caseta_destino_id" domain="[('granja_id','=',granja_destino_id)]" required="1" options="{'no_create': true}"/>
                             </group>
                         </group>
                         <hr/>

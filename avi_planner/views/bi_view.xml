@@ -508,8 +508,8 @@
         <menuitem id="bi_granja" name="Granjas" parent="menu_admon" action="granjas_action_view"/>
         <menuitem id="bi_granja_tipo" name="Tipos de Granja" parent="menu_admon"
                   action="granjas_tipo_action_view"/>
-        <menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="menu_admon"
-                  action="granjas_seccion_action_view"/>
+        <!--<menuitem id="bi_granja_seccion" name="Seccion de Granja" parent="menu_admon"
+                  action="granjas_seccion_action_view"/>-->
         <menuitem id="bi_granja_casetas" name="Casetas" parent="menu_admon"
                   action="granjas_casetas_action_view"/>
         <menuitem id="bi_raza" name="Razas" parent="menu_admon" action="razas_action_view"/>
