@@ -7,9 +7,10 @@ Avi Planner
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-This module adds the category type fields in project and task.
+**Caracteristicas**
 
-**Table of contents**
+
+**Tabla de Contenido**
 
 .. contents::
    :local:
