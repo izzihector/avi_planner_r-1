@@ -20,32 +20,32 @@ Uso
 
 * Go to **Avi Planner**
 
-Bug Tracker
+Rastreo de errores
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/makeplerc/aviplaner_r/issues>`_.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/project/issues/new?body=module:%20project_category%0Aversion:%2012.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+Los errores son rastreados en `GitHub Issues <https://github.com/makeplerc/avi_planner_r/issues>`_.
+En caso de problemas, por favor verifique si su problema ya ha sido reportado.
+Si lo vio primero, ayudenos a destruirlo proporcionando un comentario detallado y bienvenido
+`feedback <https://github.com/makeplerc/avi_planner_r/issues/new?body=module:%20project_category%0Aversion:%2012.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 
-Credits
+Creditos
 =======
 
-Author
+Autor
 ~~~~~~~
 
 * Ivan Porras > Makepler Sistemas
 
-Contributors
+Contribuidores
 ~~~~~~~~~~~~
 
 * Makepler Sistemas
 * `Ivan Porras <ivan.porras@makepler.com>`_:
 
 
-Maintainers
+Mantenimiento
 ~~~~~~~~~~~
 
-This module is maintained by the Ivan Porras <Makepler Sistemas>.
+Este modulo es mantenido por Ivan Porras <Makepler Sistemas>.
 
