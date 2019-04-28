@@ -29,7 +29,7 @@
         "static/src/xml/avi_dashboard.xml",
         "static/src/xml/avi_dashboard_postura.xml",
     ],
-
+    'images': ['static/description/banner.gif'],
     'installable': True,
     'application': True,
 }

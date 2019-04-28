@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherited vehicle registration form view added extra fields on fleet vehicle -->
+        <record model='ir.ui.view' id='fleet_vehicle_model_form_extended'>
+            <field name="name">fleet.vehicle.model.form.extended</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='car_value']" position="after">
+                    <field name="limit_fuel"/>
+                    <field name="period"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Form view of vehicle fuel logs -->
+        <record id="fleet_vehicle_log_fuel_form_view" model='ir.ui.view'>
+            <field name="name">vehicle.log.fuel.form</field>
+            <field name="model">fleet.vehicle.log.fuel</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_fuel_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/*" position="before">
+                <header>
+                        <button string="Cargado" type="object" name="loaded_progressbar" class="oe_highlight" attrs="{'invisible': [('state','!=','transit')]}"/>
+                        <button string="Cancelar" type="object" name="cancel_progressbar"
+                                attrs="{'invisible':[('state','=','cancel')]}"/>
+                        <field name="state" widget="statusbar"/>
+                </header>
+                </xpath>
+                <xpath expr="//field[@name='liter']" position="before">
+                    <field name="num_vale" required="1"/>
+                </xpath>
+            </field>
+        </record>
+
+       </data>
+</odoo>
